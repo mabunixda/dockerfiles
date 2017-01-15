@@ -1,4 +1,4 @@
-pn:
+vpn:
   build: .
   volumes:
     - .:/etc/openvpn
