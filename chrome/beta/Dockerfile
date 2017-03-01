@@ -1,6 +1,3 @@
-# You will want the custom seccomp profile:
-# 	wget https://raw.githubusercontent.com/jfrazelle/dotfiles/master/etc/docker/seccomp/chrome.json -o ~/chrome.json
-
 # Base docker image
 FROM debian:sid
 MAINTAINER Jessie Frazelle <jess@linux.com>
@@ -23,7 +20,7 @@ RUN apt-get update && apt-get install -y \
 	&& curl -sSL https://dl.google.com/linux/linux_signing_key.pub | apt-key add - \
 	&& echo "deb [arch=amd64] https://dl.google.com/linux/chrome/deb/ stable main" > /etc/apt/sources.list.d/google.list \
 	&& apt-get update && apt-get install -y \
-	google-chrome-stable \
+	google-chrome-beta \
 	--no-install-recommends \
 	&& dpkg -i '/src/google-talkplugin_current_amd64.deb' \
 	&& apt-get purge --auto-remove -y curl \
@@ -40,4 +37,5 @@ COPY local.conf /etc/fonts/local.conf
 USER chrome
 
 # Autorun chrome
-CMD [ "google-chrome" , "--user-data-dir=/data" ]
+ENTRYPOINT [ "google-chrome" ]
+CMD [ "--user-data-dir=/data" ]

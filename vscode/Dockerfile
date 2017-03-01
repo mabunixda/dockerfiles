@@ -1,14 +1,3 @@
-# Visual Studio Code in a container
-#	NOTE: Needs the redering device (yeah... idk)
-#
-# docker run -d \
-#    -v /tmp/.X11-unix:/tmp/.X11-unix \
-#    -v $HOME:/home/user \
-#    -e DISPLAY=unix$DISPLAY \
-#    --device /dev/dri \
-#    --name vscode \
-#    jess/vscode
-
 FROM debian:stretch
 MAINTAINER Jessie Frazelle <jess@linux.com>
 
