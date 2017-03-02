@@ -1,6 +1,6 @@
 
-FROM debian:sid
-MAINTAINER Jessie Frazelle <jess@linux.com>
+FROM debian:jessie
+MAINTAINER Martin Buchleitner <mabunixda@gmail.com>
 
 RUN	apt-get update && apt-get install -y \
 	dirmngr \

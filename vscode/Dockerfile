@@ -1,5 +1,6 @@
-FROM debian:stretch
-MAINTAINER Jessie Frazelle <jess@linux.com>
+FROM debian:jessie
+
+MAINTAINER Martin Buchleitner <mabunixda@mgail.com>
 
 RUN apt-get update && apt-get install -y \
 	libasound2 \

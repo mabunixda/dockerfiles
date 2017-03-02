@@ -1,6 +1,6 @@
 # Base docker image
-FROM debian:sid
-MAINTAINER Jessie Frazelle <jess@linux.com>
+FROM debian:jessie
+MAINTAINER Martin Buchleitner <mabunixda@gmail.com>
 
 ADD https://dl.google.com/linux/direct/google-talkplugin_current_amd64.deb /src/google-talkplugin_current_amd64.deb
 
