@@ -40,8 +40,8 @@ RUN useradd --create-home --home-dir $HOME user \
 	&& chown -R user:user $HOME
 
 # https://code.visualstudio.com/Download
-ENV CODE_VERSION 1.9.1-1486597190
-ENV CODE_COMMIT f9d0c687ff2ea7aabd85fb9a43129117c0ecf519
+ENV CODE_VERSION 1.10.1-1488415350
+ENV CODE_COMMIT 653f8733dd5a5c43d66d7168b4701f94d72b62e5
 
 # download the source
 RUN buildDeps=' \
@@ -52,7 +52,7 @@ RUN buildDeps=' \
 	&& set -x \
 	&& apt-get update && apt-get install -y $buildDeps --no-install-recommends \
 	&& curl -sL https://deb.nodesource.com/setup_6.x | bash - \
-	&& apt-get update && apt-get install -y nodejs --no-install-recommends \
+	&& apt-get update && apt-get install -y nodejs git --no-install-recommends \
 	&& rm -rf /var/lib/apt/lists/* \
 	&& curl -sSL "https://az764295.vo.msecnd.net/stable/${CODE_COMMIT}/code_${CODE_VERSION}_amd64.deb" -o /tmp/vs.deb \
 	&& dpkg -i /tmp/vs.deb \

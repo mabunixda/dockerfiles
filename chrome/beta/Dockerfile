@@ -15,6 +15,7 @@ RUN apt-get update && apt-get install -y \
 	libgl1-mesa-glx \
 	libpulse0 \
 	libv4l-0 \
+    libu2f-host0 \
 	fonts-symbola \
 	--no-install-recommends \
 	&& curl -sSL https://dl.google.com/linux/linux_signing_key.pub | apt-key add - \
