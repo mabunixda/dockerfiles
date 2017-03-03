@@ -6,6 +6,7 @@ docker run --rm -it \
 	-v /tmp/.X11-unix:/tmp/.X11-unix  \
 	-e DISPLAY=unix$DISPLAY \
 	--device /dev/snd:/dev/snd \
-	--name loxconfig-wine \
+	--name loxconfig-install \
 	loxconfig-wine \
 	bash
+
