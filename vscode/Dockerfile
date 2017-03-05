@@ -57,8 +57,8 @@ RUN buildDeps=' \
 	&& rm -rf /var/lib/apt/lists/* \
 	&& curl -sSL "https://az764295.vo.msecnd.net/stable/${CODE_COMMIT}/code_${CODE_VERSION}_amd64.deb" -o /tmp/vs.deb \
 	&& dpkg -i /tmp/vs.deb \
-	&& rm -rf /tmp/vs.deb \
-	&& apt-get purge -y --auto-remove $buildDeps
+	&& rm -rf /tmp/vs.deb 
+	# && apt-get purge -y --force-yes --auto-remove $buildDeps
 
 COPY start.sh /usr/local/bin/start.sh
 COPY local.conf /etc/fonts/local.conf
