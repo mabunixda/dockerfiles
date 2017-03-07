@@ -3,7 +3,7 @@ set -e
 set -o pipefail
 
 SCRIPT="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)/$(basename "${BASH_SOURCE[0]}")"
-REPO_URL="${REPO_URL:-r.nitram.at:5000}"
+REPO_URL="${REPO_URL:-r.nitram.at}"
 JOBS=${JOBS:-2}
 
 ERRORS="$(pwd)/errors"
