@@ -25,11 +25,14 @@ RUN builddeps=' \
 	py-yaml \
 	py-jinja2 \
 	py-httplib2 \
+	gnupg \
+	bash \
 	$builddeps \
 	&& pip install --upgrade pip \
 	&& pip install \
 		ansible \
 		six \
+		paramiko \
 	&& apk del --purge $builddeps
 
-ENTRYPOINT [ "ansible" ]
+CMD [ "ansible" ]
