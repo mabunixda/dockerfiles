@@ -21,6 +21,9 @@ build_and_push(){
 	echo "Successfully built ${base}:${suite} with context ${build_dir}"
 	echo "                       ---                                   "
 
+
+	[ -f "${build_dir}/.skip_push" ] && return 0;
+
 	# try push a few times because notary server sometimes returns 401 for
 	# absolutely no reason
 	n=0

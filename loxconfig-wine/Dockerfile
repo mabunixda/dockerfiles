@@ -21,19 +21,23 @@ MAINTAINER Martin Buchleitner <mabunixda@gmail.com>
 
 ARG LOXURL=https://www.loxone.com/dede/wp-content/uploads/sites/2/2016/11/Loxone-Config-8.1.zip
 
-WORKDIR /tmp
-
 RUN apt-get update && apt-get install -y \
 	curl ca-certificates unzip \
-	--no-install-recommends \
-    && fname=$(basename $LOXURL) \
-	&& curl -o $fname $LOXURL  \
-    && unzip $fname \
-    && xname="${fname%.zip}.exe" \
-    && mv $xname /usr/src/$xname \
+	--no-install-recommends
+
+ADD preload/* /usr/src
+WORKDIR /tmp
+
+RUN xname=$(find /usr/src -maxdepth 1 -name "*.exe") \
+    && if [ -z "$xname" ]; then curl -o loxone.zip $LOXURL  \
+    && unzip loxone.zip \
+    && xname=$(find . -maxdepth 1 -name "*.exe") \
+    && mv $xname /usr/src/$xname; \
+    fi \
+    && xname=$(find /usr/src -maxdepth 1 -name "*.exe") \
     && rm -rf * \
 	&& rm -rf /var/lib/apt/lists/* \
-    && echo "#!/bin/bash\n\nwine /usr/src/$xname;  rm /usr/src/$xname; rm -f install.sh;" > /root/install.sh \
+    && echo "#!/bin/bash\n\nwine $xname;  rm $xname; rm -f install.sh;" > /root/install.sh \
     && chmod 0755 /root/install.sh
 
 WORKDIR /root

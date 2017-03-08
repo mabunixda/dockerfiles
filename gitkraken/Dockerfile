@@ -33,7 +33,7 @@ RUN wget --quiet "https://release.gitkraken.com/linux/gitkraken-amd64.deb" -O /t
 
 ENV HOME /home/app
 RUN useradd --create-home --home-dir $HOME app \
-	&& chown -R app:user $HOME
+	&& chown -R app:app $HOME
 
 WORKDIR $HOME
 USER app
