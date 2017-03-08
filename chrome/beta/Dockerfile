@@ -1,5 +1,5 @@
 # Base docker image
-FROM debian:jessie
+FROM debian:stretch
 MAINTAINER Martin Buchleitner <mabunixda@gmail.com>
 
 ADD https://dl.google.com/linux/direct/google-talkplugin_current_amd64.deb /src/google-talkplugin_current_amd64.deb
@@ -29,13 +29,15 @@ RUN apt-get update && apt-get install -y \
 	&& rm -rf /src/*.deb
 
 # Add chrome user
-RUN groupadd -r chrome && useradd -r -g chrome -G audio,video --uid 1000 chrome \
-    && mkdir -p /home/chrome/Downloads && chown -R chrome:chrome /home/chrome
+RUN groupadd -r app \
+	&& useradd -r -g app -G audio,video --uid 1000 app \
+    && mkdir -p /home/app/Downloads \
+	&& chown -R app:app /home/app
 
 COPY local.conf /etc/fonts/local.conf
 
 # Run Chrome as non privileged user
-USER chrome
+USER app
 
 # Autorun chrome
 ENTRYPOINT [ "google-chrome" ]

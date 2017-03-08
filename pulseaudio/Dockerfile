@@ -10,13 +10,13 @@ RUN apt-get update && apt-get install -y \
 	--no-install-recommends \
 	&& rm -rf /var/lib/apt/lists/*
 
-ENV HOME /home/pulseaudio
-RUN useradd --create-home --home-dir $HOME pulseaudio \
-	&& usermod -aG audio,pulse,pulse-access pulseaudio \
-	&& chown -R pulseaudio:pulseaudio $HOME
+ENV HOME /home/app
+RUN useradd --create-home --home-dir $HOME app \
+	&& usermod -aG audio,pulse,pulse-access app \
+	&& chown -R app:app $HOME
 
 WORKDIR $HOME
-USER pulseaudio
+USER app
 
 COPY default.pa /etc/pulse/default.pa
 COPY client.conf /etc/pulse/client.conf

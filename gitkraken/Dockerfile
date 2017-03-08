@@ -31,10 +31,10 @@ RUN wget --quiet "https://release.gitkraken.com/linux/gitkraken-amd64.deb" -O /t
     && dpkg -i /tmp/gitkraken-amd64.deb \
     && rm /tmp/gitkraken-amd64.deb
 
-ENV HOME /home/user
-RUN useradd --create-home --home-dir $HOME user \
-	&& chown -R user:user $HOME
+ENV HOME /home/app
+RUN useradd --create-home --home-dir $HOME app \
+	&& chown -R app:user $HOME
 
 WORKDIR $HOME
-
+USER app
 ENTRYPOINT ["/usr/bin/gitkraken"]

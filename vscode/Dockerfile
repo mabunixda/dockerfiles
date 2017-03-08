@@ -36,9 +36,9 @@ RUN apt-get update && apt-get install -y \
 	liblzma5 \
 	--no-install-recommends
 
-ENV HOME /home/user
-RUN useradd --create-home --home-dir $HOME user \
-	&& chown -R user:user $HOME
+ENV HOME /home/app
+RUN useradd --create-home --home-dir $HOME app \
+	&& chown -R app:app $HOME
 
 # https://code.visualstudio.com/Download
 ENV CODE_VERSION 1.10.1-1488415350
@@ -64,5 +64,5 @@ COPY start.sh /usr/local/bin/start.sh
 COPY local.conf /etc/fonts/local.conf
 
 WORKDIR $HOME
-USER user
+USER app
 ENTRYPOINT [ "/usr/local/bin/start.sh" ]

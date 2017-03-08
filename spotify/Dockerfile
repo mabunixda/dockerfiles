@@ -22,16 +22,16 @@ RUN	apt-get update && apt-get install -y \
 	--no-install-recommends \
 	&& rm -rf /var/lib/apt/lists/*
 
-ENV HOME /home/spotify
-RUN useradd --create-home --home-dir $HOME spotify \
-	&& gpasswd -a spotify audio \
-	&& chown -R spotify:spotify $HOME
+ENV HOME /home/app
+RUN useradd --create-home --home-dir $HOME app \
+	&& gpasswd -a app audio \
+	&& chown -R app:app $HOME
 
 WORKDIR $HOME
-USER spotify
+USER app
 
 # make search bar text better
-RUN echo "QLineEdit { color: #000 }" > /home/spotify/spotify-override.css
+RUN echo "QLineEdit { color: #000 }" > $HOME/spotify-override.css
 
 ENTRYPOINT	[ "spotify" ]
-CMD [ "-stylesheet=/home/spotify/spotify-override.css" ]
+CMD [ "-stylesheet=~/spotify-override.css" ]
