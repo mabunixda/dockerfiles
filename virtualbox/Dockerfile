@@ -1,4 +1,4 @@
-FROM debian:jessie
+FROM debian:stretch
 MAINTAINER Jessie Frazelle <jess@linux.com>
 
 RUN buildDeps=' \
