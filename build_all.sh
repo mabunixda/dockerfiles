@@ -35,10 +35,10 @@ build_and_push(){
 	done
 
 	# also push the tag latest for "stable" tags
-#	if [[ "$suite" == "stable" ]]; then
-#		docker tag ${REPO_URL}/${base}:${suite} ${REPO_URL}/${base}:latest
-#		docker push --disable-content-trust=false ${REPO_URL}/${base}:latest
-#	fi
+	if [[ "$suite" == "stable" ]]; then
+		docker tag ${REPO_URL}/${base}:${suite} ${REPO_URL}/${base}:latest
+		docker push --disable-content-trust=false ${REPO_URL}/${base}:latest
+	fi
 }
 
 dofile() {
