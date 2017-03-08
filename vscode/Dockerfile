@@ -64,5 +64,5 @@ COPY start.sh /usr/local/bin/start.sh
 COPY local.conf /etc/fonts/local.conf
 
 WORKDIR $HOME
-
+USER user
 ENTRYPOINT [ "/usr/local/bin/start.sh" ]
