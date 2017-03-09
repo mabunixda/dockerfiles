@@ -1,4 +1,4 @@
-FROM debian:jessie
+FROM debian:stretch
 
 MAINTAINER Martin Buchleitner <mabunixda@mgail.com>
 
@@ -41,8 +41,8 @@ RUN useradd --create-home --home-dir $HOME app \
 	&& chown -R app:app $HOME
 
 # https://code.visualstudio.com/Download
-ENV CODE_VERSION 1.10.1-1488415350
-ENV CODE_COMMIT 653f8733dd5a5c43d66d7168b4701f94d72b62e5
+ENV CODE_VERSION 1.10.2-1488981323
+ENV CODE_COMMIT 8076a19fdcab7e1fc1707952d652f0bb6c6db331
 
 # download the source
 RUN buildDeps=' \
@@ -58,7 +58,6 @@ RUN buildDeps=' \
 	&& curl -sSL "https://az764295.vo.msecnd.net/stable/${CODE_COMMIT}/code_${CODE_VERSION}_amd64.deb" -o /tmp/vs.deb \
 	&& dpkg -i /tmp/vs.deb \
 	&& rm -rf /tmp/vs.deb 
-	# && apt-get purge -y --force-yes --auto-remove $buildDeps
 
 COPY start.sh /usr/local/bin/start.sh
 COPY local.conf /etc/fonts/local.conf

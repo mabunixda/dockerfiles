@@ -8,6 +8,6 @@ RUN apt-get -y -q update && \
     netcat \
     virt-manager \
     ssh \
-    ssh-askpass-gnome
+    ssh-askpass-gnome 
 
 ENTRYPOINT  ["/usr/bin/virt-manager","--no-fork"]

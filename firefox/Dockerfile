@@ -1,4 +1,4 @@
-FROM debian:jessie
+FROM debian:stretch
 MAINTAINER Martin Buchleitner <mabunixda@gmail.com>
 
 RUN apt-get update && apt-get install -y \
