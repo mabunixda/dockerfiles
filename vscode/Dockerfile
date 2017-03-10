@@ -3,6 +3,7 @@ FROM debian:stretch
 MAINTAINER Martin Buchleitner <mabunixda@mgail.com>
 
 RUN apt-get update && apt-get install -y \
+	procps \
 	libasound2 \
 	libatk1.0-0 \
 	libcairo2 \
