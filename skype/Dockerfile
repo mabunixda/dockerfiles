@@ -1,4 +1,4 @@
-FROM debian:stretch
+FROM debian:jessie
 
 # Tell debconf to run in non-interactive mode
 ENV DEBIAN_FRONTEND noninteractive
@@ -29,4 +29,5 @@ WORKDIR $HOME
 USER app
 
 # Start Skype
-ENTRYPOINT ["skype"]
+# ENTRYPOINT ["/usr/bin/skype"]
+CMD [ "skype"]
