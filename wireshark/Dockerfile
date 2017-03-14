@@ -2,9 +2,8 @@ FROM ubuntu:16.04
 MAINTAINER Martin Buchleitner <mabunixda@gmail.com>
 
 ENV DEBIAN_FRONTEND=noninteractive
-RUN apt-get update && apt-get install -y \
-	software-properties-common \
-	--no-install-recommends && \
+RUN apt-get update \
+	&& apt-get install -y software-properties-common --no-install-recommends && \
 	add-apt-repository ppa:wireshark-dev/stable && \
 	apt-get update && \
 	apt-get install -y \
