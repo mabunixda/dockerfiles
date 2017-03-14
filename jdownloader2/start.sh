@@ -1,7 +1,7 @@
 #!/bin/bash
 
-if [ ! -f "/config/JDownloader.jar" ]; then
-    cp /usr/local/bin/JDownloader.jar $HOME
+if [ ! -f "$HOME/JDownloader.jar" ]; then
+    cp /usr/src/JDownloader.jar $HOME
 fi
 
 java -Djava.awt.headless -jar $HOME/JDownloader.jar &
