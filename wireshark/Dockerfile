@@ -20,6 +20,6 @@ RUN chown root:app /usr/bin/dumpcap \
 
 USER app
 
-WORKDIR app
+WORKDIR $HOME
 
 ENTRYPOINT	[ "wireshark" ]
