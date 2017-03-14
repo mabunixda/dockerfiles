@@ -1,0 +1,339 @@
+# generic
+Host *
+    ControlMaster auto
+    ControlPath ~/.ssh/master/%r@%h:%p
+    ServerAliveInterval 5
+
+###
+## AVL
+###
+
+Host git01.avl.com
+    #ProxyCommand ssh gebi@mon.mgit.at PATH=\$HOME/bin:\$PATH nc -w1 %h %p
+    ForwardAgent yes
+    User root
+
+Host sftp.avl.com
+    User gebetsroither
+
+Host avl-ftp
+    User root
+    Hostname 192.102.17.12
+
+Host avl--jira-tfms2
+    #atgrzsl2372
+    ProxyCommand ssh -A avl-sshstats -W %h:%p
+    Hostname 10.13.231.41
+
+# atgrzls003
+Host avl-ssh
+    User gebetsrom
+    Hostname 157.247.252.146
+    ProxyCommand ssh -a jump-avl@mon.mgit.at -W %h:%p
+    ForwardAgent no
+
+Host avl_*
+    ProxyCommand ssh -a avl-ssh PATH=\$HOME/bin:\$PATH nc -w1 %h %p
+    ForwardAgent yes
+    User root
+
+Host avl-sshicae
+    ProxyCommand ssh -a avl-ssh PATH=\$HOME/bin:\$PATH nc -w1 %h %p
+    Hostname 157.247.52.101
+    User root
+    ForwardAgent no
+
+Host avl--*
+    ProxyCommand ssh -a avl-sshicae -W %h:%p
+    User root
+
+Host avl-sshstats
+    ProxyCommand ssh -a avl-sshicae -W %h:%p
+    Hostname 10.12.69.154
+    User root
+    ForwardAgent no
+
+
+###
+## 2. level jumphosts
+###
+
+# stats and monitoring VM within AVL network
+Host avl--stats
+    Hostname 10.12.69.154
+    ForwardAgent yes
+
+Host avl--wikitest
+    Hostname 157.247.250.25
+
+Host avl--wiki
+    Hostname 157.247.250.36
+
+Host avl--rh7adtest
+    Hostname 157.247.26.45
+
+Host avl--rh7adtestold
+    Hostname 157.247.64.101
+
+Host avl--srm
+    Hostname 10.12.69.143
+
+Host avl--srm9
+    Hostname 10.12.69.72
+
+Host avl--srm99
+    Hostname 10.12.75.53
+
+# 1. level jumphosts
+Host avl_sgsl001
+    Hostname 157.247.62.43
+
+Host avl_atgrzls152
+    Hostname 157.247.62.50
+
+Host avl_atgrzlx250
+    Hostname 157.247.62.71
+
+Host avl_icae
+    Hostname 157.247.52.101
+Host avl_icae_old
+    Hostname 157.247.62.48
+Host avl_atgrzfs150
+    Hostname 157.247.52.101
+Host avl--icae-new
+    # atgrzsl2149
+    Hostname 10.12.64.177
+
+Host avl--ptedev
+    # atgrzsl2271
+    Hostname 10.12.75.19
+
+# redhat repository server
+Host avl_repo
+    Hostname 157.247.88.104
+
+Host avl_puppet
+    Hostname 157.247.88.108
+
+Host avl--appwinmon_old
+    Hostname 10.12.66.15
+
+Host avl--appwinmon
+    Hostname 10.12.66.161
+
+# big dedicated HW system for windchill (256GB, 48cores), redhat linux
+Host avl--wc1
+    Hostname 10.12.65.40
+
+
+# avl jira
+
+# jira/confluence/stash reverse proxy nginx servers
+Host avl--jira
+    Hostname 10.12.69.153
+Host avl--jira9
+    Hostname 10.12.69.146
+Host avl--gerrit-ast
+    Hostname 10.12.69.153
+    Port 29518
+
+# artifactory in india
+Host avl--jira-in
+    # ingursl1025
+    Hostname 10.107.10.38
+
+# backend servers
+# atgrzsl1819
+Host avl--jira-astvm
+    Hostname 10.12.69.162
+# atgrzsl1596
+Host avl--jira9-app
+    Hostname 10.12.69.18
+
+# big blade HW box
+Host avl--jira-hw
+    Hostname 10.12.64.119
+Host avl--jira-hw1
+    # Hostname atgrzsl1865
+    Hostname 10.12.64.205
+Host avl--jira-hw2
+    Hostname 10.12.64.206
+
+Host avl_jira-dmz
+    Hostname 157.247.248.18
+
+Host avl--jira-postgres
+    #atgrzsl2164
+    Hostname 10.12.72.170
+
+# its tfs
+Host avl--tfs-andor
+    # tfs-andor.avl01.avlcorp.lan
+    Hostname 10.12.75.116
+
+# jira container/kubernetes test hosts
+# atgrzsl2264
+Host avl--container
+   Hostname 10.12.75.16
+# atgrzsl2266
+Host avl--container-build
+   Hostname 10.12.75.17
+
+# its qtest container
+Host avl--qtest1
+    Hostname atgrzsl2465
+Host avl--qtest2
+    Hostname atgrzsl2466
+Host avl--qtest3
+    Hostname atgrzsl2467
+
+# VIIS netapp grafana server
+Host avl--netappmon
+    #Hostname atgrzsl2202
+    Hostname 10.12.72.210
+
+# mmd
+Host avl--mmd9app1
+    #Hostname atgrzsl2148
+    Hostname 10.12.72.160
+Host avl--mmd9app2
+    #Hostname atgrzsl2225
+    Hostname 10.12.72.226
+Host avl--mmdplapp1
+    #Hostname atgrzsl2249
+    Hostname 10.12.72.14
+Host avl--mmdapp1
+    #Hostname atgrzsl2250
+    Hostname 10.12.72.75
+Host avl--mmdapp2
+    #Hostname atgrzsl2251
+    Hostname 10.12.72.91
+Host avl--mmdsolr1
+    # Hostname atgrzsl2441
+    Hostname 10.12.75.109
+Host avl--mmd9solr1
+    # Hostname atgrzsl2442
+    Hostname 10.12.75.110
+
+# mmd - eptos5 intermediate names
+Host avl--mmd59app1
+    # atgrzsl2438
+    Hostname 10.12.75.106
+Host avl--mmdpl5app1
+    # atgrzsl2439
+    Hostname 10.12.75.107
+Host avl--mmdpl5app2
+    # atgrzsl2440
+    Hostname 10.12.75.108
+Host avl--mmd5app1
+    # atgrzsl2560
+    Hostname 10.12.75.202
+Host avl--mmd5app2
+    # atgrzsl2561
+    Hostname 10.12.75.203
+
+# avl digital
+Host avl_digi_dev
+    Hostname 10.11.2.11
+Host avl_digi_migration
+    Hostname 10.11.2.29
+#prod
+Host avl_digi_piwik
+    Hostname 10.11.2.14
+Host avl_digi_solr
+    Hostname 10.11.2.15
+Host avl_digi_dbpiwik
+    Hostname 10.11.2.16
+Host avl_digi_sf
+    Hostname 10.11.2.17
+# decomissioned
+#Host avl_digi_lf2
+#    Hostname 10.11.2.18
+Host avl_digi_db
+    Hostname 10.11.2.38
+Host avl_digi_lf1
+    Hostname 10.11.2.36
+Host avl_digi_lf2
+    Hostname 10.11.2.37
+Host avl_digi_lb1
+    Hostname 10.11.2.19
+Host avl_digi_lb2
+    Hostname 10.11.2.20
+Host avl_digi_mon
+    Hostname 10.11.2.30
+#test
+Host avl_tdigi_piwik
+    Hostname 10.11.2.21
+Host avl_tdigi_solr
+    Hostname 10.11.2.22
+Host avl_tdigi_db
+    Hostname 10.11.2.23
+Host avl_tdigi_lf1
+    Hostname 10.11.2.24
+Host avl_tdigi_lb1
+    Hostname 10.11.2.26
+
+# saml / shibbolet test server
+Host avl_saml1
+    # ATGRZSL1451
+    Hostname 10.11.2.12
+Host avl_saml2
+    # ATGRZSL1452
+    Hostname 10.11.2.13
+
+###
+## harald monitoring server
+###
+Host avl--harald-monprod
+    # demzksl8004
+    Hostname 10.16.73.14
+Host avl--attsbsl8004
+    #Hostname attsbsl8004
+    Hostname 10.252.73.14
+
+Host avl--atgrzlm310005
+    #Hostname atgrzlm310005.avl01.avlcorp.lan
+    Hostname 10.12.19.23
+
+# AST
+
+# cluster head node
+Host avl--atgrzlx400
+    # atgrzlx400
+    Hostname atgrzlx400.avl.com
+
+Host avl--atgrzsl2555
+    Hostname 10.12.65.126
+
+# Squid
+Host avl--squid1
+    # atgrzsl1939
+    Hostname 10.12.72.151
+
+Host avl--squid2
+    # atgrzsl1940
+    Hostname 10.12.72.152
+
+# cuckoo
+Host avl--cuckoo
+    #Hostname atgrzsl2391
+    Hostname 10.12.75.83
+
+# removed
+#Host avl_lb1
+#    Hostname 157.247.250.50
+#Host avl_lb2
+#    Hostname 157.247.250.72
+#Host avl_db1
+#    Hostname 157.247.250.48
+#Host avl_db2
+#    Hostname 157.247.250.49
+#Host avl_ap1
+#    Hostname 157.247.250.46
+#Host avl_ap2
+#    Hostname 157.247.250.47
+#Host avl_syncdmz
+#    Hostname 157.247.250.73
+#Host avl_s7admin
+#    Hostname 157.247.250.70
+
