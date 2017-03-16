@@ -16,6 +16,16 @@
 #set -e
 set -o pipefail
 
+parseurl() {
+	local hostname=$(hostname)
+	local url="$1"
+	echo "input $url" >> ~/exec.log
+	echo $hostname >> ~/exec.log
+	local r=${url/127.0.0.1/${hostname}}
+	echo "output $r" >> ~/exec.log
+	echo $r
+}
+
 browser_exec(){
 	# check if chrome container is running
 	chrome_state=$(docker inspect --format "{{.State.Running}}" chrome 2>/dev/null)
@@ -40,4 +50,6 @@ browser_exec(){
 	fi
 }
 
-browser_exec "$@"
+$url=$(parseurl $1)
+echo "browserurl: $url" >> ~/exec.log
+browser_exec "$url"

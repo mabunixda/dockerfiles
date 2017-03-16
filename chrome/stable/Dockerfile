@@ -33,7 +33,8 @@ RUN apt-get update && apt-get install -y \
 
 # Add chrome user
 RUN groupadd -r app && useradd -r -g app -G audio,video --uid 1000 app \
-    && mkdir -p /home/app/Downloads && chown -R app:app /home/app
+    && mkdir -p /home/app/Downloads && chown -R app:app /home/app \
+	&& mkdir -p /var/run/dbus 
 
 COPY local.conf /etc/fonts/local.conf
 

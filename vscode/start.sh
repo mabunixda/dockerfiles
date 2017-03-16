@@ -6,7 +6,7 @@ while true;
 do
    pid=$(pgrep -n code)
    if [ -z "$pid" ]; then
-	break;
+    exit 0
    fi
    sleep 1m
 done
