@@ -88,6 +88,10 @@ run(){
 	f=$1
 
 	if [[ "$f" == "" ]]; then
+		if [ -f "errors" ]; then
+			echo "error file is still there!"
+			exit 1
+		fi
 		main $args
 	else
 		$args
