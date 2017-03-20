@@ -1,5 +1,5 @@
-FROM debian:stretch
-MAINTAINER Jessie Frazelle <jess@linux.com>
+FROM debian:sid
+LABEL maintainer "Jessie Frazelle <jess@linux.com>"
 
 RUN buildDeps=' \
 		ca-certificates \
