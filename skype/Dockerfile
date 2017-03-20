@@ -29,5 +29,4 @@ WORKDIR $HOME
 USER app
 
 # Start Skype
-# ENTRYPOINT ["/usr/bin/skype"]
-CMD [ "skype"]
+ENTRYPOINT ["/usr/bin/skype"]
