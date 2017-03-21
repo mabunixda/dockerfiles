@@ -17,7 +17,7 @@
 #		wine "C:\Program Files (x86)\Loxone\LoxoneConfig\LoxoneConfig.exe"
 #
 FROM r.nitram.at/wine
-MAINTAINER Martin Buchleitner <mabunixda@gmail.com>
+LABEL maintainer "Martin Buchleitner <mabunixda@gmail.com>"
 
 ARG LOXURL=https://www.loxone.com/dede/wp-content/uploads/sites/2/2016/11/Loxone-Config-8.1.zip
 

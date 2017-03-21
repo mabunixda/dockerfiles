@@ -1,6 +1,6 @@
 FROM debian:stretch
 
-MAINTAINER Martin Buchleitner <mabunixda@mgail.com>
+LABEL maintainer "Martin Buchleitner <mabunixda@gmail.com>"
 
 RUN apt-get update && apt-get install -y \
 	procps \

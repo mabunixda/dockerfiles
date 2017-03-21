@@ -1,5 +1,5 @@
 FROM debian:jessie
-MAINTAINER Martin Buchleitner mabunixda@gmail.com
+LABEL maintainer "Martin Buchleitner <mabunixda@gmail.com>"
 
 ENV DEBIAN_FRONTEND noninteractive
 RUN apt-get -y -q update && \

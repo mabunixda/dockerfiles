@@ -1,5 +1,5 @@
 FROM ubuntu:16.04
-MAINTAINER Martin Buchleitner <mabunixda@gmail.com>
+LABEL maintainer "Martin Buchleitner <mabunixda@gmail.com>"
 
 ENV HOME /home/app
 

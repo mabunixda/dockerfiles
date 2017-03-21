@@ -1,5 +1,5 @@
 FROM debian:stretch
-MAINTAINER Martin Buchleitner <mabunixda@gmail.com>
+LABEL maintainer "Martin Buchleitner <mabunixda@gmail.com>"
 
 RUN apt-get update && apt-get install -y \
 	libgl1-mesa-dri \

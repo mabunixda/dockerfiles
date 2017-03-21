@@ -1,5 +1,5 @@
 FROM ubuntu:16.04
-MAINTAINER Christian Koep <christian.koep@fom-net.de>
+LABEL maintainer "Martin Buchleitner <mabunixda@gmail.com>"
 
 ENV POWERSHELL_VERSION 6.0.0-alpha.16
 

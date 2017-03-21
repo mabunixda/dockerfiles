@@ -1,5 +1,5 @@
 FROM alpine:latest
-MAINTAINER Jessie Frazelle <jess@linux.com>
+LABEL maintainer "Martin Buchleitner <mabunixda@gmail.com>"
 
 RUN apk --no-cache add \
 	htop

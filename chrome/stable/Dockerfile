@@ -3,7 +3,7 @@
 
 # Base docker image
 FROM debian:stretch
-MAINTAINER Martin Buchleitner <mabunixda@gmail.com>
+LABEL maintainer "Martin Buchleitner <mabunixda@gmail.com>"
 
 ADD https://dl.google.com/linux/direct/google-talkplugin_current_amd64.deb /src/google-talkplugin_current_amd64.deb
 

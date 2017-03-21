@@ -1,5 +1,5 @@
 FROM alpine:latest
-MAINTAINER Martin Buchleitner <mabunixda@gmail.com>
+LABEL maintainer "Martin Buchleitner <mabunixda@gmail.com>"
 
 EXPOSE 1080
 
