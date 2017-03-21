@@ -49,7 +49,6 @@ dofile() {
 	suite=${build_dir##*\/}
 
 
-    echo "base $base"
 	if [[ -z "$suite" ]] || [[ "$suite" == "$base" ]]; then
 		suite=latest
 	fi
