@@ -13,6 +13,8 @@ build_and_push(){
 	suite=$2
 	build_dir=$3
 
+	[ -f "${build_dir}/.skip_buiild" ] && return 0;
+
 	echo "Building ${REPO_URL}/${base}:${suite} for context ${build_dir}"
 	docker build --rm --force-rm -t ${REPO_URL}/${base}:${suite} ${build_dir} || return 1
 

@@ -7,6 +7,6 @@ docker run --rm -it \
 	-e DISPLAY=unix$DISPLAY \
 	--device /dev/snd:/dev/snd \
 	--name loxconfig-install \
-	loxconfig-wine \
+	r.nitram.at/loxconfig-wine \
 	bash
 

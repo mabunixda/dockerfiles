@@ -16,16 +16,17 @@
 #		loxconfig-wine:8.1 \
 #		wine "C:\Program Files (x86)\Loxone\LoxoneConfig\LoxoneConfig.exe"
 #
-FROM r.nitram.at/wine
+FROM r.nitram.at/wine:latest
 LABEL maintainer "Martin Buchleitner <mabunixda@gmail.com>"
 
-ARG LOXURL=https://www.loxone.com/dede/wp-content/uploads/sites/2/2016/11/Loxone-Config-8.1.zip
+
+ENV LOXURL https://www.loxone.com/dede/wp-content/uploads/sites/2/2016/12/Loxone-Config-8.3.zip 
 
 RUN apt-get update && apt-get install -y \
 	curl ca-certificates unzip \
 	--no-install-recommends
 
-ADD preload/* /usr/src
+ADD preload/* /usr/src/
 WORKDIR /tmp
 
 RUN xname=$(find /usr/src -maxdepth 1 -name "*.exe") \
@@ -37,7 +38,7 @@ RUN xname=$(find /usr/src -maxdepth 1 -name "*.exe") \
     && xname=$(find /usr/src -maxdepth 1 -name "*.exe") \
     && rm -rf * \
 	&& rm -rf /var/lib/apt/lists/* \
-    && echo "#!/bin/bash\n\nwine $xname;  rm $xname; rm -f install.sh;" > /root/install.sh \
+    && echo "#!/bin/bash\n\nwine64 $xname &&  rm $xname && rm -f install.sh;" > /root/install.sh \
     && chmod 0755 /root/install.sh
 
 WORKDIR /root
