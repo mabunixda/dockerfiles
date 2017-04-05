@@ -35,6 +35,7 @@ RUN apt-get update && apt-get install -y \
 	libxss1 \
 	libxtst6 \
 	liblzma5 \
+	openssh-client \
 	--no-install-recommends
 
 ENV HOME /home/app
@@ -58,7 +59,7 @@ RUN buildDeps=' \
 	&& rm -rf /var/lib/apt/lists/* \
 	&& curl -sSL "https://az764295.vo.msecnd.net/stable/${CODE_COMMIT}/code_${CODE_VERSION}_amd64.deb" -o /tmp/vs.deb \
 	&& dpkg -i /tmp/vs.deb \
-	&& rm -rf /tmp/vs.deb 
+	&& rm -rf /tmp/vs.deb
 
 COPY start.sh /usr/local/bin/start.sh
 COPY local.conf /etc/fonts/local.conf
