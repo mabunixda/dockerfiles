@@ -11,13 +11,14 @@ RUN dpkg --add-architecture i386 && \
 	curl \
 	--no-install-recommends
 
-ENV SKYPE_VERSION 4.3.0.37-1
 
 # Install Skype
-RUN curl -sSL "https://download.skype.com/linux/skype-debian_${SKYPE_VERSION}_i386.deb" > /usr/src/skype.deb && \
+RUN curl -sSL "https://repo.skype.com/latest/skypeforlinux-64.deb" > /usr/src/skype.deb && \
 	dpkg --force-depends -i /usr/src/skype.deb && \
 	apt-get install -fy \
 	&& rm -rf /var/lib/apt/lists/*
+
+ADD start.sh /usr/local/bin/start.sh
 
 # Make a user
 ENV HOME /home/app
@@ -29,4 +30,4 @@ WORKDIR $HOME
 USER app
 
 # Start Skype
-ENTRYPOINT ["/usr/bin/skype"]
+ENTRYPOINT ["/usr/local/bin/start.sh"]
