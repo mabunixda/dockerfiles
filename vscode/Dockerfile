@@ -43,8 +43,8 @@ RUN useradd --create-home --home-dir $HOME app \
 	&& chown -R app:app $HOME
 
 # https://code.visualstudio.com/Download
-ENV CODE_VERSION 1.10.2-1488981323
-ENV CODE_COMMIT 8076a19fdcab7e1fc1707952d652f0bb6c6db331
+ENV CODE_VERSION 1.11.0-1491426847
+ENV CODE_COMMIT 9122ec4b1068bd391e41974f46a4b54c1b9c90f9
 
 # download the source
 RUN buildDeps=' \
@@ -56,9 +56,10 @@ RUN buildDeps=' \
 	&& apt-get update && apt-get install -y $buildDeps --no-install-recommends \
 	&& curl -sL https://deb.nodesource.com/setup_6.x | bash - \
 	&& apt-get update && apt-get install -y nodejs git --no-install-recommends \
-	&& rm -rf /var/lib/apt/lists/* \
 	&& curl -sSL "https://az764295.vo.msecnd.net/stable/${CODE_COMMIT}/code_${CODE_VERSION}_amd64.deb" -o /tmp/vs.deb \
-	&& dpkg -i /tmp/vs.deb \
+	&& dpkg --force-depends  -i /tmp/vs.deb \
+	&& apt-get install -fy \
+	&& rm -rf /var/lib/apt/lists/* \
 	&& rm -rf /tmp/vs.deb
 
 COPY start.sh /usr/local/bin/start.sh

@@ -16,8 +16,8 @@ RUN dpkg --add-architecture i386 && \
 RUN curl -sSL "https://repo.skype.com/latest/skypeforlinux-64.deb" > /usr/src/skype.deb && \
 	dpkg --force-depends -i /usr/src/skype.deb && \
 	apt-get install -fy \
-	&& rm -rf /var/lib/apt/lists/*
-
+	&& rm -rf /var/lib/apt/lists/* \
+	&& rm -rf /usr/src/skype.deb
 ADD start.sh /usr/local/bin/start.sh
 
 # Make a user
