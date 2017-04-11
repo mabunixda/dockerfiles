@@ -29,5 +29,7 @@ RUN curl -L $POLICY_URL -o /tmp/policy.zip \
 ENV HOME /home/app
 RUN useradd --create-home --home-dir $HOME --uid 1000 app \
 	&& chown -R app:app $HOME
+WORKDIR $HOME
 USER app
+
 CMD /usr/local/netbeans/bin/netbeans
