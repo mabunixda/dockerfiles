@@ -25,5 +25,9 @@ RUN curl -L $POLICY_URL -o /tmp/policy.zip \
 	&& JAVA_HOME=$(ls -d /usr/local/jdk1.*) \
         && unzip -j -o /tmp/policy.zip -d $JAVA_HOME/jre/lib/security \
 	&& rm /tmp/policy.zip
-
+# Make a user
+ENV HOME /home/app
+RUN useradd --create-home --home-dir $HOME --uid 1000 app \
+	&& chown -R app:app $HOME
+USER app
 CMD /usr/local/netbeans/bin/netbeans
