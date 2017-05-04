@@ -8,4 +8,5 @@ pipelines:
     - step:
         script:
           - docker login --username $DOCKER_USERNAME --password $DOCKER_PASSWORD r.nitram.at
-          - ./build_all.sh    
+          - docker build -t r.nitram.at/unifi ./unifi
+          - docker push r.nitram.at/unifi
