@@ -7,6 +7,8 @@ pipelines:
   default:
     - step:
         script:
+          - wget http://ftp.gnu.org/gnu/parallel/parallel-latest.tar.bz2 
+          - tar xjfv parallel-latest.tar.bz2
           - docker login --username $DOCKER_USERNAME --password $DOCKER_PASSWORD r.nitram.at
-          - docker build -t r.nitram.at/unifi ./unifi
-          - docker push r.nitram.at/unifi
+#          - docker build -t r.nitram.at/unifi ./unifi
+#          - docker push r.nitram.at/unifi
