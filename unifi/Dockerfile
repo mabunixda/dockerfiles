@@ -17,10 +17,8 @@ RUN apt-get update -q \
 	&& rm -rf /var/lib/apt/lists/* \
 	&& rm -rf /usr/src/*.deb
 
-
 EXPOSE 6789/tcp 8080/tcp 8443/tcp 8880/tcp 8843/tcp 3478/udp
 
 WORKDIR /usr/lib/unifi
 
-ENTRYPOINT [ "/usr/bin/java", "-jar", "/usr/lib/unifi/lib/ace.jar", "-Djava.awt.headless=true", "-Dfile.encoding=UTF-8", "-Xmx256M", "com.ubnt.ace.Launcher", "start" ]
-# CMD ["bash"]
+ENTRYPOINT [ "/usr/bin/java", "-Djava.awt.headless=true", "-Dfile.encoding=UTF-8", "-Xmx256M", "-jar", "/usr/lib/unifi/lib/ace.jar", "com.ubnt.ace.Launcher", "start" ]
