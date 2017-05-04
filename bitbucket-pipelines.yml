@@ -7,5 +7,5 @@ pipelines:
   default:
     - step:
         script:
-          - docker login --username $   --password $DOCKER_PASSWORD
+          - docker login --username $DOCKER_USERNAME --password $DOCKER_PASSWORD r.nitram.at
           - ./build_all.sh    
