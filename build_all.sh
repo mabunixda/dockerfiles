@@ -72,9 +72,14 @@ main(){
 	unset IFS
 
 	# build all dockerfiles
-	# echo "Running in parallel with ${JOBS} jobs."
-	parallel --tag --verbose --ungroup -j"${JOBS}"     $SCRIPT dofile "{1}" ::: "${files[@]}"
-
+	if [ -e "/usr/bin/parallel" ]; then  
+		echo "Running in parallel with ${JOBS} jobs."
+		parallel --tag --verbose --ungroup -j"${JOBS}"     $SCRIPT dofile "{1}" ::: "${files[@]}"
+	else
+		for f in "${files[@]}"; do
+			$SCRIPT dofile "{f}"
+		done
+	fi
 	if [[ ! -f $ERRORS ]]; then
 		echo "No errors, hooray!"
 	else
