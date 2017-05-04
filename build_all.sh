@@ -77,7 +77,7 @@ main(){
 		parallel --tag --verbose --ungroup -j"${JOBS}"     $SCRIPT dofile "{1}" ::: "${files[@]}"
 	else
 		for f in "${files[@]}"; do
-			$SCRIPT dofile "{f}"
+			$SCRIPT dofile "${f}"
 		done
 	fi
 	if [[ ! -f $ERRORS ]]; then
