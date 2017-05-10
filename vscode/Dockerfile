@@ -2,7 +2,17 @@ FROM debian:stretch
 
 LABEL maintainer "Martin Buchleitner <mabunixda@gmail.com>"
 
-RUN apt-get update && apt-get install -y \
+ENV HOME /home/app
+
+# https://code.visualstudio.com/Download
+ENV CODE_VERSION 1.12.1-1493934083
+ENV CODE_COMMIT f6868fce3eeb16663840eb82123369dec6077a9b
+
+# download the source
+RUN set -x \
+	&& useradd --create-home --home-dir $HOME app \
+	&& chown -R app:app $HOME \
+	&& apt-get update -qq && apt-get install -y \
 	procps \
 	libasound2 \
 	libatk1.0-0 \
@@ -36,23 +46,12 @@ RUN apt-get update && apt-get install -y \
 	libxtst6 \
 	liblzma5 \
 	openssh-client \
-	--no-install-recommends
-
-ENV HOME /home/app
-RUN useradd --create-home --home-dir $HOME app \
-	&& chown -R app:app $HOME
-
-# https://code.visualstudio.com/Download
-ENV CODE_VERSION 1.11.2-1492070517
-ENV CODE_COMMIT 6eaebe3b9c70406d67c97779468c324a7a95db0e
-
-# download the source
-RUN buildDeps=' \
+	--no-install-recommends \
+	&& buildDeps=' \
 		ca-certificates \
 		curl \
 		gnupg \
 	' \
-	&& set -x \
 	&& apt-get update && apt-get install -y $buildDeps --no-install-recommends \
 	&& curl -sL https://deb.nodesource.com/setup_6.x | bash - \
 	&& apt-get update && apt-get install -y nodejs git --no-install-recommends \
