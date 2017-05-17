@@ -1,3 +1,7 @@
+#
+# ocker run --rm -v ${PWD}/config.php:/loxone-sonos/System/config.php -p 8080:8080 r.nitram.at/loxone-sonos
+#
+
 FROM alpine:3.5
 
 LABEL maintainer="Martin Buchleitner <mabunixda@gmail.com>"
