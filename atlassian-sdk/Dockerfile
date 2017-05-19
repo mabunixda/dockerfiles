@@ -1,0 +1,21 @@
+FROM java:8-jdk
+
+LABEL maintainer "Martin Buchleitner <mabunixda@gmail.com>"
+
+ARG SDK_VERSION=6.2.14
+
+RUN apt-get -yqq update \
+    && apt-get -yqq install apt-transport-https \
+    && echo "deb http://sdkrepo.atlassian.com/debian/ stable contrib" >>/etc/apt/sources.list \
+    && apt-key adv --keyserver keyserver.ubuntu.com --recv-keys B07804338C015B73 \
+    && apt-get -yqq update \
+    && apt-get -yqq install atlassian-plugin-sdk=$SDK_VERSION \
+    && mkdir /build
+
+
+# Create directory for sources using the same practice as the ruby images
+WORKDIR /build
+
+# Set the default running command of the AMPS image to be running the
+# application in debug mode.
+CMD ["bash"]
