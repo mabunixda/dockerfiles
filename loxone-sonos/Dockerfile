@@ -1,5 +1,11 @@
 #
-# ocker run --rm -v ${PWD}/config.php:/loxone-sonos/System/config.php -p 8080:8080 r.nitram.at/loxone-sonos
+# touch sonos_nolb.cfg
+# touch player_nolb.cfg
+# ocker run -d \
+#           -v ${PWD}/sonos_nolb.cfg:/loxone-sonos/system/sonos_nolb.cfg \
+#           -v ${PWD}/player_nolb.cfg:/loxone-sonos/system/player_nolb.cfg \
+#           -network host \
+#           r.nitram.at/loxone-sonos
 #
 
 FROM alpine:3.5
@@ -26,7 +32,8 @@ RUN BUILD_DEPS=" \
     php7-json \
     php7-sockets \
     php7-soap \
- && git clone $GITHUB_REPO /loxone-sonos \
+ && git clone $GITHUB_REPO /tmp \
+ && mv /tmp/webfrontend/html /loxone-sonos \
  && apk del ${BUILD_DEPS} \
  && rm -rf /tmp/* /var/cache/apk/* /root/.gnupg
 
@@ -36,9 +43,7 @@ COPY s6.d /etc/s6.d
 
 COPY run.sh /usr/local/bin/run.sh
 
-VOLUME /data
-
-RUN chmod +x /usr/local/bin/run.sh /etc/s6.d/*/* /etc/s6.d/.s6-svscan/* /loxone-sonos/webfrontend/cgi/index.cgi
+RUN chmod +x /usr/local/bin/run.sh /etc/s6.d/*/* /etc/s6.d/.s6-svscan/*
 
 EXPOSE 8080
 
