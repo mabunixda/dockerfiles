@@ -45,6 +45,6 @@ COPY run.sh /usr/local/bin/run.sh
 
 RUN chmod +x /usr/local/bin/run.sh /etc/s6.d/*/* /etc/s6.d/.s6-svscan/*
 
-EXPOSE 8080
+EXPOSE 8088
 
 CMD ["run.sh"]

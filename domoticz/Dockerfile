@@ -52,4 +52,4 @@ VOLUME /config /opt/domoticz/scripts
 
 EXPOSE 8080
 
-CMD ["/opt/domoticz/domoticz", "-dbase", "/config/domoticz.db", "-www", "8080", "-webroot", "zwave"]
+ENTRYPOINT ["/opt/domoticz/domoticz", "-dbase", "/config/domoticz.db", "-www", "8080", "-webroot", "zwave"]
