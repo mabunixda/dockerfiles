@@ -12,6 +12,7 @@ FROM alpine:3.5
 
 LABEL maintainer="Martin Buchleitner <mabunixda@gmail.com>"
 
+ARG BRANCH=master
 ENV GITHUB_REPO=https://github.com/Liver64/LoxBerry-Sonos
 ENV UID=999 GID=999
 
@@ -33,6 +34,8 @@ RUN BUILD_DEPS=" \
     php7-sockets \
     php7-soap \
  && git clone $GITHUB_REPO /tmp \
+ && cd /tmp \
+ && git checkout $BRANCH \
  && mv /tmp/webfrontend/html /loxone-sonos \
  && apk del ${BUILD_DEPS} \
  && rm -rf /tmp/* /var/cache/apk/* /root/.gnupg
