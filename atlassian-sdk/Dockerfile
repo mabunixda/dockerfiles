@@ -6,7 +6,7 @@ ARG SDK_VERSION=6.2.14
 ENV HOME /build
 
 RUN apt-get -yqq update \
-    && apt-get -yqq install apt-transport-https \
+    && apt-get -yqq install apt-transport-https screen bash vim less \
     && echo "deb http://sdkrepo.atlassian.com/debian/ stable contrib" >>/etc/apt/sources.list \
     && apt-key adv --keyserver keyserver.ubuntu.com --recv-keys B07804338C015B73 \
     && apt-get -yqq update \
