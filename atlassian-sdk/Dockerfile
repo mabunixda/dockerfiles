@@ -15,6 +15,7 @@ RUN apt-get -yqq update \
     && useradd --create-home --home-dir $HOME app \
     && chown -R app:app $HOME
 
+ADD atlassian-sdk.sh /etc/profile.d/atlassian-sdk.sh
 
 USER app
 # Create directory for sources using the same practice as the ruby images
