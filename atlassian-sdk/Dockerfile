@@ -10,12 +10,14 @@ RUN apt-get -yqq update \
     && echo "deb http://sdkrepo.atlassian.com/debian/ stable contrib" >>/etc/apt/sources.list \
     && apt-key adv --keyserver keyserver.ubuntu.com --recv-keys B07804338C015B73 \
     && apt-get -yqq update \
-    && apt-get -yqq install atlassian-plugin-sdk=$SDK_VERSION \
+    && apt-get -yqq install atlassian-plugin-sdk=$SDK_VERSION nginx-full \
     && mkdir -p $HOME \
     && useradd --create-home --home-dir $HOME app \
     && chown -R app:app $HOME
 
 ADD atlassian-sdk.sh /etc/profile.d/atlassian-sdk.sh
+ADD ssl.sh /usr/local/bin/ssl.sh
+ADD nginx.conf /etc/nginx/nginx.conf
 
 USER app
 # Create directory for sources using the same practice as the ruby images
