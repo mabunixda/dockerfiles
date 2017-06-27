@@ -5,7 +5,7 @@ set -o pipefail
 SCRIPT="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)/$(basename "${BASH_SOURCE[0]}")"
 REPO_URL="${REPO_URL:-r.nitram.at}"
 JOBS=${JOBS:-2}
-
+NO_CACHE="${NO_CACHE}"
 ERRORS="$(pwd)/errors"
 
 build_and_push(){
@@ -16,7 +16,7 @@ build_and_push(){
 	[ -f "${build_dir}/.skip_buiild" ] && return 0;
 
 	echo "Building ${REPO_URL}/${base}:${suite} for context ${build_dir}"
-	docker build --rm --force-rm -t ${REPO_URL}/${base}:${suite} ${build_dir} || return 1
+	docker build --rm --force-rm ${NO_CACHE} -t ${REPO_URL}/${base}:${suite} ${build_dir} || return 1
 
 	# on successful build, push the image
 	echo "                       ---                                   "
