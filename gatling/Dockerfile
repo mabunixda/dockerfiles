@@ -15,7 +15,7 @@ ENV GATLING_VERSION 2.2.4
 
  # install gatling
 RUN apt-get update -q \
-  && apt-get install curl bash unzip fontconfig \
+  && apt-get -qy install curl bash unzip fontconfig \
   && curl -o /tmp/gatling.zip \
         https://repo1.maven.org/maven2/io/gatling/highcharts/gatling-charts-highcharts-bundle/$GATLING_VERSION/gatling-charts-highcharts-bundle-$GATLING_VERSION-bundle.zip  \
   && unzip /tmp/gatling.zip -d /tmp \
