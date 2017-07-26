@@ -17,6 +17,7 @@ RUN apt-get update && apt-get install -y \
 	libgl1-mesa-dri \
 	libgl1-mesa-glx \
 	libpulse0 \
+	libpango1.0-0 \
 	libv4l-0 \
 	libu2f-host0 \
 	fonts-symbola \
