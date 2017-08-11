@@ -2,9 +2,8 @@ FROM alpine:latest
 MAINTAINER Martin Buchleitner <martin@nitram.at>
 
 ENV TZ Europe/Vienna
-ENV RELEASE 3.5877
+ENV RELEASE 3.8153
 RUN apk add --no-cache git \
-	 git \
 	 python3 python3-dev \
 	 libssl1.0 libressl-dev \
 	 build-base cmake \
@@ -48,7 +47,6 @@ RUN apk add --no-cache git \
 		curl-dev
 
 VOLUME /config /opt/domoticz/scripts
-
 
 EXPOSE 8080
 

@@ -3,7 +3,7 @@ LABEL maintainer "Martin Buchleitner <mabunixda@gmail.com>"
 
 ENV DEBIAN_FRONTEND noninteractive
 
-ADD https://dl.ubnt.com/unifi/5.4.15/unifi_sysvinit_all.deb /usr/src/unify_sysvinit_all.deb
+ADD http://dl.ubnt.com/unifi/5.5.20/unifi_sysvinit_all.deb /usr/src/unify_sysvinit_all.deb
 # Install unify
 RUN apt-get update -q \
 	&& apt-get install -y gnupg2 dirmngr --no-install-recommends  \
