@@ -2,7 +2,7 @@ FROM java:8-jdk
 
 LABEL maintainer "Martin Buchleitner <mabunixda@gmail.com>"
 
-ARG SDK_VERSION=6.2.14
+ARG SDK_VERSION=6.2.17
 ENV HOME /build
 
 RUN apt-get -yqq update \
