@@ -1,5 +1,5 @@
 FROM alpine:latest
-MAINTAINER Martin Buchleitner <martin@nitram.at>
+LABEL Maintainer "Martin Buchleitner <martin@nitram.at>"
 
 ENV TZ Europe/Vienna
 ENV RELEASE 3.8153
