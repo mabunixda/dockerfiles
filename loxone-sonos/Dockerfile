@@ -1,14 +1,14 @@
 #
 # touch sonos_nolb.cfg
 # touch player_nolb.cfg
-# ocker run -d \
+# docker run -d \
 #           -v ${PWD}/sonos_nolb.cfg:/loxone-sonos/system/sonos_nolb.cfg \
 #           -v ${PWD}/player_nolb.cfg:/loxone-sonos/system/player_nolb.cfg \
 #           -network host \
 #           r.nitram.at/loxone-sonos
 #
 
-FROM alpine:3.5
+FROM alpine:latest
 
 LABEL maintainer="Martin Buchleitner <mabunixda@gmail.com>"
 
