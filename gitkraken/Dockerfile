@@ -14,7 +14,9 @@ RUN gitkrakenDeps='\
     gvfs-bin \
     libxss1 \
     libasound2 \
-	libgnome-keyring0 \
+    libx11-xcb1 \
+    libgnome-keyring0 \
+    libcurl3-gnutls \
     xdg-utils' \
     installDeps='\
     wget \
