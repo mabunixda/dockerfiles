@@ -28,11 +28,13 @@ RUN BUILD_DEPS=" \
     su-exec \
     curl \
     lame \
+    php7 \
     php7-fpm \
     php7-curl \
     php7-json \
     php7-sockets \
     php7-soap \
+    php7-xml \
  && git clone $GITHUB_REPO /tmp \
  && cd /tmp \
  && git checkout $BRANCH \
