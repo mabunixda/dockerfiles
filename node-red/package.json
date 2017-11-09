@@ -31,7 +31,9 @@
         "node-red-node-random": "*",
         "node-red-contrib-loxone": "*",
 	"node-red-contrib-influxdb": "*",
-	"node-red-contrib-sonos": "*"
+	"node-red-contrib-sonos": "*",
+	"node-red-contrib-google": "*",
+	"node-red-node-snmp": "*"
     },
     "engines": {
         "node": "4.*.*"
