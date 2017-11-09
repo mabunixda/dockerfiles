@@ -7,6 +7,7 @@ REPO_URL="${REPO_URL:-r.nitram.at}"
 JOBS=${JOBS:-2}
 NO_CACHE="${NO_CACHE}"
 ERRORS="$(pwd)/errors"
+CURRENT_DATE=$(date +"%Y-%m-%d")
 
 build_and_push(){
 	base=$1
@@ -30,7 +31,7 @@ build_and_push(){
 	# absolutely no reason
 	n=0
 	until [ $n -ge 5 ]; do
-    	docker push ${REPO_URL}/${base}:${suite} && break
+    		docker push ${REPO_URL}/${base}:${suite} && break
 		echo "Try #$n failed... sleeping for 15 seconds"
 		n=$[$n+1]
 		sleep 15
@@ -41,6 +42,12 @@ build_and_push(){
 		docker tag ${REPO_URL}/${base}:${suite} ${REPO_URL}/${base}:latest
 		docker push ${REPO_URL}/${base}:latest
 	fi
+
+	if [[ "$suite" == "stable" ]] || [[ "$suite" == "latest" ]]; then
+		docker tag ${REPO_URL}/${base}:${suite} ${REPO_URL}/${base}:${CURRENT_DATE}
+		docker push ${REPO_URL}/${base}:${CURRENT_DATE}
+	fi
+	
 }
 
 dofile() {
