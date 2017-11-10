@@ -5,8 +5,8 @@ LABEL maintainer "Martin Buchleitner <mabunixda@gmail.com>"
 ENV HOME /home/app
 # https://code.visualstudio.com/Download
 
-ENV CODE_COMMIT b813d12980308015bcd2b3a2f6efa5c810c33ba5
-ENV CODE_VERSION 1.17.2-1508162334
+ENV CODE_COMMIT dcee2202709a4f223185514b9275aa4229841aa7
+ENV CODE_VERSION 1.18.0-1510145176
 
 # download the source
 RUN set -x \
