@@ -12,8 +12,7 @@
     "scripts": {
         "start": "node $NODE_OPTIONS node_modules/node-red/red.js -v $FLOWS"
     },
-    "contributors": [
-        {
+    "contributors": [{
             "name": "Dave Conway-Jones"
         },
         {
@@ -30,11 +29,12 @@
         "node-red-node-suncalc": "*",
         "node-red-node-random": "*",
         "node-red-contrib-loxone": "*",
-	"node-red-contrib-influxdb": "*",
-	"node-red-contrib-sonos": "*",
-	"node-red-contrib-google": "*",
-	"node-red-node-snmp": "*",
-	"node-red-node-darksky": "*"
+        "node-red-contrib-influxdb": "*",
+        "node-red-contrib-sonos": "*",
+        "node-red-contrib-google": "*",
+        "node-red-node-snmp": "*",
+        "node-red-node-darksky": "*",
+        "node-red-contrib-alexa-local": "*"
     },
     "engines": {
         "node": "4.*.*"
