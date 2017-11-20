@@ -8,7 +8,7 @@
 #           r.nitram.at/loxone-sonos
 #
 
-FROM alpine:latest
+FROM alpine:edge
 
 LABEL maintainer="Martin Buchleitner <mabunixda@gmail.com>"
 
@@ -29,6 +29,7 @@ RUN BUILD_DEPS=" \
     curl \
     lame \
     php7 \
+    php7-simplexml \
     php7-fpm \
     php7-curl \
     php7-json \
