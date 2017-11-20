@@ -33,7 +33,8 @@
 	"node-red-contrib-influxdb": "*",
 	"node-red-contrib-sonos": "*",
 	"node-red-contrib-google": "*",
-	"node-red-node-snmp": "*"
+	"node-red-node-snmp": "*",
+	"node-red-node-darksky": "*"
     },
     "engines": {
         "node": "4.*.*"
