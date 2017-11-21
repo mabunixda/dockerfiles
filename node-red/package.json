@@ -30,7 +30,7 @@
         "node-red-node-random": "*",
         "node-red-contrib-loxone": "*",
         "node-red-contrib-influxdb": "*",
-        "node-red-contrib-sonos": "*",
+        "node-red-contrib-better-sonos": "*",
         "node-red-contrib-google": "*",
         "node-red-node-snmp": "*",
         "node-red-node-darksky": "*",
