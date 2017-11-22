@@ -36,7 +36,9 @@
         "node-red-node-darksky": "*",
         "node-red-contrib-alexa-local": "*",
 	"node-red-contrib-samsung-tv": "*",
-	"node-red-node-ping": "*"
+	"node-red-node-ping": "*",
+	"node-red-node-wol": "*",
+	"node-red-contrib-unifi": "*"
     },
     "engines": {
         "node": "4.*.*"
