@@ -8,28 +8,13 @@
 # 	-v /usr/src:/usr/src:ro \
 # 	r.j3ss.co/wireguard
 #
-FROM alpine:latest
-LABEL maintainer "Jessie Frazelle <jess@linux.com>"
+FROM debian:jessie
+LABEL maintainer "Martin Buchleitner <mabunixda@gmail.com>"
 
-RUN apk add --no-cache \
-	build-base \
-	ca-certificates \
-	libmnl-dev
-
-# https://git.zx2c4.com/WireGuard/refs/
-ENV WIREGUARD_VERSION 0.0.20170918
-
-RUN set -x \
-	&& apk add --no-cache --virtual .build-deps \
-		git \
-	&& git clone --depth 1 --branch "${WIREGUARD_VERSION}" https://git.zx2c4.com/WireGuard.git /wireguard \
-	&& ( \
-		cd /wireguard/src \
-		&& make tools \
-		&& make -C tools install \
-		&& make -C tools clean \
-	) \
-	&& apk del .build-deps
+RUN echo "deb http://deb.debian.org/debian/ unstable main" > /etc/apt/sources.list.d/unstable-wireguard.list \
+    && printf 'Package: *\nPin: release a=unstable\nPin-Priority: 150\n' > /etc/apt/preferences.d/limit-unstable \
+    && apt-get update -q \
+    && apt-get install -y wireguard
 
 COPY entrypoint.sh /usr/local/bin/entrypoint.sh
 

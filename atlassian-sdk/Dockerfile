@@ -2,7 +2,6 @@ FROM java:8-jdk
 
 LABEL maintainer "Martin Buchleitner <mabunixda@gmail.com>"
 
-ARG SDK_VERSION=6.2.17
 ENV HOME /build
 
 RUN apt-get -yqq update \
@@ -10,7 +9,7 @@ RUN apt-get -yqq update \
     && echo "deb http://sdkrepo.atlassian.com/debian/ stable contrib" >>/etc/apt/sources.list \
     && apt-key adv --keyserver keyserver.ubuntu.com --recv-keys B07804338C015B73 \
     && apt-get -yqq update \
-    && apt-get -yqq install atlassian-plugin-sdk=$SDK_VERSION nginx-full \
+    && apt-get -yqq install atlassian-plugin-sdk nginx-full \
     && mkdir -p $HOME \
     && useradd --create-home --home-dir $HOME app \
     && chown -R app:app $HOME

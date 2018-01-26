@@ -1,4 +1,4 @@
-FROM ubuntu:17.04
+FROM ubuntu:17.10
 
 # Install X11 tools and those needed here for downloads.
 RUN apt-get update  -qq && apt-get install -qq -y \
