@@ -43,10 +43,10 @@ build_and_push(){
 		docker push ${REPO_URL}/${base}:latest
 	fi
 
-	if [[ "$suite" == "stable" ]] || [[ "$suite" == "latest" ]]; then
-		docker tag ${REPO_URL}/${base}:${suite} ${REPO_URL}/${base}:${CURRENT_DATE}
-		docker push ${REPO_URL}/${base}:${CURRENT_DATE}
-	fi
+#	if [[ "$suite" == "stable" ]] || [[ "$suite" == "latest" ]]; then
+#		docker tag ${REPO_URL}/${base}:${suite} ${REPO_URL}/${base}:${CURRENT_DATE}
+#		docker push ${REPO_URL}/${base}:${CURRENT_DATE}
+#	fi
 	
 }
 
