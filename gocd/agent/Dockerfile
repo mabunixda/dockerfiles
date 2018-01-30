@@ -15,7 +15,8 @@ RUN curl -fsSL https://download.docker.com/linux/ubuntu/gpg | apt-key add - \
             $(lsb_release -cs) \
             stable" \
     && apt-get update \
-    && apt-get install -y docker-ce git
+    && apt-get install -y docker-ce git \
+    && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
 ENV GO_SERVER_URL ""
 
