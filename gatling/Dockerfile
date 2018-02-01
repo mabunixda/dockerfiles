@@ -11,7 +11,7 @@ LABEL  MAINTAINER "Martin Buchleitner <mabunixda@gmail.com>"
 WORKDIR /opt
 
 # gating version
-ENV GATLING_VERSION 2.2.4
+ENV GATLING_VERSION 2.3.0
 
  # install gatling
 RUN apt-get update -q \
