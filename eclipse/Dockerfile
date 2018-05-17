@@ -2,7 +2,7 @@ FROM debian:jessie as builder
 
 WORKDIR /tmp
 
-ENV ECLIPSE_URL https://www.eclipse.org/downloads/download.php?file=/technology/epp/downloads/release/oxygen/R/eclipse-jee-oxygen-R-linux-gtk-x86_64.tar.gz&r=1
+ENV ECLIPSE_URL https://www.eclipse.org/downloads/download.php?file=/technology/epp/downloads/release/oxygen/3a/eclipse-jee-oxygen-3a-linux-gtk-x86_64.tar.gz&r=1
 RUN set -x \
     && apt-get update \
     && apt-get install -y curl \
