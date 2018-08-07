@@ -1,5 +1,5 @@
 FROM java:openjdk-8-jre
-ARG SMARTGIT_VER=17.1.1
+ARG SMARTGIT_VER=18.1.4
 
 RUN apt-get update \
     && apt-get install -y curl \
@@ -8,14 +8,14 @@ RUN apt-get update \
     && rm -rf /var/lib/apt/lists/*
 
 WORKDIR /tmp/
-RUN /bin/bash -c 'curl -O http://www.syntevo.com/static/smart/download/smartgit/smartgit-${SMARTGIT_VER//\./_}.deb && \
+RUN /bin/bash -c 'curl -O https://www.syntevo.com/downloads/smartgit/smartgit-${SMARTGIT_VER//\./_}.deb && \
     dpkg -i smartgit-${SMARTGIT_VER//\./_}.deb' && \
     rm -rf /tmp/* /var/tmp/*
 
 # Add chrome user
 RUN groupadd -r app && useradd -r -g app --uid 1000 app \
     && mkdir -p /home/app \
-    && chown -R app:app /home/app 
+    && chown -R app:app /home/app
 
 # Run Chrome as non privileged user
 USER app
