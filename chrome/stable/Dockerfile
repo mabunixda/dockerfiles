@@ -5,7 +5,7 @@
 FROM debian:stretch
 LABEL maintainer "Martin Buchleitner <mabunixda@gmail.com>"
 
-ADD https://dl.google.com/linux/direct/google-talkplugin_current_amd64.deb /src/google-talkplugin_current_amd64.deb
+# ADD https://dl.google.com/linux/direct/google-talkplugin_current_amd64.deb /src/google-talkplugin_current_amd64.deb
 
 # Install Chrome
 RUN apt-get update && apt-get install -y \
@@ -29,7 +29,7 @@ RUN apt-get update && apt-get install -y \
 	&& apt-get update && apt-get install -y \
 	google-chrome-stable \
 	--no-install-recommends \
-	&& dpkg -i '/src/google-talkplugin_current_amd64.deb' \
+	# && dpkg -i '/src/google-talkplugin_current_amd64.deb' \
 	&& apt-get purge --auto-remove -y curl \
 	&& rm -rf /var/lib/apt/lists/* \
 	&& rm -rf /src/*.deb
@@ -37,7 +37,7 @@ RUN apt-get update && apt-get install -y \
 # Add chrome user
 RUN groupadd -r app && useradd -r -g app -G audio,video --uid 1000 app \
     && mkdir -p /home/app/Downloads && chown -R app:app /home/app \
-	&& mkdir -p /var/run/dbus 
+	&& mkdir -p /var/run/dbus
 
 COPY local.conf /etc/fonts/local.conf
 
