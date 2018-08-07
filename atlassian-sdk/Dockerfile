@@ -6,8 +6,9 @@ ENV HOME /build
 
 RUN apt-get -yqq update \
     && apt-get -yqq install apt-transport-https screen bash vim less \
-    && echo "deb http://sdkrepo.atlassian.com/debian/ stable contrib" >>/etc/apt/sources.list \
-    && apt-key adv --keyserver keyserver.ubuntu.com --recv-keys B07804338C015B73 \
+    && echo "deb https://packages.atlassian.com/atlassian-sdk-deb stable contrib" >>/etc/apt/sources.list \
+    && wget https://packages.atlassian.com/api/gpg/key/public  \
+    && apt-key add public \
     && apt-get -yqq update \
     && apt-get -yqq install atlassian-plugin-sdk nginx-full \
     && mkdir -p $HOME \
