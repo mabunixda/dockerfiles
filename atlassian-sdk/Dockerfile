@@ -1,3 +1,6 @@
+FROM golang as helper
+RUN go get -u github.com/GoogleCloudPlatform/docker-credential-gcr
+
 FROM java:8-jdk
 
 LABEL maintainer "Martin Buchleitner <mabunixda@gmail.com>"
@@ -18,6 +21,8 @@ RUN apt-get -yqq update \
 ADD atlassian-sdk.sh /etc/profile.d/atlassian-sdk.sh
 ADD ssl.sh /usr/local/bin/ssl.sh
 ADD nginx.conf /etc/nginx/nginx.conf
+
+COPY --from=helper /go/bin/docker-credential-gcr /usr/local/bin/
 
 USER app
 # Create directory for sources using the same practice as the ruby images
