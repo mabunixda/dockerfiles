@@ -1,4 +1,4 @@
-FROM python:2.7-alpine
+FROM resin/raspberrypi3-alpine-python
 EXPOSE 5000
 LABEL maintainer "mabunixda@gmail.com"
 
