@@ -14,7 +14,7 @@ build_and_push(){
 	suite=$2
 	build_dir=$3
 
-	[ -f "${build_dir}/.skip_buiild" ] && return 0;
+	[ -f "${build_dir}/.skip_build" ] && return 0;
 
 	echo "Building ${REPO_URL}/${base}:${suite} for context ${build_dir}"
 	docker build --rm --force-rm ${NO_CACHE} -t ${REPO_URL}/${base}:${suite} ${build_dir} || return 1
@@ -23,9 +23,6 @@ build_and_push(){
 	echo "                       ---                                   "
 	echo "Successfully built ${base}:${suite} with context ${build_dir}"
 	echo "                       ---                                   "
-
-
-	[ -f "${build_dir}/.skip_push" ] && return 0;
 
 	# try push a few times because notary server sometimes returns 401 for
 	# absolutely no reason
@@ -47,7 +44,21 @@ build_and_push(){
 #		docker tag ${REPO_URL}/${base}:${suite} ${REPO_URL}/${base}:${CURRENT_DATE}
 #		docker push ${REPO_URL}/${base}:${CURRENT_DATE}
 #	fi
-	
+
+}
+
+fetch_base() {
+	base=$1
+	suite=$2
+	build_dir=$3
+
+	echo "pulling base images for $base:$suite"
+	for bd in $( grep FROM "$build_dir/Dockerfile" | awk '{print $2}'); do
+		echo -n "  $bd ... "
+		docker pull $bd
+		echo "done"
+	done
+	echo "  done"
 }
 
 dofile() {
@@ -57,12 +68,14 @@ dofile() {
 	build_dir=$(dirname $f)
 	suite=${build_dir##*\/}
 
-
 	if [[ -z "$suite" ]] || [[ "$suite" == "$base" ]]; then
 		suite=latest
 	fi
 
 	{
+		if [ ! -z "$PREFETCH" ]; then
+			$SCRIPT fetch_base "${base}" "${suite}" "${build_dir}"
+		fi
 		$SCRIPT build_and_push "${base}" "${suite}" "${build_dir}"
 	} || {
 	# add to errors
