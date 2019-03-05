@@ -1,6 +1,7 @@
 FROM nodered/node-red-docker:slim-v8
 USER root
 RUN apk add --no-cache git \
+         iputils \ 
 	 libssl1.0 libressl-dev \
 	 build-base cmake \
         	 python python-dev \
@@ -17,5 +18,5 @@ RUN apk add --no-cache git \
 
 USER node-red
 COPY package.json /usr/src/node-red/
-
 RUN npm install
+

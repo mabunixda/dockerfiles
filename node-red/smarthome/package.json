@@ -31,7 +31,9 @@
         "node-red-node-darksky": "*",
 	"node-red-contrib-samsung-tv": "*",
 	"node-red-contrib-unifi": "*",
-	"node-red-contrib-openzwave": "*"
+	"node-red-contrib-openzwave": "*",
+	"node-red-node-ping": "*",
+	"node-red-contrib-telegrambot": "*"
     },
     "engines": {
         "node": "4.*.*"
