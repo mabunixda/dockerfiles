@@ -4,7 +4,6 @@ LABEL maintainer "Martin Buchleitner <mabunixda@gmail.com>"
 ARG version=3.10.1
 ENV DEBIAN_FRONTEND noninteractive
 
-COPY run.sh /
 RUN apt-get update -q \
 	&& apt-get install -y  apt-transport-https gnupg2 dirmngr --no-install-recommends  \
         && apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv 9DA31620334BD75D9DCB49F368818C72E52529D4  \
@@ -28,16 +27,16 @@ RUN curl -o /tmp/unifi-video.deb https://dl.ubnt.com/firmwares/unifi-video/v${ve
   && dpkg -i /tmp/unifi-video.deb && \
   rm -rf /tmp/* && \
   apt-get clean && \
-  rm -rf /var/lib/apt/lists/* \
-  && chmod +x /run.sh
+  rm -rf /var/lib/apt/lists/* 
 
-
+ENV DATADIR "/var/lib/unifi-video"
+ENV BASEDIR "/usr/lib/unifi-video"
 
 # Configuration and database volume
-VOLUME ["/var/lib/unifi-video"]
+VOLUME ["${DATADIR}"]
 
 # Video storage volume
-VOLUME ["/var/lib/unifi-video/videos"]
+VOLUME ["${DATADIR}/videos"]
 
 # RTMP, RTMPS & RTSP via the controller
 EXPOSE 1935/tcp 7444/tcp 7447/tcp
@@ -54,5 +53,7 @@ EXPOSE 7080/tcp 7443/tcp
 # Video over HTTP & HTTPS
 EXPOSE 7445/tcp 7446/tcp
 
-
+WORKDIR "${BASEDIR}"
+COPY run.sh /run.sh
+RUN chmod 755 /run.sh
 ENTRYPOINT ["/run.sh"]
