@@ -2,7 +2,7 @@
 FROM ubuntu:16.04
 LABEL maintainer "Martin Buchleitner <mabunixda@gmail.com>"
 
-ARG VERSION=5.10.19
+ARG VERSION=5.10.20-b06c46ec1d
 ENV DEBIAN_FRONTEND="noninteractive"
 RUN apt-get update -q \
 	&& apt-get install -y curl apt-transport-https gnupg2 dirmngr wget ca-certificates --no-install-recommends  \
@@ -15,8 +15,9 @@ RUN apt-get update -q \
 	jsvc \
 	mongodb-org-server \
 	openjdk-8-jre-headless \
-	--no-install-recommends \
-        && wget -O /tmp/unifi.deb https://dl.ubnt.com/unifi/${VERSION}/unifi_sysvinit_all.deb \
+	--no-install-recommends 
+
+RUN     wget -O /tmp/unifi.deb https://dl.ubnt.com/unifi/${VERSION}/unifi_sysvinit_all.deb \
         && dpkg -i /tmp/unifi.deb \
         && apt-get install -fy \
 	&& rm -rf /var/lib/apt/lists/* 
