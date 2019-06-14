@@ -1,4 +1,3 @@
-#FROM debian:stretch
 FROM ubuntu:16.04
 LABEL maintainer "Martin Buchleitner <mabunixda@gmail.com>"
 
@@ -26,5 +25,6 @@ EXPOSE 6789/tcp 8080/tcp 8443/tcp 8880/tcp 8843/tcp 27117/tcp
 EXPOSE 1900/udp 3478/udp 10001/udp 
 
 WORKDIR /usr/lib/unifi
+VOLUME /usr/lib/unifi/data
 
-ENTRYPOINT [ "/usr/bin/java", "-Djava.awt.headless=true", "-Dfile.encoding=UTF-8", "-Xmx256M", "-jar", "/usr/lib/unifi/lib/ace.jar", "start" ]
+ENTRYPOINT [ "/usr/bin/java", "-Dunifi.datadir=/usr//lib/unifi/data/", "-Djava.awt.headless=true", "-Dfile.encoding=UTF-8", "-Xmx1024M", "-jar", "/usr/lib/unifi/lib/ace.jar", "start" ]

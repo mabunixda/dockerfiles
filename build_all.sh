@@ -9,6 +9,9 @@ NO_CACHE="${NO_CACHE}"
 ERRORS="$(pwd)/errors"
 CURRENT_DATE=$(date +"%Y-%m-%d")
 
+if [ ! -z "$NO_CACHE" ]; then
+	NO_CACHE=" --no-cache "
+fi
 build_and_push(){
 	base=$1
 	suite=$2

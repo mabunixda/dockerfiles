@@ -2,6 +2,7 @@ FROM debian:stretch
 LABEL maintainer "Martin Buchleitner <mabunixda@gmail.com>"
 
 ENV DEBIAN_FRONTEND noninteractive
+ENV JVM_MAX_MEM 1024M
 
 RUN apt-get update -q \
 	&& apt-get install -y  apt-transport-https gnupg2 dirmngr --no-install-recommends  \
@@ -15,7 +16,7 @@ RUN apt-get update -q \
 
 EXPOSE 6789/tcp 8080/tcp 8443/tcp 8880/tcp 8843/tcp 27117/tcp
 EXPOSE 1900/udp 3478/udp 10001/udp 
-
 WORKDIR /usr/lib/unifi
-
-ENTRYPOINT [ "/usr/bin/java", "-Djava.awt.headless=true", "-Dfile.encoding=UTF-8", "-Xmx256M", "-jar", "/usr/lib/unifi/lib/ace.jar", "start" ]
+ADD run.sh /usr/local/bin/
+ENTRYPOINT [ "/usr/local/bin/run.sh" ]
+CMD ["start"]

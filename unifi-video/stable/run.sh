@@ -11,13 +11,12 @@ if [ ! -d "${DATADIR}/videos" ]; then
 	mkdir -p "${DATADIR}/videos"
 	mkdir -p "${DATADIR}/logs"
 fi
-ln -sf ${BASEDIR}/data ${DATADIR}
 
 echo "Starting using ${DATADIR}..."
 
 exec java  -cp /usr/lib/unifi-video/lib/airvision.jar  \
 	-Djava.security.egd=file:/dev/urandom \
-	-Xmx512M \
+	-Xmx1024M \
 	-XX:+HeapDumpOnOutOfMemoryError \
 	-XX:+UseG1GC \
 	-XX:+UseStringDeduplication \

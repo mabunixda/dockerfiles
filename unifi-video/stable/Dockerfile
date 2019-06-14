@@ -1,7 +1,7 @@
-FROM debian:buster
+FROM adoptopenjdk/openjdk8:slim
 LABEL maintainer "Martin Buchleitner <mabunixda@gmail.com>"
 
-ARG version=3.10.1
+ARG version=3.10.5
 ENV DEBIAN_FRONTEND noninteractive
 
 RUN apt-get update -q \
@@ -22,7 +22,7 @@ RUN apt-get update -q \
     moreutils \
     curl
 
-RUN curl -o /tmp/unifi-video.deb https://dl.ubnt.com/firmwares/unifi-video/v${version}/unifi-video.Debian7_amd64.v${version}.deb && \
+RUN curl -o /tmp/unifi-video.deb https://dl.ubnt.com/firmwares/ufv/v${version}/unifi-video.Debian9_amd64.v${version}.deb && \
   apt-get install -q -y psmisc lsb-release \
   && dpkg -i /tmp/unifi-video.deb && \
   rm -rf /tmp/* && \

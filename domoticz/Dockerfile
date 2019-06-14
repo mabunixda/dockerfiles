@@ -18,21 +18,23 @@ RUN apk add --no-cache git \
 	 zlib zlib-dev \
 	 udev eudev-dev \
 	 tzdata \
-	 linux-headers \
-     && git clone https://github.com/OpenZWave/open-zwave.git /src/open-zwave-read-only \
+	 linux-headers 
+
+RUN git clone https://github.com/OpenZWave/open-zwave.git /src/open-zwave-read-only \
      && cd /src/open-zwave-read-only \
      && LIBUSB_INCLUDE_DIR=/usr/include/libusb-1.0/ make  \
-     && make install  \
-     && git clone --branch $RELEASE --depth=2 https://github.com/domoticz/domoticz.git /src/domoticz \
+     && make install 
+
+RUN git clone https://github.com/domoticz/domoticz.git /src/domoticz \
      && cd /src/domoticz \
-     && git fetch --unshallow \
-     && CPPFLAGS="-Wall -pedantic -Werror" cmake -DCMAKE_BUILD_TYPE=Release . \
+     && git checkout master  \
+     && cmake -DCMAKE_BUILD_TYPE=Release CMakeLists.txt -DUSE_OPENSSL_STATIC="NO" \
      && make -j 4 \
      && make install \
      && rm -rf /src/domoticz \ 
-     && rm -rf /src/open-zwave-read-only \
-     && ln -s /config/images /opt/domoticz/www/images \
-     && apk del git \
+     && ln -s /config/images /opt/domoticz/www/images 
+
+RUN apk del git \
 		cmake \
 		python3-dev \
 		linux-headers \

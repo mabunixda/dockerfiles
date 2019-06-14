@@ -1,6 +1,6 @@
 FROM alpine:3.8
 
-RUN apk add --no-cache unbound
+RUN apk add --no-cache unbound drill bash
 
 EXPOSE 53/udp 53/tcp
 
