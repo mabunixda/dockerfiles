@@ -2,7 +2,7 @@ FROM alpine:3.6
 LABEL Maintainer "Martin Buchleitner <martin@nitram.at>"
 
 ENV TZ Europe/Vienna
-ENV RELEASE 4.9700
+ENV RELEASE 4.10717
 RUN apk add --no-cache git \
 	 python3 python3-dev \
 	 libssl1.0 libressl-dev \
