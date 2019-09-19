@@ -1,8 +1,11 @@
-image: debian:buster
+image: docker
 
 pipelines:
   default:
     - step:
         name: build dockerfiles
         script:
-          - ./build-changes.sh
+          - ./build_changes.sh
+
+options:
+  docker: true
