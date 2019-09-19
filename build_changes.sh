@@ -5,5 +5,7 @@ if [ -z "$CI" ]; then
 fi
 CHANGES=$(git diff-tree --no-commit-id --name-only -r $BITBUCKET_COMMIT | xargs dirname | sort | uniq)
 for d in $( $CHANGES  ); do
-  ./build_all.sh dofile "${d}/Dockerfile"
+  if [ -f "${d}/Dockerfile" ]; then
+    ./build_all.sh dofile "${d}/Dockerfile"
+  fi
 done
