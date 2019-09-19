@@ -1,7 +1,8 @@
 FROM ubuntu:16.04
 LABEL maintainer "Martin Buchleitner <mabunixda@gmail.com>"
 
-ARG VERSION=5.10.20-b06c46ec1d
+ARG VERSION=5.11.39-54b4ab1ed1
+
 ENV DEBIAN_FRONTEND="noninteractive"
 RUN apt-get update -q \
 	&& apt-get install -y curl apt-transport-https gnupg2 dirmngr wget ca-certificates --no-install-recommends  \

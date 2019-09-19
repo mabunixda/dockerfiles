@@ -1,19 +1,21 @@
 FROM golang as helper
 RUN go get -u github.com/GoogleCloudPlatform/docker-credential-gcr
 
-FROM java:8-jdk
+FROM openjdk:11-jdk-slim
 
 LABEL maintainer "Martin Buchleitner <mabunixda@gmail.com>"
 
+ENV DEBIAN_FRONTEND noninteractive
 ENV HOME /build
 
 RUN apt-get -yqq update \
-    && apt-get -yqq install apt-transport-https screen bash vim less \
+    && apt-get -yqq install apt-transport-https screen bash vim less wget gnupg2 \
     && echo "deb https://packages.atlassian.com/atlassian-sdk-deb stable contrib" >>/etc/apt/sources.list \
-    && wget https://packages.atlassian.com/api/gpg/key/public  \
-    && apt-key add public \
+    && wget -qO - https://packages.atlassian.com/api/gpg/key/public | apt-key add - \
     && apt-get -yqq update \
     && apt-get -yqq install atlassian-plugin-sdk nginx-full \
+    && apt-get clean \
+    && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* \
     && mkdir -p $HOME \
     && useradd --create-home --home-dir $HOME app \
     && chown -R app:app $HOME

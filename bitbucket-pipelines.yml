@@ -1,0 +1,7 @@
+image: debian:buster
+
+pipelines:
+  default:
+    - step:
+        name: build dockerfiles
+        script: ./build-changes.sh
