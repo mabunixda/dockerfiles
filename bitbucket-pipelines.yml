@@ -5,7 +5,7 @@ pipelines:
     - step:
         name: build dockerfiles
         script:
-          - $BUILD_DIR/build_changes.sh
+          - $BITBUCKET_CLONE_DIR/build_changes.sh
         services:
           - docker
 
