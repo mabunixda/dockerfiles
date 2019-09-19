@@ -1,6 +1,6 @@
 FROM alpine:3.10
 
-ENV FFMPEG_VERSION=4.2
+ENV FFMPEG_VERSION=4.2.1
 
 WORKDIR /tmp/ffmpeg
 
