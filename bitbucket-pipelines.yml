@@ -5,7 +5,9 @@ pipelines:
     - step:
         name: build dockerfiles
         script:
-          - ./build_changes.sh
+          - $BUILD_DIR/build_changes.sh
+        services:
+          - docker
 
 options:
   docker: true

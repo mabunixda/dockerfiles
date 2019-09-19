@@ -2,6 +2,7 @@ FROM alpine:3.10
 
 ENV FFMPEG_VERSION=4.2.1
 
+
 WORKDIR /tmp/ffmpeg
 
 RUN  apk add --no-cache --virtual .build-deps build-base curl tar bzip2 x264 openssl nasm \
