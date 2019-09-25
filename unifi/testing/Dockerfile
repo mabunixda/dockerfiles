@@ -3,6 +3,9 @@ LABEL maintainer "Martin Buchleitner <mabunixda@gmail.com>"
 
 ARG VERSION=5.11.46
 
+EXPOSE 6789/tcp 8080/tcp 8443/tcp 8880/tcp 8843/tcp 27117/tcp
+EXPOSE 1900/udp 3478/udp 10001/udp
+
 ENV DEBIAN_FRONTEND="noninteractive"
 RUN apt-get update -q \
 	&& apt-get install -y curl apt-transport-https gnupg2 dirmngr wget ca-certificates --no-install-recommends  \
@@ -21,9 +24,6 @@ RUN     wget -O /tmp/unifi.deb https://dl.ubnt.com/unifi/${VERSION}/unifi_sysvin
 	&& dpkg -i /tmp/unifi.deb \
 	&& apt-get install -fy \
 	&& rm -rf /var/lib/apt/lists/*
-
-EXPOSE 6789/tcp 8080/tcp 8443/tcp 8880/tcp 8843/tcp 27117/tcp
-EXPOSE 1900/udp 3478/udp 10001/udp
 
 WORKDIR /usr/lib/unifi
 VOLUME /usr/lib/unifi/data

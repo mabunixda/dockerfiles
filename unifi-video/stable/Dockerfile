@@ -30,7 +30,6 @@ RUN curl -o /tmp/unifi-video.deb https://dl.ubnt.com/firmwares/ufv/v${VERSION}/u
         rm -rf /var/lib/apt/lists/*
 
 ENV DATADIR "/var/lib/unifi-video"
-ENV BASEDIR "/usr/lib/unifi-video"
 
 # Configuration and database volume
 VOLUME ["${DATADIR}"]
@@ -53,7 +52,8 @@ EXPOSE 7080/tcp 7443/tcp
 # Video over HTTP & HTTPS
 EXPOSE 7445/tcp 7446/tcp
 
-WORKDIR "${BASEDIR}"
+WORKDIR "/usr/lib/unifi-video"
+
 COPY run.sh /run.sh
 RUN chmod 755 /run.sh
 ENTRYPOINT ["/run.sh"]
