@@ -1,11 +1,12 @@
-image: docker
+image: docker:18.09.9-git
 
 pipelines:
   default:
     - step:
         name: build dockerfiles
         script:
-          - ls $BITBUCKET_CLONE_DIR
+          - apk add --no-cache bash
+          - echo $(pwd)
           - $BITBUCKET_CLONE_DIR/build_changes.sh
         services:
           - docker
