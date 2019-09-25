@@ -2,13 +2,13 @@
 set -e
 set -o pipefail
 
+
 SCRIPT="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)/$(basename "${BASH_SOURCE[0]}")"
 REPO_URL="${REPO_URL:-mabunixda}"
 JOBS=${JOBS:-2}
 NO_CACHE="${NO_CACHE}"
 ERRORS="$(pwd)/errors"
-CURRENT_DATE=$(date +"%Y-%m-%d")
-
+version_check="([0-9]+\.)?([0-9]+\.)?(\*|[0-9]+)"
 if [ ! -z "$NO_CACHE" ]; then
 	NO_CACHE=" --no-cache "
 fi
@@ -27,26 +27,26 @@ build_and_push(){
 	echo "Successfully built ${base}:${suite} with context ${build_dir}"
 	echo "                       ---                                   "
 
-	# try push a few times because notary server sometimes returns 401 for
-	# absolutely no reason
-	n=0
-	until [ $n -ge 5 ]; do
-    		docker push ${REPO_URL}/${base}:${suite} && break
-		echo "Try #$n failed... sleeping for 15 seconds"
-		n=$[$n+1]
-		sleep 15
-	done
+  docker push ${REPO_URL}/${base}:${suite}
 
 	# also push the tag latest for "stable" tags
 	if [[ "$suite" == "stable" ]]; then
+		echo "                       ---                                   "
 		docker tag ${REPO_URL}/${base}:${suite} ${REPO_URL}/${base}:latest
 		docker push ${REPO_URL}/${base}:latest
+		echo "Successfully pushed ${base}:latest"
+		echo "                       ---                                   "
 	fi
 
-#	if [[ "$suite" == "stable" ]] || [[ "$suite" == "latest" ]]; then
-#		docker tag ${REPO_URL}/${base}:${suite} ${REPO_URL}/${base}:${CURRENT_DATE}
-#		docker push ${REPO_URL}/${base}:${CURRENT_DATE}
-#	fi
+	container_version=$(grep VERSION ${build_dir}/Dockerfile | awk -F'=' '{print $2}')
+	if [[ "$container_version" =~ $version_check ]]; then
+		echo "                       ---                                   "
+		echo "found version $container_version"
+		docker tag ${REPO_URL}/${base}:${suite} ${REPO_URL}/${base}:${container_version}
+		docker push ${REPO_URL}/${base}:${container_version}
+		echo "Successfully pushed ${base}:${container_version}"
+		echo "                       ---                                   "
+	fi
 
 }
 
@@ -95,7 +95,7 @@ main(){
 	unset IFS
 
 	# build all dockerfiles
-	if [ -e "/usr/bin/parallel" ]; then  
+	if [ -e "/usr/bin/parallel" ]; then
 		echo "Running in parallel with ${JOBS} jobs."
 		parallel --tag --verbose --ungroup -j"${JOBS}"     $SCRIPT dofile "{1}" ::: "${files[@]}"
 	else

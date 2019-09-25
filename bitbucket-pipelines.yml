@@ -6,7 +6,7 @@ pipelines:
         name: build dockerfiles
         script:
           - apk add --no-cache bash
-          - echo $(pwd)
+          - docker login -u "$DOCKER_USERNAME" -p "$DOCKER_PASSWORD"
           - $BITBUCKET_CLONE_DIR/build_changes.sh
         services:
           - docker
