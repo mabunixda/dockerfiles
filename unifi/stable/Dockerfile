@@ -1,7 +1,7 @@
 FROM ubuntu:16.04
 LABEL maintainer "Martin Buchleitner <mabunixda@gmail.com>"
 
-ARG VERSION=5.12.16
+ARG VERSION=5.12.19
 
 EXPOSE 6789/tcp 8080/tcp 8443/tcp 8880/tcp 8843/tcp 27117/tcp
 EXPOSE 1900/udp 3478/udp 10001/udp
