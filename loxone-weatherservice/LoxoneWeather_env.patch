@@ -1,0 +1,25 @@
+From f0ccff660a2722e7ceb71a6b5b38ee727286d308 Mon Sep 17 00:00:00 2001
+From: Martin Buchleitner <mabunixda@gmail.com>
+Date: Wed, 15 Apr 2020 15:36:36 +0200
+Subject: [PATCH] Fix os
+
+---
+ Code/LoxoneWeather.py | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/Code/LoxoneWeather.py b/Code/LoxoneWeather.py
+index 7c7ffed..7598fd0 100755
+--- a/Code/LoxoneWeather.py
++++ b/Code/LoxoneWeather.py
+@@ -20,7 +20,7 @@ import os
+ # Visit https://darksky.net to setup an account and use an evaluation account
+ # (1000 requests per day is more than enough for your server)
+ # The 'SECRET KEY' needs to be added:
+-DARKSKY_SECRET_KEY = '### SECRET KEY ###'
++DARKSKY_SECRET_KEY = os.environ["DARKSKY_SECRET_KEY"]
+
+ licenseExpiryDate = datetime.datetime(2049,12,31, 0, 0)
+ LOXONE_WEATHER_SERVICE_PORT = 6066
+--
+2.26.0
+
