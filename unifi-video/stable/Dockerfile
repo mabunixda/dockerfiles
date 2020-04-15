@@ -38,7 +38,7 @@ VOLUME ["${DATADIR}"]
 VOLUME ["${DATADIR}/videos"]
 
 # RTMP, RTMPS & RTSP via the controller
-EXPOSE 1935/tcp 7444/tcp 7447/tcp
+EXPOSE 7444/tcp 7447/tcp 1935/tcp
 
 # Inbound Camera Streams & Camera Management (NVR Side)
 EXPOSE 6666/tcp 7442/tcp
