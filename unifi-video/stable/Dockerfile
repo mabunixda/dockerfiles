@@ -1,7 +1,7 @@
 FROM adoptopenjdk/openjdk8:slim
 LABEL maintainer "Martin Buchleitner <mabunixda@gmail.com>"
 
-ARG VERSION=3.10.10
+ARG VERSION=3.10.12
 ENV DEBIAN_FRONTEND noninteractive
 
 RUN apt-get update -q \
