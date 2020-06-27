@@ -27,7 +27,7 @@ build_and_push(){
 	echo "Successfully built ${base}:${suite} with context ${build_dir}"
 	echo "                       ---                                   "
 
-  docker push ${REPO_URL}/${base}:${suite}
+  	docker push ${REPO_URL}/${base}:${suite}
 
 	# also push the tag latest for "stable" tags
 	if [[ "$suite" == "stable" ]]; then
@@ -36,8 +36,15 @@ build_and_push(){
 		docker push ${REPO_URL}/${base}:latest
 		echo "Successfully pushed ${base}:latest"
 		echo "                       ---                                   "
-	fi
-
+        fi
+        #if [ -n "$(docker inspect ${REPO_URL}/${base}:${suite} --format='{{.Config.ExposedPorts}}')" ]; then
+        #if [[ "$suite" == "latest" ]] || [[ "$suite" == "$stable" ]]; then
+        #        if command docker-slim
+        #        then
+        #           docker-slim build --tag ${REPO_URL}/${base}:${suite}slim ${REPO_URL}/${base} 
+        #        fi
+	#fi
+        #fi
 	container_version=$(grep VERSION ${build_dir}/Dockerfile | awk -F'=' '{print $2}')
 	if [[ "$container_version" =~ $version_check ]]; then
 		echo "                       ---                                   "

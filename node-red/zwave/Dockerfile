@@ -24,6 +24,9 @@ RUN git clone https://github.com/OpenZWave/open-zwave.git /src/open-zwave-read-o
   && make install \
   && apk del .build-deps
 
+# to add zwave Controller permissions
+RUN adduser -g dialout nodered
+
 COPY package.json /usr/src/node-red/
 RUN npm install
 USER node-red

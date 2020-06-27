@@ -1,4 +1,5 @@
-FROM nodered/node-red:latest-12-minimal
+FROM nodered/node-red
+EXPOSE 1880/tcp
 USER root
 
 COPY package.json /usr/src/node-red/
