@@ -3,7 +3,7 @@
 # Documentation: http://gatling.io/docs/2.2.2/
 # Cheat sheet: http://gatling.io/#/cheat-sheet/2.2.2
 
-FROM java:8-jdk
+FROM adoptopenjdk/openjdk8:slim
 
 LABEL  MAINTAINER "Martin Buchleitner <mabunixda@gmail.com>"
 
@@ -11,15 +11,15 @@ LABEL  MAINTAINER "Martin Buchleitner <mabunixda@gmail.com>"
 WORKDIR /opt
 
 # gating version
-ENV GATLING_VERSION 2.3.0
+ENV VERSION=3.3.1
 
  # install gatling
 RUN apt-get update -q \
   && apt-get -qy install curl bash unzip fontconfig \
   && curl -o /tmp/gatling.zip \
-        https://repo1.maven.org/maven2/io/gatling/highcharts/gatling-charts-highcharts-bundle/$GATLING_VERSION/gatling-charts-highcharts-bundle-$GATLING_VERSION-bundle.zip  \
+        https://repo1.maven.org/maven2/io/gatling/highcharts/gatling-charts-highcharts-bundle/$VERSION/gatling-charts-highcharts-bundle-$VERSION-bundle.zip  \
   && unzip /tmp/gatling.zip -d /tmp \
-  && mv /tmp/gatling-charts-highcharts-bundle-$GATLING_VERSION /opt/gatling \
+  && mv /tmp/gatling-charts-highcharts-bundle-$VERSION /opt/gatling \
   && rm -rf /tmp/gatling.zip
 
 # change context to gatling directory
