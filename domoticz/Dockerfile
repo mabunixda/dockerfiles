@@ -1,11 +1,11 @@
-FROM alpine:3.6
+FROM alpine:3.12
 LABEL Maintainer "Martin Buchleitner <martin@nitram.at>"
 
 ENV TZ Europe/Vienna
-ENV RELEASE 4.10717
+ENV RELEASE 2020.2
 RUN apk add --no-cache git \
 	 python3 python3-dev \
-	 libssl1.0 libressl-dev \
+	 libssl1.1 libressl-dev \
 	 build-base cmake \
 	 boost-dev \
 	 boost-thread \
@@ -18,12 +18,12 @@ RUN apk add --no-cache git \
 	 zlib zlib-dev \
 	 udev eudev-dev \
 	 tzdata \
-	 linux-headers 
+	 linux-headers
 
 RUN git clone https://github.com/OpenZWave/open-zwave.git /src/open-zwave-read-only \
      && cd /src/open-zwave-read-only \
      && LIBUSB_INCLUDE_DIR=/usr/include/libusb-1.0/ make  \
-     && make install 
+     && make install
 
 RUN git clone https://github.com/domoticz/domoticz.git /src/domoticz \
      && cd /src/domoticz \
@@ -31,8 +31,8 @@ RUN git clone https://github.com/domoticz/domoticz.git /src/domoticz \
      && cmake -DCMAKE_BUILD_TYPE=Release CMakeLists.txt -DUSE_OPENSSL_STATIC="NO" \
      && make -j 4 \
      && make install \
-     && rm -rf /src/domoticz \ 
-     && ln -s /config/images /opt/domoticz/www/images 
+     && rm -rf /src/domoticz \
+     && ln -s /config/images /opt/domoticz/www/images
 
 RUN apk del git \
 		cmake \

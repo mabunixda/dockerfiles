@@ -1,4 +1,4 @@
-FROM debian:stretch
+FROM debian:buster
 LABEL maintainer "Martin Buchleitner <mabunixda@gmail.com>"
 
 ENV VERSION=2.3.9

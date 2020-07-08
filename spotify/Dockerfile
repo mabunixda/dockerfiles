@@ -1,22 +1,16 @@
 
-FROM debian:stretch
+FROM debian:buster
 LABEL maintainer "Martin Buchleitner <mabunixda@gmail.com>"
 
 RUN	apt-get update && apt-get install -y \
 	dirmngr \
 	gnupg \
-	--no-install-recommends \
-	&& apt-key adv --keyserver keyserver.ubuntu.com --recv-keys 0DF731E45CE24F27EEEB1450EFDC8610341D9410 \
+        curl \
+        && curl -sS https://download.spotify.com/debian/pubkey.gpg | apt-key add -  \
 	&& echo "deb http://repository.spotify.com stable non-free" >> /etc/apt/sources.list.d/spotify.list \
-	&& echo "deb http://ftp.de.debian.org/debian jessie main " >> /etc/apt/sources.list.d/workaround.list \
 	&& apt-get update && apt-get install -y \
 	alsa-utils \
-	libgl1-mesa-dri \
-	libgl1-mesa-glx \
 	libpangoxft-1.0-0 \
-	libssl1.0.0 \
-	libssl1.0.2 \
-	libxss1 \
 	spotify-client \
 	xdg-utils \
 	--no-install-recommends \

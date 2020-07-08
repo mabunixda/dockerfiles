@@ -1,4 +1,4 @@
-FROM ubuntu:17.10
+FROM ubuntu:18.04
 
 ARG UID=1000
 ARG GID=1000
@@ -21,8 +21,8 @@ RUN apt-get update \
     && xdg-mime default wfica.desktop application/x-ica
 
 RUN useradd --create-home --home-dir $HOME --uid $UID  app \
-	&& chown -R app: ${HOME} 
-    
+	&& chown -R app: ${HOME}
+
 USER app
 WORKDIR ${HOME}
 CMD /usr/bin/firefox -no-remote

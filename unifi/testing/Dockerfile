@@ -1,8 +1,8 @@
 FROM ubuntu:16.04
 LABEL maintainer "Martin Buchleitner <mabunixda@gmail.com>"
 
-ARG VERSION=5.13.27
-ARG VERSION_HASH="-732a2fc288"
+ARG VERSION=6.0.3
+ARG VERSION_HASH=37a799e61e7b9c1f0d92
 
 EXPOSE 6789/tcp 8080/tcp 8443/tcp 8880/tcp 8843/tcp 27117/tcp
 EXPOSE 1900/udp 3478/udp 10001/udp
@@ -12,9 +12,8 @@ ENV BASEDIR=/usr/lib/unifi
 
 RUN apt-get update -q \
 	&& apt-get install -y curl apt-transport-https gnupg2 dirmngr wget ca-certificates --no-install-recommends  \
-	&& apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv 0C49F3730359A14518585931BC711F9BA15703C6 \
-	&& apt-key adv --keyserver keyserver.ubuntu.com --recv 06E85760C0A52C50  \
-	&& echo "deb [ arch=amd64,arm64 ] http://repo.mongodb.org/apt/ubuntu xenial/mongodb-org/3.4 multiverse" > /etc/apt/sources.list.d/mongodb-org-3.4.list \
+        && wget -qO - https://www.mongodb.org/static/pgp/server-3.6.asc | apt-key add - \
+	&& echo "deb [ arch=amd64 ] http://repo.mongodb.org/apt/ubuntu xenial/mongodb-org/3.6 multiverse" > /etc/apt/sources.list.d/mongodb-org-3.6.list \
 	&& apt-get update -q \
 	&& apt-get install -y \
 	binutils \
@@ -24,7 +23,7 @@ RUN apt-get update -q \
 	openjdk-8-jre-headless \
 	--no-install-recommends
 
-RUN     wget -O /tmp/unifi.deb https://dl.ubnt.com/unifi/${VERSION}${VERSION_HASH}/unifi_sysvinit_all.deb \
+RUN     wget -O /tmp/unifi.deb https://dl.ubnt.com/unifi/${VERSION}-${VERSION_HASH}/unifi_sysvinit_all.deb \
 	&& dpkg -i /tmp/unifi.deb \
 	&& apt-get install -fy \
 	&& rm -rf /var/lib/apt/lists/*

@@ -1,5 +1,5 @@
-FROM java:openjdk-8-jre
-ARG SMARTGIT_VER=18.1.4
+FROM adoptopenjdk/openjdk8:slim
+ARG SMARTGIT_VER=20.1.3
 
 RUN apt-get update \
     && apt-get install -y curl \

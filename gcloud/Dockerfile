@@ -1,5 +1,5 @@
 
-FROM python:2-alpine
+FROM python:3-alpine
 LABEL maintainer "Martin Buchleitner <mabunixda@gmail.com>"
 RUN set -x \
 	&& apk add --no-cache --virtual .build-deps \

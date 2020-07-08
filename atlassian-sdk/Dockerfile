@@ -1,7 +1,7 @@
 FROM golang as helper
 RUN go get -u github.com/GoogleCloudPlatform/docker-credential-gcr
 
-FROM openjdk:11-jdk-slim
+FROM adoptopenjdk/openjdk8:slim
 
 LABEL maintainer "Martin Buchleitner <mabunixda@gmail.com>"
 

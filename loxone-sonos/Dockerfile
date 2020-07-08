@@ -8,7 +8,7 @@
 #           r.nitram.at/loxone-sonos
 #
 
-FROM alpine:edge
+FROM alpine:3.12
 
 LABEL maintainer="Martin Buchleitner <mabunixda@gmail.com>"
 

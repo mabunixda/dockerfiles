@@ -1,4 +1,7 @@
-FROM ubuntu:19.10
+FROM ubuntu:20.04
+
+ENV DEBIAN_FRONTEND="noninteractive"
+ENV TZ=Europe/Vienna
 
 RUN apt-get -qq update \
   && apt-get -yqq install sudo \
