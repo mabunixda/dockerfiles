@@ -1,10 +1,10 @@
 FROM nodered/node-red:latest-12-minimal
 USER root
 
-RUN apk add --no-cache --virtual .build-deps  git \
-  python3 python3-dev \
+RUN apk add --no-cache python3 python3-dev build-base
+RUN apk add --no-cache --virtual .build-deps \
   libressl-dev \
-  build-base cmake \
+  cmake \
   boost-dev \
   boost-thread \
   boost-system \
@@ -25,8 +25,9 @@ RUN git clone https://github.com/OpenZWave/open-zwave.git /src/open-zwave-read-o
   && apk del .build-deps
 
 # to add zwave Controller permissions
-RUN adduser -g dialout nodered
+RUN adduser node-red dialout
 
-COPY package.json /usr/src/node-red/
-RUN npm install
+COPY package.json /usr/src/node-red/package-patch.json
+RUN awk -F':' '{system("npm install "$1)}' package-patch.json \
+  rm /usr/src/node-red/package-patch.json
 USER node-red

@@ -1,7 +1,8 @@
 FROM ubuntu:16.04
 LABEL maintainer "Martin Buchleitner <mabunixda@gmail.com>"
 
-ARG VERSION=5.12.16
+ARG VERSION=5.13.27
+ARG VERSION_HASH="-732a2fc288"
 
 EXPOSE 6789/tcp 8080/tcp 8443/tcp 8880/tcp 8843/tcp 27117/tcp
 EXPOSE 1900/udp 3478/udp 10001/udp
@@ -18,11 +19,12 @@ RUN apt-get update -q \
 	&& apt-get install -y \
 	binutils \
 	jsvc \
+        logrotate \
 	mongodb-org-server \
 	openjdk-8-jre-headless \
 	--no-install-recommends
 
-RUN     wget -O /tmp/unifi.deb https://dl.ubnt.com/unifi/${VERSION}/unifi_sysvinit_all.deb \
+RUN     wget -O /tmp/unifi.deb https://dl.ubnt.com/unifi/${VERSION}${VERSION_HASH}/unifi_sysvinit_all.deb \
 	&& dpkg -i /tmp/unifi.deb \
 	&& apt-get install -fy \
 	&& rm -rf /var/lib/apt/lists/*

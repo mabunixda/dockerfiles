@@ -1,6 +1,6 @@
 FROM alpine:3.10
 
-ARG FFMPEG_VERSION=4.2.1
+ARG FFMPEG_VERSION=4.2.3
 
 WORKDIR /tmp/ffmpeg
 
@@ -15,7 +15,8 @@ RUN  apk add --no-cache --virtual .build-deps build-base curl tar bzip2 x264 ope
   && curl -s http://ffmpeg.org/releases/ffmpeg-${FFMPEG_VERSION}.tar.gz | tar zxf - -C . \
   && cd ffmpeg-${FFMPEG_VERSION} \
   && ./configure \
-  --enable-version3 --enable-gpl \
+  --enable-version3 \
+  --enable-gpl \
   --enable-nonfree \
   --enable-small \
   --enable-libmp3lame \
@@ -29,9 +30,9 @@ RUN  apk add --no-cache --virtual .build-deps build-base curl tar bzip2 x264 ope
   --enable-librtmp --enable-postproc --enable-avresample \
   --enable-libfreetype --enable-openssl --disable-debug \
   && make \
-  &&make install \
+  && make install \
   && make distclean \
   && rm -rf ${DIR}  \
-  apk del .build-deps
+  && apk del .build-deps
 
 ENTRYPOINT ["ffserver"]
