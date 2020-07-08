@@ -1,4 +1,0 @@
-https://github.com/mmone/OctoPrintKlipper/archive/master.zip
-https://github.com/jneilliii/OctoPrint-BedLevelingWizard/archive/master.zip
-https://github.com/fabianonline/OctoPrint-Telegram/archive/stable.zip
-https://github.com/eyal0/OctoPrint-PrintTimeGenius/archive/master.zip
