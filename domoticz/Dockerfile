@@ -55,6 +55,7 @@ RUN rm -rf /src/* \
 
 VOLUME /config /opt/domoticz/scripts
 
+EXPOSE 443
 EXPOSE 8080
 
-ENTRYPOINT ["/opt/domoticz/domoticz", "-dbase", "/config/domoticz.db", "-www", "8080", "-webroot", "zwave"]
+ENTRYPOINT ["/opt/domoticz/domoticz", "-dbase", "/config/domoticz.db"]
