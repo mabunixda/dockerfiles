@@ -1,52 +1,57 @@
-FROM alpine:3.12
+FROM debian:buster
+
 LABEL Maintainer "Martin Buchleitner <martin@nitram.at>"
 
 ENV TZ Europe/Vienna
-ENV RELEASE 2020.2
-RUN apk add --no-cache git \
-	 python3 python3-dev \
-	 libssl1.1 libressl-dev \
-	 build-base cmake \
-	 boost-dev \
-	 boost-thread \
-	 boost-system \
-	 boost-date_time \
-	 sqlite sqlite-dev \
-	 curl libcurl curl-dev \
-	 libusb libusb-dev libusb-compat-dev \
-	 coreutils \
-	 zlib zlib-dev \
-	 udev eudev-dev \
-	 tzdata \
-	 linux-headers
+ENV VERSION=2020.2
+ENV CMAKE_VERSION=v3.17.0
+
+RUN apt-get update -qq \
+	&& apt-get install -y curl \
+		make \
+		gcc \
+		g++ \
+		libssl-dev \
+		git \
+		libcurl4-gnutls-dev \
+		libusb-dev \
+		python3-dev \
+		zlib1g-dev \
+		libcereal-dev \
+		liblua5.3-dev \
+		uthash-dev \
+		libmosquitto-dev
+
+RUN git clone https://github.com/Kitware/CMake /src/cmake \
+	&& cd /src/cmake \
+	&& git checkout -b "${CMAKE_VERSION}" "tags/${CMAKE_VERSION}" \
+	&& ./bootstrap \
+	&& make \
+	&& make install
 
 RUN git clone https://github.com/OpenZWave/open-zwave.git /src/open-zwave-read-only \
      && cd /src/open-zwave-read-only \
      && LIBUSB_INCLUDE_DIR=/usr/include/libusb-1.0/ make  \
      && make install
 
-RUN git clone https://github.com/domoticz/domoticz.git /src/domoticz \
-     && cd /src/domoticz \
-     && git checkout master  \
-     && cmake -DCMAKE_BUILD_TYPE=Release CMakeLists.txt -DUSE_OPENSSL_STATIC="NO" \
-     && make -j 4 \
-     && make install \
-     && rm -rf /src/domoticz \
-     && ln -s /config/images /opt/domoticz/www/images
+RUN curl -L -o /src/boost_1_72_0.tar.gz https://dl.bintray.com/boostorg/release/1.72.0/source/boost_1_72_0.tar.gz \
+	&& tar -xz -C /src/ -f /src/boost_1_72_0.tar.gz \
+	&& cd /src/boost_1_72_0/ \
+	&& ./bootstrap.sh \
+	&& ./b2 stage threading=multi link=static --with-thread --with-system \
+	&& ./b2 install threading=multi link=static --with-thread --with-system
 
-RUN apk del git \
-		cmake \
-		python3-dev \
-		linux-headers \
-		libusb-dev \
-		zlib-dev \
-		libressl-dev \
-		boost-dev \
-		sqlite-dev \
-		build-base \
-		eudev-dev \
-		coreutils \
-		curl-dev
+
+RUN git clone https://github.com/domoticz/domoticz /src/domoticz \
+    && cd /src/domoticz \
+    && git checkout -b "$VERSION" "tags/$VERSION" \
+	&& cmake -DCMAKE_BUILD_TYPE=Release -DUSE_BUILTIN_MQTT=NO CMakeLists.txt \
+    && make \
+    && make install
+
+RUN rm -rf /src/* \
+	&& mkdir -p /config/images \
+    && ln -s /config/images /opt/domoticz/www/images
 
 VOLUME /config /opt/domoticz/scripts
 
