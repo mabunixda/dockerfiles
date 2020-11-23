@@ -1,3 +1,3 @@
 [submodule "pia-openvpn"]
 	path = pia-openvpn
-	url = ./pia-openvpn
+	url = https://github.com/mabunixda/pia-openvpn
