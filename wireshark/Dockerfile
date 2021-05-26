@@ -1,4 +1,4 @@
-FROM ubuntu:20.04
+FROM ubuntu:20.10
 LABEL maintainer "Martin Buchleitner <mabunixda@gmail.com>"
 
 ENV DEBIAN_FRONTEND=noninteractive
