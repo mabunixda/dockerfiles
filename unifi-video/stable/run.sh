@@ -1,5 +1,7 @@
 #!/bin/bash
 
+RUNUSER=${RUNUSER:-unifi-video}
+RUNGROUP=${RUNGROUP:-unifi-video}
 DATADIR=${DATADIR:-/var/lib/unifi-video}
 BASEDIR="/usr/lib/unifi-video"
 JVM_MAX_MEM=${JVM_MAX_MEM:-512m}
@@ -71,4 +73,4 @@ trap 'kill ${!}; exit_handler' SIGHUP SIGINT SIGQUIT SIGTERM
 
 echo "Starting using ${DATADIR}..."
 
-exec java  -cp ${JVM_JAR} ${JVM_OPTS} ${MAINCLASS} $@
+exec runuser -p -u "$RUNUSER" -g "$RUNGROUP" -- java  -cp ${JVM_JAR} ${JVM_OPTS} ${MAINCLASS} $@

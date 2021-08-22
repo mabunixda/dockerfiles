@@ -1,4 +1,4 @@
 "node-red-contrib-loxone": "*"
-"node-red-contrib-alexa-home": "0.3.4"
+"node-red-contrib-alexa-home": "*"
 "node-red-contrib-samsung-tv": "*"
 "node-red-contrib-alexa-remote2": "*"

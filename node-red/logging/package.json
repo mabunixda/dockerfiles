@@ -5,3 +5,4 @@
 "node-red-contrib-loxone": "*"
 "node-red-contrib-influxdb": "*"
 "node-red-contrib-fronius-solar": "*"
+

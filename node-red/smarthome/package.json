@@ -8,3 +8,5 @@
 "node-red-contrib-telegrambot": "*"
 "node-red-contrib-nuki": "*"
 "node-red-contrib-mikrotik2": "*"
+"node-red-contrib-advanced-ping": "*"
+"node-red-contrib-bt-presence": "*"

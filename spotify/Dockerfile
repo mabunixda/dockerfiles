@@ -2,12 +2,10 @@
 FROM debian:buster
 LABEL maintainer "Martin Buchleitner <mabunixda@gmail.com>"
 
-RUN	apt-get update && apt-get install -y \
-	dirmngr \
-	gnupg \
-        curl \
-        && curl -sS https://download.spotify.com/debian/pubkey.gpg | apt-key add -  \
-	&& echo "deb http://repository.spotify.com stable non-free" >> /etc/apt/sources.list.d/spotify.list \
+RUN	apt-get update \
+	&& apt-get install -y dirmngr gnupg curl \
+	&& curl -sS https://download.spotify.com/debian/pubkey_0D811D58.gpg | apt-key add - \
+	&& echo "deb http://repository.spotify.com stable non-free" | tee /etc/apt/sources.list.d/spotify.list \
 	&& apt-get update && apt-get install -y \
 	alsa-utils \
 	libpangoxft-1.0-0 \
