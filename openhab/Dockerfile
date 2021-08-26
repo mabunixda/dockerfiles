@@ -1,6 +1,5 @@
-FROM openhab/openhab:2.3.0-amd64-debian
+FROM docker.io/openhab/openhab:latest-debian
 
-RUN cd /tmp \
-    && wget https://cdn.azul.com/zcek/bin/ZuluJCEPolicies.zip \
-    && unzip -jo -d ${JAVA_HOME}/jre/lib/security /tmp/ZuluJCEPolicies.zip \
-    && rm /tmp/ZuluJCEPolicies.zip
+RUN wget -nv -O /tmp/ZuluJCEPolicies.zip http://cdn.azul.com/zcek/bin/ZuluJCEPolicies.zip \
+    && unzip -j -o -d ${JAVA_HOME}/lib/security /tmp/ZuluJCEPolicies.zip \
+    && rm -f /tmp/ZuluJCEPolicies.zip

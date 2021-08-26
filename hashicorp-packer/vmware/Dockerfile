@@ -1,5 +1,5 @@
 
-FROM mabunixda/hashicorp-packer
+FROM docker.io/mabunixda/hashicorp-packer
 
 
 ENV GOVC_VERSION 0.21.0

@@ -3,7 +3,7 @@
 # Documentation: http://gatling.io/docs/2.2.2/
 # Cheat sheet: http://gatling.io/#/cheat-sheet/2.2.2
 
-FROM adoptopenjdk/openjdk8:slim
+FROM docker.io/adoptopenjdk/openjdk8:slim
 
 LABEL  MAINTAINER "Martin Buchleitner <mabunixda@gmail.com>"
 

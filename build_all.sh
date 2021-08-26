@@ -5,10 +5,10 @@ set -o pipefail
 export DOCKER_BUILDKIT=1
 
 SCRIPT="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)/$(basename "${BASH_SOURCE[0]}")"
-REPO_URL="${REPO_URL:-mabunixda}"
+REPO_URL="${REPO_URL:-docker.io/mabunixda}"
 JOBS=${JOBS:-2}
-NO_CACHE="${NO_CACHE}"
 ERRORS="$(pwd)/errors"
+BUiLD_ARGS=${BULD_ARGS:- --layers}
 version_check="([0-9]+\.)?([0-9]+\.)?(\*|[0-9]+)"
 if [ ! -z "$NO_CACHE" ]; then
     NO_CACHE=" --no-cache "
@@ -24,20 +24,20 @@ build_and_push(){
     fi
 
     echo "Building ${REPO_URL}/${base}:${suite} for context ${build_dir}"
-    docker build --progress=plain --rm --force-rm --pull ${NO_CACHE} -t ${REPO_URL}/${base}:${suite} ${build_dir} || return 1
+    buildah bud --pull $BUiLD_ARGS -t ${REPO_URL}/${base}:${suite} ${build_dir} || return 1
 
     # on successful build, push the image
     echo "                       ---                                   "
     echo "Successfully built ${base}:${suite} with context ${build_dir}"
     echo "                       ---                                   "
 
-    docker push ${REPO_URL}/${base}:${suite}
+    buildah push ${REPO_URL}/${base}:${suite}
 
     # also push the tag latest for "stable" tags
     if [[ "$suite" == "stable" ]]; then
         echo "                       ---                                   "
-        docker tag ${REPO_URL}/${base}:${suite} ${REPO_URL}/${base}:latest
-        docker push ${REPO_URL}/${base}:latest
+        buildah tag ${REPO_URL}/${base}:${suite} ${REPO_URL}/${base}:latest
+        buildah push ${REPO_URL}/${base}:latest
         echo "Successfully pushed ${base}:latest"
         echo "                       ---                                   "
     fi
@@ -46,8 +46,8 @@ build_and_push(){
         container_version=$(grep " VERSION=" "${build_dir}/Dockerfile" | awk -F'=' '{print $2}')
         echo "                       ---                                   "
         echo "found version $container_version"
-        docker tag ${REPO_URL}/${base}:${suite} ${REPO_URL}/${base}:${container_version}
-        docker push ${REPO_URL}/${base}:${container_version}
+        buildah tag ${REPO_URL}/${base}:${suite} ${REPO_URL}/${base}:${container_version}
+        buildah push ${REPO_URL}/${base}:${container_version}
         echo "Successfully pushed ${base}:${container_version}"
         echo "                       ---                                   "
     fi
@@ -63,7 +63,7 @@ prefetch() {
         parallel --tag --verbose --ungroup -j"${JOBS}" docker pull "{1}" ::: "${IMAGES[@]}"
     else
         for d in ${IMAGES}; do
-            docker pull $d;
+            $(build_cmd) pull $d;
         done
     fi
     echo "  prefetch done"

@@ -1,4 +1,4 @@
-FROM python:3-alpine
+FROM docker.io/python:3-alpine
 
 ENV UPSTREAM_DNS="127.0.0.1"
 ENV LISTEN_ADDRESS="127.0.0.1"

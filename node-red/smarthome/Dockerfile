@@ -1,4 +1,4 @@
-FROM nodered/node-red:latest-14-minimal
+FROM docker.io/nodered/node-red:latest-14-minimal
 EXPOSE 1880/tcp
 USER root
 RUN apk add --no-cache git bluez

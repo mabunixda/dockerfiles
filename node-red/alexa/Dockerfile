@@ -1,4 +1,4 @@
-FROM nodered/node-red:latest-14-minimal
+FROM docker.io/nodered/node-red:latest-14-minimal
 
 USER root
 COPY package.json /usr/src/node-red/package-patch.json

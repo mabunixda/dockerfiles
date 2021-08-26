@@ -1,4 +1,4 @@
-FROM adoptopenjdk/openjdk8:slim
+FROM docker.io/adoptopenjdk/openjdk8:slim
 
 ARG VERSION=1.3.9
 

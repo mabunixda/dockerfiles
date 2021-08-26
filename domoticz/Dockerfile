@@ -3,7 +3,7 @@ FROM debian:buster
 LABEL Maintainer "Martin Buchleitner <martin@nitram.at>"
 
 ENV TZ Europe/Vienna
-ENV VERSION=2020.2
+ENV VERSION=2021.1
 ENV CMAKE_VERSION=v3.17.0
 
 RUN apt-get update -qq \
@@ -34,7 +34,7 @@ RUN git clone https://github.com/OpenZWave/open-zwave.git /src/open-zwave-read-o
      && LIBUSB_INCLUDE_DIR=/usr/include/libusb-1.0/ make  \
      && make install
 
-RUN curl -L -o /src/boost_1_72_0.tar.gz https://dl.bintray.com/boostorg/release/1.72.0/source/boost_1_72_0.tar.gz \
+RUN curl -L -o "/src/boost_1_72_0.tar.gz" "https://boostorg.jfrog.io/artifactory/main/release/1.72.0/source/boost_1_72_0.tar.gz" \
 	&& tar -xz -C /src/ -f /src/boost_1_72_0.tar.gz \
 	&& cd /src/boost_1_72_0/ \
 	&& ./bootstrap.sh \

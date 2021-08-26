@@ -1,4 +1,4 @@
-FROM adoptopenjdk/openjdk8:slim
+FROM docker.io/adoptopenjdk/openjdk8:slim
 ARG SMARTGIT_VER=20.1.3
 
 RUN apt-get update \

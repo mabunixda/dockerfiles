@@ -1,4 +1,4 @@
-FROM python:2-alpine
+FROM docker.io/python:2-alpine
 
 ADD *.patch /
 
