@@ -1,4 +1,4 @@
-FROM alpine:3.12
+FROM alpine:latest
 LABEL maintainer "Martin Buchleitner <mabunixda@gmail.com>"
 
 EXPOSE 1080
