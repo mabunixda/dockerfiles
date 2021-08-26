@@ -1,4 +1,4 @@
-FROM alpine:3.12
+FROM alpine:latest
 
 ARG FFMPEG_VERSION=4.2.3
 
