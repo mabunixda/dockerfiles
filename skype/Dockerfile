@@ -1,4 +1,4 @@
-FROM debian:bullseye-slim
+FROM debian:11-slim
 
 # Tell debconf to run in non-interactive mode
 ENV DEBIAN_FRONTEND noninteractive

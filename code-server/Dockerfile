@@ -1,13 +1,14 @@
 FROM debian:11
+ARG VERSION=3.12.0
 
 RUN apt-get update \
     && apt-get install -y curl dumb-init openssh-client sudo procps
 
 RUN curl -L https://raw.githubusercontent.com/warrensbox/terraform-switcher/release/install.sh | bash
-              
-RUN curl -fOL https://github.com/cdr/code-server/releases/download/v3.11.1/code-server_3.11.1_amd64.deb \
-    && dpkg -i code-server_3.11.1_amd64.deb \
-    && rm code-server_3.11.1_amd64.deb \
+
+RUN curl -fOL https://github.com/cdr/code-server/releases/download/v${VERSION}/code-server_${VERSION}_amd64.deb \
+    && dpkg -i code-server_${VERSION}_amd64.deb \
+    && rm code-server_${VERSION}_amd64.deb \
     && adduser --gecos '' --disabled-password coder \
     && echo "coder ALL=(ALL) NOPASSWD:ALL" >> /etc/sudoers.d/nopasswd \
     && rm -rf /var/lib/apt/lists/*
@@ -19,7 +20,7 @@ RUN curl -fsSL "https://github.com/boxboat/fixuid/releases/download/v0.5.1/fixui
     && printf "user: coder\ngroup: coder\n" > /etc/fixuid/config.yml
 
 RUN apt-get update \
-    && apt-get install -y python3 python3-pip podman make zsh git gnupg2 tmux \
+    && apt-get install -y python3 python3-pip podman make zsh git gnupg2 tmux unzip \
     && apt-get clean -y \
     && rm -rf /var/lib/apt/lists/*
 

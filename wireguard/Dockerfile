@@ -8,7 +8,7 @@
 # 	-v /usr/src:/usr/src:ro \
 # 	r.j3ss.co/wireguard
 #
-FROM debian:bullseye-slim
+FROM debian:11-slim
 LABEL maintainer "Martin Buchleitner <mabunixda@gmail.com>"
 
 RUN echo "deb http://deb.debian.org/debian/ unstable main" > /etc/apt/sources.list.d/unstable-wireguard.list \
