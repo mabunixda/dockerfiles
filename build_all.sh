@@ -4,9 +4,11 @@ set -o pipefail
 
 DOCKER_BUILDKIT=${DOCKER_BUILDKIT:-1}
 export DOCKER_BUILDKIT
-
-BRANCH_NAME=$(git rev-parse --abbrev-ref HEAD)
-echo "Working on $BRANCH_NAME $GIT_BRANCH"
+BRANCH_NAME="$GIT_BRANCH"
+if [ -n "$BRANCH_NAME" ]; then
+    BRANCH_NAME=$(git rev-parse --abbrev-ref HEAD)
+fi
+echo "Working on $BRANCH_NAME.."
 SCRIPT="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)/$(basename "${BASH_SOURCE[0]}")"
 REPO_URL="${REPO_URL:-docker.io/mabunixda}"
 JOBS=${JOBS:-2}
