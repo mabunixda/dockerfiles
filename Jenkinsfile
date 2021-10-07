@@ -41,6 +41,7 @@ pipeline {
   stages {
 
     stage('analyze') {
+        steps {
         stage("fullbuild") {
             when {
                 equals expected: true, actual: params.fullBuild
@@ -74,6 +75,7 @@ pipeline {
                     buildTargets = file.readLines()
                 }
             }
+        }
         }
     }
     stage('prepare') {
