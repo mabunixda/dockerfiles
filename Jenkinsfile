@@ -12,11 +12,9 @@ pipeline {
     stage('prepare') {
             steps {
 
-            sh '''
-            echo "$(find . -iname '*Dockerfile' | sed 's|./||' | sort) )" > targets
-            '''
-            }
-
+                sh '''
+                echo "$(find . -iname '*Dockerfile' | sed 's|./||' | sort) )" > targets
+                '''
                 script {
                     def file = readFile('targets')
                     buildTargets = file.readLines()
