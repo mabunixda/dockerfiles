@@ -41,39 +41,27 @@ pipeline {
   stages {
 
     stage("analyze") {
-        failFast false
-        parallel {
-            stage("fullbuild") {
-                steps {
-                    sh '''
-                    echo "$(find . -iname '*Dockerfile' | sed 's|./||' | sort) )" > targets
-                    '''
-                }
-            }
-            stage("incremental") {
-                steps {
-                    sh '''
-                    COMMIT_ID=$(git rev-parse HEAD)
-                    for d in $(for f in $(git diff-tree --no-commit-id --name-only -r $COMMIT_ID); do echo $(dirname $f); done | sort | uniq ); do
-                        if [ -f "$d/Dockerfile" ]; then
-                            echo  "$d/Dockerfile" >> inctargets
-                        fi
-                    done
-                    '''
-                }
-            }
-        }
+        steps {
+            sh '''
+            echo "$(find . -iname '*Dockerfile' | sed 's|./||' | sort) )" > targets
+            '''
 
-        stage("generate_build_targets") {
-            steps {
-                script {
-                    filename = "inctargets"
-                    if( param.fullBuild) {
-                        filename = "targets"
-                    }
-                    def file = readFile(filename)
-                    buildTargets = file.readLines()
+            sh '''
+            COMMIT_ID=$(git rev-parse HEAD)
+            for d in $(for f in $(git diff-tree --no-commit-id --name-only -r $COMMIT_ID); do echo $(dirname $f); done | sort | uniq ); do
+                if [ -f "$d/Dockerfile" ]; then
+                    echo  "$d/Dockerfile" >> inctargets
+                fi
+            done
+            '''
+
+            script {
+                filename = "inctargets"
+                if( param.fullBuild) {
+                    filename = "targets"
                 }
+                def file = readFile(filename)
+                buildTargets = file.readLines()
             }
         }
     }
