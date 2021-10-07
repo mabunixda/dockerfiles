@@ -2,7 +2,9 @@ FROM debian:11
 ARG VERSION=3.12.0
 
 RUN apt-get update \
-    && apt-get install -y curl dumb-init openssh-client sudo procps python3 python3-pip podman make zsh git gnupg2 tmux unzip
+    && apt-get install -y curl dumb-init openssh-client sudo procps \
+                          python3 python3-pip podman make zsh git gnupg2 tmux unzip \
+                          apt-transport-https ca-certificates lsb-release
 
 RUN curl -L https://raw.githubusercontent.com/warrensbox/terraform-switcher/release/install.sh | bash
 
@@ -18,13 +20,6 @@ RUN curl -fsSL "https://github.com/boxboat/fixuid/releases/download/v0.5.1/fixui
     && chmod 4755 /usr/local/bin/fixuid \
     && mkdir -p /etc/fixuid \
     && printf "user: coder\ngroup: coder\n" > /etc/fixuid/config.yml
-
-RUN echo \
-  "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/docker-archive-keyring.gpg] https://download.docker.com/linux/debian \
-  $(lsb_release -cs) stable" | sudo tee /etc/apt/sources.list.d/docker.list \
-    && apt-get update \
-    && apt-get install -y docker-ce docker-ce-cli containerd.io \
-    && rm -rf /var/lib/apt/lists/*
 
 VOLUME /var/lib/containers
 
