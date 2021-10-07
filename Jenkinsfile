@@ -1,5 +1,5 @@
 
-def buildTargets
+def buildTargets = []
 def parallelStagesMap
 def generateStage(job) {
     return {
@@ -61,7 +61,7 @@ pipeline {
             done
             '''
             script {
-                if( buildTargets.isEmpty()​​ ) {
+                if( params.fullBuild == false​​ ) {
                     def file = readFile('targets')
                     buildTargets = file.readLines()
                 }
