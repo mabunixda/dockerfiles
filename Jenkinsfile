@@ -1,7 +1,7 @@
 def generateStage(jobName, job) {
     return {
         stage("${jobName}") {
-             ./build_all.sh dofile ${job}
+             sh './build_all.sh dofile ${job}'
         }
     }
 }
