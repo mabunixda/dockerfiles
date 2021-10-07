@@ -29,9 +29,7 @@ pipeline {
                     def s = buildTargets[i]
                     // def stepName = String.replaceFirst(~/\.[^\.]+$/, '')
                     stage("${s}") {
-                        steps {
-                            sh "build_all.sh dofile ${s}"
-                        }
+                        sh "build_all.sh dofile ${s}"
                     }
                 }
             }
