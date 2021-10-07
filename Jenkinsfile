@@ -10,31 +10,32 @@ pipeline {
   stages {
 
     stage('prepare') {
-            steps {
+        steps {
 
-                sh '''
-                echo "$(find . -iname '*Dockerfile' | sed 's|./||' | sort) )" > targets
-                '''
-                script {
-                    def file = readFile('targets')
-                    buildTargets = file.readLines()
+            sh '''
+            echo "$(find . -iname '*Dockerfile' | sed 's|./||' | sort) )" > targets
+            '''
+            script {
+                def file = readFile('targets')
+                buildTargets = file.readLines()
+            }
+        }
+    }
+
+    stage('build') {
+        steps {
+            script {
+                buildTargets.eachLine {
+                    def stepName = it.replaceFirst(~/\.[^\.]+$/, '')
+                    stage("${stepName}") {
+                        steps {
+                            sh "build_all.sh dofile ${it}"
+                        }
+                    }
                 }
             }
-
-    // stage('build') {
-    //     steps {
-    //         script {
-    //             buildTargets.eachLine {
-    //                 def stepName = it.replaceFirst(~/\.[^\.]+$/, '')
-    //                 stage("${stepName}") {
-    //                     steps {
-    //                         sh "build_all.sh dofile ${it}"
-    //                     }
-    //                 }
-    //             }
-    //         }
-    //     }
-    // }
+        }
+    }
   }
 }
-}
+
