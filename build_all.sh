@@ -5,7 +5,7 @@ set -o pipefail
 DOCKER_BUILDKIT=${DOCKER_BUILDKIT:-1}
 export DOCKER_BUILDKIT
 BRANCH_NAME="$GIT_BRANCH"
-if [ -n "$BRANCH_NAME" ]; then
+if [ -z "$BRANCH_NAME" ]; then
     BRANCH_NAME=$(git rev-parse --abbrev-ref HEAD)
 fi
 echo "Working on $BRANCH_NAME.."
