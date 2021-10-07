@@ -27,8 +27,8 @@ pipeline {
             script {
                 for(int i=0; i < buildTargets.size(); i++) {
                     def s = buildTargets[i]
-                    def stepName = s.replaceFirst(~/\.[^\.]+$/, '')
-                    stage("${stepName}") {
+                    // def stepName = String.replaceFirst(~/\.[^\.]+$/, '')
+                    stage("${s}") {
                         steps {
                             sh "build_all.sh dofile ${s}"
                         }
