@@ -2,7 +2,9 @@ FROM debian:11
 ARG VERSION=3.12.0
 
 RUN apt-get update \
-    && apt-get install -y curl dumb-init openssh-client sudo procps python3 python3-pip podman make zsh git gnupg2 tmux unzip
+    && apt-get install -y curl dumb-init openssh-client sudo procps \
+                          python3 python3-pip podman make zsh git gnupg2 tmux unzip \
+                          apt-transport-https ca-certificates lsb-release
 
 RUN curl -L https://raw.githubusercontent.com/warrensbox/terraform-switcher/release/install.sh | bash
 
