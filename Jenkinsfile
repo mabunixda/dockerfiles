@@ -57,7 +57,7 @@ pipeline {
 
             script {
                 filename = "inctargets"
-                if( param.fullBuild) {
+                if( params.fullBuild) {
                     filename = "targets"
                 }
                 def file = readFile(filename)
