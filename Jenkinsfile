@@ -82,7 +82,11 @@ pipeline {
     stage('build') {
             steps {
                 script {
-                    parallel parallelStagesMap
+                    if ( buildTargets.size() == 0 ) {
+                        currentBuild.result = 'SUCCESS'
+                    } else {
+                        parallel parallelStagesMap
+                    }
                 }
             }
         }
