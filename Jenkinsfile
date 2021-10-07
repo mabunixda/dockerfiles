@@ -5,9 +5,10 @@ def generateStage(jobName, job) {
         }
     }
 }
+def buildTargets = ""
 
 
- pipeline {
+pipeline {
   agent any
   options {
         ansiColor('xterm')
@@ -15,7 +16,6 @@ def generateStage(jobName, job) {
   parameters {
     booleanParam(name: 'fullBuild', defaultValue: false, description: 'run all builds')
   }
-  def buildTargets = ""
   stage('prepare') {
 
     steps {
