@@ -1,4 +1,5 @@
 FROM debian:11
+
 ARG VERSION=3.12.0
 
 RUN apt-get update \
