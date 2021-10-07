@@ -62,7 +62,7 @@ pipeline {
             done
             '''
             script {
-                if( buildTArgets.IsEmpty()​​ ) {
+                if( buildTargets.IsEmpty()​​ ) {
                     def file = readFile('targets')
                     buildTargets = file.readLines()
                 }
