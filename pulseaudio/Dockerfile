@@ -1,4 +1,4 @@
-FROM debian:bullseye
+FROM debian:11
 LABEL maintainer "Martin Buchleitner <mabunixda@gmail.com>"
 
 RUN apt-get update && apt-get install -y \
