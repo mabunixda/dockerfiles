@@ -6,6 +6,7 @@ DOCKER_BUILDKIT=${DOCKER_BUILDKIT:-1}
 export DOCKER_BUILDKIT
 
 BRANCH_NAME=$(git rev-parse --abbrev-ref HEAD)
+echo "Working on $BRANCH_NAME ..."
 SCRIPT="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)/$(basename "${BASH_SOURCE[0]}")"
 REPO_URL="${REPO_URL:-docker.io/mabunixda}"
 JOBS=${JOBS:-2}
@@ -31,19 +32,20 @@ build_and_push(){
     # on successful build, push the image
     echo "                       ---                                   "
     echo "Successfully built ${base}:${suite} with context ${build_dir}"
+
+    if [ "$BRANCH_NAME" != "main" ]; then
+        return
+    fi
+    docker push ${REPO_URL}/${base}:${suite}
+    ehco "Successfuly pushed ${base}:${suite}"
     echo "                       ---                                   "
 
-    if [ "$BRANCH_NAME" == "main" ]; then
-        docker push ${REPO_URL}/${base}:${suite}
-    fi
     # also push the tag latest for "stable" tags
     if [[ "$suite" == "stable" ]]; then
         echo "                       ---                                   "
         docker tag ${REPO_URL}/${base}:${suite} ${REPO_URL}/${base}:latest
-        if [ "$BRANCH_NAME" == "main" ]; then
-            docker push ${REPO_URL}/${base}:latest
-            echo "Successfully pushed ${base}:latest"
-        fi
+        docker push ${REPO_URL}/${base}:latest
+        echo "Successfully pushed ${base}:latest"
         echo "                       ---                                   "
     fi
 
@@ -52,10 +54,8 @@ build_and_push(){
         echo "                       ---                                   "
         echo "found version $container_version"
         docker tag ${REPO_URL}/${base}:${suite} ${REPO_URL}/${base}:${container_version}
-        if [ "$BRANCH_NAME" == "main" ]; then
-            docker push ${REPO_URL}/${base}:${container_version}
-            echo "Successfully pushed ${base}:${container_version}"
-        fi
+        docker push ${REPO_URL}/${base}:${container_version}
+        echo "Successfully pushed ${base}:${container_version}"
         echo "                       ---                                   "
     fi
     echo "done"
