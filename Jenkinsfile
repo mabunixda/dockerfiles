@@ -1,6 +1,13 @@
 
 def buildTargets
-
+def parallelStagesMap
+def generateStage(job) {
+    return {
+        stage("${s}") {
+            sh "./build_all.sh dofile ${s}"
+        }
+    }
+}
 
 pipeline {
   agent any
@@ -9,7 +16,7 @@ pipeline {
   }
   stages {
 
-    stage('prepare') {
+    stage('analyze') {
         steps {
 
             sh '''
@@ -22,19 +29,23 @@ pipeline {
         }
     }
 
-    stage('build') {
+    stage('prepare') {
         steps {
             script {
-                for(int i=0; i < buildTargets.size(); i++) {
-                    def s = buildTargets[i]
-                    // def stepName = String.replaceFirst(~/\.[^\.]+$/, '')
-                    stage("${s}") {
-                        sh "./build_all.sh dofile ${s}"
-                    }
+                parallelStagesMap = buildTargets.collectEntries {
+                        ["${it}" : generateStage(it)]
                 }
             }
         }
     }
+    stage('build') {
+            steps {
+                script {
+                    parallel parallelStagesMap
+                }
+            }
+        }
+
   }
 }
 
