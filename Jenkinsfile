@@ -40,44 +40,35 @@ pipeline {
   }
   stages {
 
-    stage('analyze') {
+    stage("analyze") {
         steps {
-        stage("fullbuild") {
-            when {
-                equals expected: true, actual: params.fullBuild
-            }
-            steps {
-                sh '''
-                echo "$(find . -iname '*Dockerfile' | sed 's|./||' | sort) )" > targets
-                '''
-                script {
+            sh '''
+            echo "$(find . -iname '*Dockerfile' | sed 's|./||' | sort) )" > targets
+            '''
+            script {
+                if( params.fullBuild ) {
                     def file = readFile('targets')
                     buildTargets = file.readLines()
                 }
             }
 
-        }
-        stage('changes') {
-            when {
-                equals expected: true, actual: buildTargets.isEmpty()​​
-            }
-            steps {
-                sh '''
-                echo "" > targets
-                for d in $(for f in $(git diff-tree --no-commit-id --name-only -r $BITBUCKET_COMMIT); do echo $(dirname $f); done | sort | uniq ); do
-                    if [ -f "${d}/Dockerfile" ]; then
-                        echo  "${d}/Dockerfile" > targets
-                    fi
-                done
-                '''
-                script {
+            sh '''
+            echo "" > targets
+            for d in $(for f in $(git diff-tree --no-commit-id --name-only -r $BITBUCKET_COMMIT); do echo $(dirname $f); done | sort | uniq ); do
+                if [ -f "${d}/Dockerfile" ]; then
+                    echo  "${d}/Dockerfile" > targets
+                fi
+            done
+            '''
+            script {
+                if( buildTargets.isEmpty()​​ ) {
                     def file = readFile('targets')
                     buildTargets = file.readLines()
                 }
             }
         }
-        }
     }
+
     stage('prepare') {
         steps {
             script {
