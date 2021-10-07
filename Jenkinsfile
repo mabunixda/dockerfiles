@@ -48,16 +48,17 @@ pipeline {
         }
         }
     }
-  }
 
 
-  stage('build') {
-    stepsForParallel = [:]
-    buildTargets.eachLine {
-      def stepName = it.replaceFirst(~/\.[^\.]+$/, '')
-      stepsForParallel[stepName] = generateStage(stepName, it)
+
+    stage('build') {
+        stepsForParallel = [:]
+        buildTargets.eachLine {
+        def stepName = it.replaceFirst(~/\.[^\.]+$/, '')
+        stepsForParallel[stepName] = generateStage(stepName, it)
+        }
+        stepsForParallel['failFast'] = false
+        parallel stepsForParallel
     }
-    stepsForParallel['failFast'] = false
-    parallel stepsForParallel
   }
 }
