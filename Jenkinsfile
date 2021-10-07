@@ -86,7 +86,7 @@ pipeline {
                 }
             }
             withVault([configuration: configuration, vaultSecrets: secrets]) {
-                sh 'echo "$DOCKER_PASS" | docker login -u "$DOCKER_USER" --password-stdin'
+                sh 'docker login -u "$DOCKER_USER" --password "$DOCKER_PASS"'
             }
         }
     }
