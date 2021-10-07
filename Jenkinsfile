@@ -1,7 +1,7 @@
 def generateStage(jobName, job) {
     return {
         stage("${jobName}") {
-             sh './build_all.sh dofile ${job}'
+             sh "build_all.sh dofile ${job}"
         }
     }
 }
@@ -15,7 +15,7 @@ def generateStage(jobName, job) {
   parameters {
     booleanParam(name: 'fullBuild', defaultValue: false, description: 'run all builds')
   }
-  def buildTargets
+  def buildTargets = ""
   stage('prepare') {
 
     steps {
@@ -51,10 +51,9 @@ def generateStage(jobName, job) {
 
   stage('build') {
     stepsForParallel = [:]
-    for (int i = 0; i < buildTargets.size(); i++) {
-      def s = buildTargets.get(i)
-      def stepName = s.replaceFirst(~/\.[^\.]+$/, '')
-      stepsForParallel[stepName] = generateStage(stepName, s)
+    buildTargets.eachLine {
+      def stepName = it.replaceFirst(~/\.[^\.]+$/, '')
+      stepsForParallel[stepName] = generateStage(stepName, it)
     }
     stepsForParallel['failFast'] = false
     parallel stepsForParallel
