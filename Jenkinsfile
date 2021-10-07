@@ -25,11 +25,12 @@ pipeline {
     stage('build') {
         steps {
             script {
-                buildTargets.eachLine {
-                    def stepName = it.replaceFirst(~/\.[^\.]+$/, '')
+                for(int i=0; i < buildTargets.size(); i++) {
+                    def s = buildTargets[i]
+                    def stepName = s.replaceFirst(~/\.[^\.]+$/, '')
                     stage("${stepName}") {
                         steps {
-                            sh "build_all.sh dofile ${it}"
+                            sh "build_all.sh dofile ${s}"
                         }
                     }
                 }
