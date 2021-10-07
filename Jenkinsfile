@@ -75,7 +75,7 @@ pipeline {
                 }
             }
             withVault([configuration: configuration, vaultSecrets: secrets]) {
-                sh 'docker login -u "$DOCKER_USER" --password "$DOCKER_PASS"'
+                sh 'docker login -u "$DOCKER_USER" --password "$DOCKER_TOKEN"'
             }
         }
     }
