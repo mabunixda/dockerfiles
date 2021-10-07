@@ -54,7 +54,8 @@ pipeline {
 
             sh '''
             echo "" > targets
-            for d in $(for f in $(git diff-tree --no-commit-id --name-only -r $BITBUCKET_COMMIT); do echo $(dirname $f); done | sort | uniq ); do
+            COMMIT_ID=$(git rev-parse HEAD)
+            for d in $(for f in $(git diff-tree --no-commit-id --name-only -r $COMMIT_ID); do echo $(dirname $f); done | sort | uniq ); do
                 if [ -f "${d}/Dockerfile" ]; then
                     echo  "${d}/Dockerfile" > targets
                 fi
