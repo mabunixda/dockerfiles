@@ -9,6 +9,27 @@ def generateStage(job) {
     }
 }
 
+def secrets = [
+        [ path: 'kv/jenkins/docker',
+          engineVersion: 2,
+          secretValues: [
+              [
+                envVar: 'DOCKER_USER',
+                vaultKey: 'docker_user'
+              ],
+              [
+                envVar: 'DOCKER_TOKEN',
+                vaultKey: 'docker_pass'
+              ]
+
+            ]
+        ]
+]
+
+def configuration = [vaultUrl: 'https://vault.home.nitram.at:8200',
+                         vaultCredentialId: 'vault_jenkins',
+                         engineVersion: 2]
+
 pipeline {
   agent any
   options {
@@ -63,7 +84,7 @@ pipeline {
                 }
             }
             withVault([configuration: configuration, vaultSecrets: secrets]) {
-                sh 'docker login '
+                sh 'echo "$DOCKER_PASS" | docker login -u "$DOCKER_USER" --password-stdin'
             }
         }
     }
