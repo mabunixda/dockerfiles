@@ -39,7 +39,7 @@ build_and_push(){
         return
     fi
     docker push ${REPO_URL}/${base}:${suite}
-    ehco "Successfuly pushed ${base}:${suite}"
+    echo "Successfuly pushed ${base}:${suite}"
     echo "                       ---                                   "
 
     # also push the tag latest for "stable" tags
