@@ -3,8 +3,8 @@ def buildTargets
 def parallelStagesMap
 def generateStage(job) {
     return {
-        stage("${s}") {
-            sh "./build_all.sh dofile ${s}"
+        stage("${job}") {
+            sh "./build_all.sh dofile ${job}"
         }
     }
 }
