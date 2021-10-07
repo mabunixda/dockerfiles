@@ -1,10 +1,4 @@
-def generateStage(jobName, job) {
-    return {
-        stage("${jobName}") {
-             sh "build_all.sh dofile ${job}"
-        }
-    }
-}
+
 def buildTargets = ""
 
 
@@ -52,13 +46,16 @@ pipeline {
 
 
     stage('build') {
-        stepsForParallel = [:]
-        buildTargets.eachLine {
-        def stepName = it.replaceFirst(~/\.[^\.]+$/, '')
-        stepsForParallel[stepName] = generateStage(stepName, it)
+        steps {
+            script {
+                buildTargets.eachLine {
+                    def stepName = it.replaceFirst(~/\.[^\.]+$/, '')
+                    stage("${stepName}") {
+                        sh "build_all.sh dofile ${it}"
+                    }
+                }
+            }
         }
-        stepsForParallel['failFast'] = false
-        parallel stepsForParallel
     }
   }
 }
