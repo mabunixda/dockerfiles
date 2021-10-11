@@ -75,7 +75,11 @@ pipeline {
                 }
             }
             withVault([configuration: configuration, vaultSecrets: secrets]) {
-                sh 'docker login -u "$DOCKER_USER" --password "$DOCKER_TOKEN"'
+                sh '''
+                docker login -u "$DOCKER_USER" --password "$DOCKER_TOKEN"
+                docker buildx inspect multi && exit 0 || echo "creating multi builder..."
+                docker buildx create --name multi --platform linux/amd64,linux/arm/v7,linux/arm64
+                '''
             }
         }
     }
