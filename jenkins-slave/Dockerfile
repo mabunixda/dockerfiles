@@ -1,10 +1,17 @@
-FROM docker.io/adoptopenjdk/openjdk8:alpine-jre
+FROM docker.io/adoptopenjdk/openjdk8:jre
 
-RUN apk add --no-cache git curl zip unzip bash ttf-dejavu openssh-client buildah podman docker \
+RUN apt-get update \
+    && apt-get install -y git curl zip unzip bash ttf-dejavu openssh-client \
+        apt-transport-https ca-certificates gnupg lsb-release \
     && mkdir -p /var/run/sshd /var/lib/jenkins/workspace \
-    && curl -fOL "https://releases.hashicorp.com/terraform/1.0.8/terraform_1.0.8_linux_amd64.zip" \
-    && unzip -o terraform_1.0.8_linux_amd64.zip -d /usr/local/bin/ \
-    && rm -rf terraform_1.0.8_linux_amd64.zip
+    && curl -L https://raw.githubusercontent.com/warrensbox/terraform-switcher/release/install.sh | bash \
+    && tfswitch -u
+
+RUN curl -fsSL https://download.docker.com/linux/ubuntu/gpg | gpg --dearmor -o /usr/share/keyrings/docker-archive-keyring.gpg \
+    && echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/docker-archive-keyring.gpg] https://download.docker.com/linux/ubuntu \
+  $(lsb_release -cs) stable" > /etc/apt/sources.list.d/docker.list \
+    && apt-get update \
+    && apt-get install -y docker-ce docker-ce-cli containerd.io
 
 
 COPY . /var/lib/jenkins/

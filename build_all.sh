@@ -2,8 +2,6 @@
 set -e
 set -o pipefail
 
-DOCKER_BUILDKIT=${DOCKER_BUILDKIT:-1}
-export DOCKER_BUILDKIT
 BRANCH_NAME="$GIT_BRANCH"
 if [ -z "$BRANCH_NAME" ]; then
     BRANCH_NAME=$(git rev-parse --abbrev-ref HEAD)
@@ -13,10 +11,15 @@ SCRIPT="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)/$(basename "${BASH_SOURCE[
 REPO_URL="${REPO_URL:-docker.io/mabunixda}"
 JOBS=${JOBS:-2}
 ERRORS="$(pwd)/errors"
-BUILD_ARGS=${BUILD_ARGS:- --rm --force-rm --pull }
+BUILD_ARGS=${BUILD_ARGS:- --pull }
+BUILDX_BUILDER="default"
 version_check="([0-9]+\.)?([0-9]+\.)?(\*|[0-9]+)"
-if [ ! -z "$NO_CACHE" ]; then
+
+if [ -n "$NO_CACHE" ]; then
     BUILD_ARGS="$BUILD_ARGS --no-cache "
+fi
+if [ "$BRANCH_NAME" == "main" ]; then
+    BUILD_ARGS="$BUILD_ARGS  --push"
 fi
 
 build_and_push(){
@@ -27,26 +30,32 @@ build_and_push(){
     if [ -e "${build_dir}/.skip" ]; then
         return
     fi
-
+    if [ -e "${build_dir}/buildx" ]; then
+        target_builder=$(cat ${build_dir}/buildx)
+        if docker buildx inspect $target_builder; then
+            BUILDX_BUILDER=$target_builder
+        else
+            echo "cannot switch buidlx builder to $target_builder - does not exist!"
+        fi
+    fi
     echo "Building ${REPO_URL}/${base}:${suite} for context ${build_dir}"
-    docker build --progress=plain $BUILD_ARGS -t ${REPO_URL}/${base}:${suite} ${build_dir} || return 1
-
+    set -ex
+    TARGET_NAME=${base} TAG=${suite} docker buildx bake --progress=plain $BUILD_ARGS -f docker_bake.hcl --builder $BUILDX_BUILDER $BUILDX_BUILDER || return 1
+    set +ex
     # on successful build, push the image
     echo "                       ---                                   "
     echo "Successfully built ${base}:${suite} with context ${build_dir}"
+    echo "Successfuly pushed ${base}:${suite}"
+    echo "                       ---                                   "
 
     if [ "$BRANCH_NAME" != "main" ]; then
         return
     fi
-    docker push ${REPO_URL}/${base}:${suite}
-    echo "Successfuly pushed ${base}:${suite}"
-    echo "                       ---                                   "
 
     # also push the tag latest for "stable" tags
     if [[ "$suite" == "stable" ]]; then
         echo "                       ---                                   "
-        docker tag ${REPO_URL}/${base}:${suite} ${REPO_URL}/${base}:latest
-        docker push ${REPO_URL}/${base}:latest
+        TARGET_NAME=${base} TAG=latest docker buildx bake --progress=plain $BUILD_ARGS -f docker_bake.hcl --builder $BUILDX_BUILDER || return 1
         echo "Successfully pushed ${base}:latest"
         echo "                       ---                                   "
     fi
@@ -55,8 +64,7 @@ build_and_push(){
         container_version=$(grep " VERSION=" "${build_dir}/Dockerfile" | awk -F'=' '{print $2}')
         echo "                       ---                                   "
         echo "found version $container_version"
-        docker tag ${REPO_URL}/${base}:${suite} ${REPO_URL}/${base}:${container_version}
-        docker push ${REPO_URL}/${base}:${container_version}
+        TARGET_NAME=${base} TAG=${conatiner_version} docker buildx bake --progress=plain $BUILD_ARGS -f docker_bake.hcl --builder $BUILDX_BUILDER || return 1
         echo "Successfully pushed ${base}:${container_version}"
         echo "                       ---                                   "
     fi
