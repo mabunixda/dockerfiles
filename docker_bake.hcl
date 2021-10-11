@@ -10,7 +10,8 @@ group "default" {
 }
 
 target "multi" {
-    dockerfile = "${TARGET_NAME}/Dockerfile"
+    context = "./${TARGET_NAME}/"
+    dockerfile = "Dockerfile"
     tags = ["docker.io/mabunixda/${TARGET_NAME}:${TAG}"]
     platforms = ["linux/amd64", "linux/arm64"]
 }
