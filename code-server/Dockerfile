@@ -9,12 +9,9 @@ RUN apt-get update \
 
 RUN curl -L https://raw.githubusercontent.com/warrensbox/terraform-switcher/release/install.sh | bash
 
-RUN curl -fOL https://github.com/cdr/code-server/releases/download/v${VERSION}/code-server_${VERSION}_amd64.deb \
-    && dpkg -i code-server_${VERSION}_amd64.deb \
-    && rm code-server_${VERSION}_amd64.deb \
+RUN curl -fsSL https://code-server.dev/install.sh | sh -s -- --version "${VERSION}" \
     && adduser --gecos '' --disabled-password coder \
-    && echo "coder ALL=(ALL) NOPASSWD:ALL" >> /etc/sudoers.d/nopasswd \
-    && rm -rf /var/lib/apt/lists/*
+    && echo "coder ALL=(ALL) NOPASSWD:ALL" >> /etc/sudoers.d/nopasswd
 
 RUN curl -fsSL "https://github.com/boxboat/fixuid/releases/download/v0.5.1/fixuid-0.5.1-linux-amd64.tar.gz" | tar -C /usr/local/bin -xzf - \
     && chown root:root /usr/local/bin/fixuid \
