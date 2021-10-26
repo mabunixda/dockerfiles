@@ -21,6 +21,7 @@ RUN curl -fsSL "https://github.com/boxboat/fixuid/releases/download/v0.5.1/fixui
 
 VOLUME /var/lib/containers
 
+
 EXPOSE 8080/tcp
 
 ADD entrypoint.sh /usr/bin/
