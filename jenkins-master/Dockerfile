@@ -1,10 +1,8 @@
-ARG JENKINS_VERSION=2.317
+ARG JENKINS_VERSION=2.319-alpine
 FROM docker.io/jenkins/jenkins:$JENKINS_VERSION
 
 USER root
-RUN apt-get update \
-    && apt-get install -y jq  \
-	&& rm -rf /var/lib/apt/lists/*
+RUN apk add --no-cache jq
 
 USER jenkins
 
