@@ -2,7 +2,7 @@ FROM docker.io/adoptopenjdk/openjdk8:jre
 
 RUN apt-get update \
     && apt-get install -y git curl zip unzip bash ttf-dejavu openssh-client \
-        apt-transport-https ca-certificates gnupg lsb-release \
+        apt-transport-https ca-certificates gnupg lsb-release jq \
     && mkdir -p /var/run/sshd /var/lib/jenkins/workspace \
     && curl -L https://raw.githubusercontent.com/warrensbox/terraform-switcher/release/install.sh | bash \
     && tfswitch -u
