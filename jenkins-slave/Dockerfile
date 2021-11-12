@@ -1,5 +1,9 @@
 FROM docker.io/adoptopenjdk/openjdk8:jre
 
+ARG PACKAGE="mondoo_${VERSION}_linux_amd64.tar.gz"
+ARG BASEURL="https://releases.mondoo.io/mondoo/${VERSION}"
+
+
 RUN apt-get update \
     && apt-get install -y git wget tar curl zip unzip bash ttf-dejavu openssh-client \
         apt-transport-https ca-certificates gnupg lsb-release jq \
