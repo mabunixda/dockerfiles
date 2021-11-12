@@ -82,8 +82,7 @@ pipeline {
                 docker login -u "$DOCKER_USER" --password "$DOCKER_TOKEN"
                 docker buildx inspect multi && exit 0 || echo "creating multi builder..."
                 docker buildx create --name multi --platform linux/amd64,linux/arm/v7,linux/arm64
-                echo "$MONDOO_CONFIG" | base64 -d > $PWD/mondoo.json
-                cat $PWD/mondoo.json
+                echo "$MONDOO_CONFIG" | base64 -d > $HOME/mondoo.json
                 '''
             }
         }
