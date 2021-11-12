@@ -20,8 +20,11 @@ def secrets = [
               [
                 envVar: 'DOCKER_TOKEN',
                 vaultKey: 'docker_pass'
+              ],
+              [
+                envVar: 'MONDOO_CONFIG',
+                vaultKey: 'mondoo'
               ]
-
             ]
         ]
 ]
@@ -84,7 +87,8 @@ pipeline {
         }
     }
     stage('build') {
-            steps {
+        steps {
+            withVault([configuration: configuration, vaultSecrets: secrets]) {
                 script {
                     if ( buildTargets.size() == 0 ) {
                         currentBuild.result = 'SUCCESS'
@@ -92,6 +96,7 @@ pipeline {
                         parallel parallelStagesMap
                     }
                 }
+            }
             }
         }
 
