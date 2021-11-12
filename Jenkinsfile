@@ -20,8 +20,11 @@ def secrets = [
               [
                 envVar: 'DOCKER_TOKEN',
                 vaultKey: 'docker_pass'
+              ],
+              [
+                envVar: 'MONDOO_CONFIG',
+                vaultKey: 'mondoo'
               ]
-
             ]
         ]
 ]
@@ -79,22 +82,23 @@ pipeline {
                 docker login -u "$DOCKER_USER" --password "$DOCKER_TOKEN"
                 docker buildx inspect multi && exit 0 || echo "creating multi builder..."
                 docker buildx create --name multi --platform linux/amd64,linux/arm/v7,linux/arm64
+                echo "$MONDOO_CONFIG" | base64 -d > $PWD/mondoo.json
+                cat $PWD/mondoo.json
                 '''
             }
         }
     }
     stage('build') {
-            steps {
-                script {
-                    if ( buildTargets.size() == 0 ) {
-                        currentBuild.result = 'SUCCESS'
-                    } else {
-                        parallel parallelStagesMap
-                    }
+        steps {
+            script {
+                if ( buildTargets.size() == 0 ) {
+                    currentBuild.result = 'SUCCESS'
+                } else {
+                    parallel parallelStagesMap
                 }
             }
         }
-
+    }
   }
 }
 

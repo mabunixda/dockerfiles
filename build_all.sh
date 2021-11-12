@@ -51,6 +51,8 @@ build_and_push(){
     echo "Successfuly pushed ${base}:${suite}"
     echo "                       ---                                   "
 
+    mondoo_scan "${REPO_URL}/${base}:${suite}"
+
     if [ "$BRANCH_NAME" != "main" ]; then
         return
     fi
@@ -75,6 +77,16 @@ build_and_push(){
 
 }
 
+mondoo_scan() {
+    container=$1
+    shift
+
+    if [ ! -f "$PWD/mondoo.json" ]; then
+        return
+    fi
+    mondoo scan -t "docker://$container" --config "$PWD/mondoo.json"
+
+}
 
 prefetch() {
 
