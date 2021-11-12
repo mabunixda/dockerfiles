@@ -84,7 +84,7 @@ mondoo_scan() {
     if [ ! -f "$PWD/mondoo.json" ]; then
         return
     fi
-    docker run -v $PWD/mondoo.json:/tmp/mondoo.json --rm -i mabunixda/mondoo scan -t docker://$container --config /tmp/mondoo.json
+    mondoo scan -t "docker://$container" --config "$PWD/mondoo.json"
 
 }
 

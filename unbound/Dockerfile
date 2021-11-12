@@ -7,4 +7,5 @@ VOLUME /etc/unbound
 RUN apk add --no-cache unbound
 
 ENTRYPOINT ["unbound"]
+
 CMD ["-d"]
