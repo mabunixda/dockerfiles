@@ -1,7 +1,8 @@
 FROM docker.io/adoptopenjdk/openjdk8:jre
 
-ARG PACKAGE="mondoo_${VERSION}_linux_amd64.tar.gz"
-ARG BASEURL="https://releases.mondoo.io/mondoo/${VERSION}"
+ARG MONDOO_VERSION=5.13.0
+ARG PACKAGE="mondoo_${MONDOO_VERSION}_linux_amd64.tar.gz"
+ARG BASEURL="https://releases.mondoo.io/mondoo/${MONDOO_VERSION}"
 
 
 RUN apt-get update \
