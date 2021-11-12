@@ -1,11 +1,9 @@
 FROM alpine:latest
 
-RUN apk add --no-cache unbound drill bash
-
 EXPOSE 53/udp 53/tcp
-
 VOLUME /etc/unbound
+
+RUN apk add --no-cache unbound drill bash
 
 ENTRYPOINT ["unbound"]
 CMD ["-d"]
-

@@ -85,7 +85,7 @@ mondoo_scan() {
         return
     fi
     echo "$MONDOO_CONFIG" | base64 -d > $PWD/mondoo.json
-    docker run -v $PWD/mondoo.json:/tmp/mondoo.json --rm -it mabunixda/mondoo scan -t docker://$container --config /tmp/mondoo.json
+    docker run -v $PWD/mondoo.json:/tmp/mondoo.json --rm -i mabunixda/mondoo scan -t docker://$container --config /tmp/mondoo.json
 
 }
 
