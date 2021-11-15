@@ -84,7 +84,8 @@ mondoo_scan() {
     if [ ! -f "$HOME/mondoo.json" ]; then
         return
     fi
-    mondoo scan -t "docker://$container" --config "$HOME/mondoo.json"
+
+    mondoo scan -t "docker://$container" --config "$HOME/mondoo.json" || echo ""
 
 }
 

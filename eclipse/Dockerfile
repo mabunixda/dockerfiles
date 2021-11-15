@@ -2,9 +2,8 @@ FROM docker.io/adoptopenjdk/openjdk8:slim
 
 LABEL maintainer="Martin Buchleitner <mabunixda@gmail.com>"
 
-ENV VERSION=2020-06
-
-ENV ECLIPSE_URL=http://ftp.halifax.rwth-aachen.de/eclipse/technology/epp/downloads/release/$VERSION/R/eclipse-javascript-$VERSION-R-linux-gtk-x86_64.tar.gz
+ARG VERSION=2021-12
+ARG ECLIPSE_URL=http://ftp.halifax.rwth-aachen.de/eclipse/technology/epp/downloads/release/$VERSION/M1/eclipse-java-$VERSION-M1-linux-gtk-x86_64.tar.gz
 
 ENV HOME /home/app
 

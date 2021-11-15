@@ -6,7 +6,7 @@
 # 	--privileged \
 # 	-v /lib/modules:/lib/modules:ro \
 # 	-v /usr/src:/usr/src:ro \
-# 	r.j3ss.co/wireguard
+#   mabunixda/wireguard
 #
 FROM debian:11-slim
 LABEL maintainer "Martin Buchleitner <mabunixda@gmail.com>"
