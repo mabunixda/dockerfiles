@@ -5,7 +5,9 @@ variable "TAG" {
 }
 variable "CONTAINER_NAME" {
 }
-
+variable "REPO_URL" {
+    default = "docker.io"
+}
 group "default" {
     targets = ["amd64"]
 }
@@ -13,13 +15,13 @@ group "default" {
 target "multi" {
     context = "./${TARGET_NAME}/"
     dockerfile = "Dockerfile"
-    tags = ["docker.io/mabunixda/${CONTAINER_NAME}:${TAG}"]
+    tags = ["${REPO_URL}/${CONTAINER_NAME}:${TAG}"]
     platforms = ["linux/amd64", "linux/arm64"]
 }
 
 target "amd64" {
     context = "./${TARGET_NAME}/"
     dockerfile = "Dockerfile"
-    tags = ["docker.io/mabunixda/${CONTAINER_NAME}:${TAG}"]
+    tags = ["${REPO_URL}/${CONTAINER_NAME}:${TAG}"]
     platforms = ["linux/amd64"]
 }

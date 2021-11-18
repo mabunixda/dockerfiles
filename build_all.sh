@@ -8,7 +8,7 @@ if [ -z "$BRANCH_NAME" ]; then
 fi
 echo "Working on $BRANCH_NAME.."
 SCRIPT="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)/$(basename "${BASH_SOURCE[0]}")"
-REPO_URL="${REPO_URL:-docker.io/mabunixda}"
+REPO_URL="${REPO_URL:-quay.io/mabunixda}"
 JOBS=${JOBS:-2}
 ERRORS="$(pwd)/errors"
 BUILD_ARGS=${BUILD_ARGS:- --pull }
@@ -44,7 +44,7 @@ build_and_push(){
     fi
     set -ex
     echo "Building ${REPO_URL}/${base}:${suite} for context ${build_dir}"
-    CONTAINER_NAME="${base}" TARGET_NAME="$TARGET_NAME" TAG="${suite}" docker buildx bake --progress=plain $BUILD_ARGS -f docker_bake.hcl --builder $BUILDX_BUILDER $BUILDX_BUILDER || return 1
+    REPO_URL="${REPO_URL}" CONTAINER_NAME="${base}" TARGET_NAME="$TARGET_NAME" TAG="${suite}" docker buildx bake --progress=plain $BUILD_ARGS -f docker_bake.hcl --builder $BUILDX_BUILDER $BUILDX_BUILDER || return 1
     # on successful build, push the image
     echo "                       ---                                   "
     echo "Successfully built ${base}:${suite} with context ${build_dir}"
@@ -60,7 +60,7 @@ build_and_push(){
     # also push the tag latest for "stable" tags
     if [[ "$suite" == "stable" ]]; then
         echo "                       ---                                   "
-        CONTAINER_NAME="${base}" TARGET_NAME="${TARGET_NAME}" TAG="latest" docker buildx bake --progress=plain $BUILD_ARGS -f docker_bake.hcl --builder $BUILDX_BUILDER || return 1
+        REPO_URL="${REPO_URL}" CONTAINER_NAME="${base}" TARGET_NAME="${TARGET_NAME}" TAG="latest" docker buildx bake --progress=plain $BUILD_ARGS -f docker_bake.hcl --builder $BUILDX_BUILDER || return 1
         echo "Successfully pushed ${base}:latest"
         echo "                       ---                                   "
     fi
@@ -69,7 +69,7 @@ build_and_push(){
         container_version=$(grep " VERSION=" "${build_dir}/Dockerfile" | awk -F'=' '{print $2}')
         echo "                       ---                                   "
         echo "found version $container_version"
-        CONTAINER_NAME="${base}" TARGET_NAME="${TARGET_NAME}" TAG="${container_version}" docker buildx bake --progress=plain $BUILD_ARGS -f docker_bake.hcl --builder $BUILDX_BUILDER || return 1
+        REPO_URL="${REPO_URL}" CONTAINER_NAME="${base}" TARGET_NAME="${TARGET_NAME}" TAG="${container_version}" docker buildx bake --progress=plain $BUILD_ARGS -f docker_bake.hcl --builder $BUILDX_BUILDER || return 1
         echo "Successfully pushed ${base}:${container_version}"
         echo "                       ---                                   "
     fi
