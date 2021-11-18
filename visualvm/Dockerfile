@@ -1,6 +1,6 @@
 FROM docker.io/adoptopenjdk/openjdk8:slim
 
-ARG VERSION=1.3.9
+ARG VERSION=2.1.1
 
 # Install X11 tools and those needed here for downloads.
 RUN apt-get update  -qq && apt-get install -qq -y \

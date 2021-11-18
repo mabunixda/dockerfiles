@@ -1,13 +1,9 @@
-FROM ubuntu:20.10
+FROM ubuntu:21.10
 LABEL maintainer "Martin Buchleitner <mabunixda@gmail.com>"
 
 ENV DEBIAN_FRONTEND=noninteractive
 RUN apt-get update \
-	&& apt-get install -y software-properties-common --no-install-recommends && \
-	add-apt-repository ppa:wireshark-dev/stable && \
-	apt-get update && \
-	apt-get install -y \
-	wireshark \
+	&& apt-get install -y wireshark \
 	&& rm -rf /var/lib/apt/lists/*
 
 ENV HOME /home/app

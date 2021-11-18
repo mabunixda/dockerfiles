@@ -1,8 +1,8 @@
 FROM ubuntu:18.04
 LABEL maintainer "Martin Buchleitner <mabunixda@gmail.com>"
 
-ARG VERSION=6.0.24
-ARG VERSION_HASH=b200bf6446
+ARG VERSION=6.5.51
+ARG VERSION_HASH=2767b412a8
 
 EXPOSE 6789/tcp 8080/tcp 8443/tcp 8880/tcp 8843/tcp 27117/tcp
 EXPOSE 1900/udp 3478/udp 10001/udp

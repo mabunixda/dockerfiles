@@ -1,7 +1,8 @@
 FROM ubuntu:18.04
 LABEL maintainer "Martin Buchleitner <mabunixda@gmail.com>"
 
-ARG VERSION=6.0.41
+ARG VERSION=6.5.52
+ARG VERSION_HASH=4b1a918bba
 
 EXPOSE 8080/tcp 8443/tcp 6789/tcp 8880/tcp 8843/tcp 27117/tcp
 EXPOSE 1900/udp 3478/udp 10001/udp
@@ -23,7 +24,7 @@ RUN apt-get update -q \
 	openjdk-8-jre-headless \
 	--no-install-recommends
 
-RUN  curl -L -o /tmp/unifi.deb https://dl.ubnt.com/unifi/${VERSION}/unifi_sysvinit_all.deb \
+RUN curl -L -o /tmp/unifi.deb https://dl.ubnt.com/unifi/${VERSION}-${VERSION_HASH}/unifi_sysvinit_all.deb \
   && dpkg -i /tmp/unifi.deb \
   && apt-get install -fy \
   && rm -rf /var/lib/apt/lists/*
