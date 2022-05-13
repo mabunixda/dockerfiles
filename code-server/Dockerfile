@@ -1,6 +1,6 @@
 FROM docker.io/archlinux:base-devel
 
-ARG VERSION=4.0.1
+ARG VERSION=4.3.0
 ARG DUMBINIT_VERSION=1.2.5
 RUN pacman -Syu --noconfirm git tmux unzip packer buildah zsh gnupg pacman-contrib sudo openssh buildah podman shadow vim rsync \
     && rm -fr /var/lib/pacman/sync/* \
