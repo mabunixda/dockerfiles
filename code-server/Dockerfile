@@ -1,43 +1,42 @@
-FROM docker.io/archlinux:base-devel
+ARG TERRAFORM_VERSION=1.2.4
+ARG MONDOO_VERSION=6.6.0
+ARG PACKER_VERSION=1.8.2
+ARG YQ_VERSION=4.23.1
 
-ARG VERSION=4.3.0
-ARG DUMBINIT_VERSION=1.2.5
-RUN pacman -Syu --noconfirm git tmux unzip packer buildah zsh gnupg pacman-contrib sudo openssh buildah podman shadow vim rsync \
-    && rm -fr /var/lib/pacman/sync/* \
-    && useradd --uid 1000 coder \
-    && echo "coder ALL=(ALL) NOPASSWD:ALL" >> /etc/sudoers.d/nopasswd
+ARG VERSION=4.5.0
+FROM docker.io/hashicorp/terraform:$TERRAFORM_VERSION as tf
+FROM docker.io/mondoo/client:$MONDOO_VERSION as mondoo
+FROM docker.io/mikefarah/yq:$YQ_VERSION as yq
+FROM docker.io/hashicorp/packer:$PACKER_VERSION as packer
 
-RUN curl -L https://raw.githubusercontent.com/warrensbox/terraform-switcher/release/install.sh | bash \
-    && curl -fL -o /usr/local/bin/dumb-init https://github.com/Yelp/dumb-init/releases/download/v${DUMBINIT_VERSION}/dumb-init_${DUMBINIT_VERSION}_x86_64 \
-    && chmod +x /usr/local/bin/dumb-init
 
-EXPOSE 8080/tcp
-ADD entrypoint.sh /usr/bin/
+FROM docker.io/codercom/code-server:$VERSION
 
-ADD https://raw.githubusercontent.com/containers/libpod/master/contrib/podmanimage/stable/containers.conf /etc/containers/containers.conf
+USER root
+
+COPY --from=yq /usr/bin/yq /usr/local/bin/yq
+COPY --from=mondoo /usr/local/bin/mondoo /usr/local/bin/mondoo
+COPY --from=tf /bin/terraform /usr/local/bin/terraform
+COPY --from=packer /bin/packer /usr/local/bin/packer
+
+RUN apt-get update \
+    && apt-get install -y \
+            buildah \
+    && rm -rf /var/lib/apt/lists/*
+
+
+# ADD https://raw.githubusercontent.com/containers/libpod/master/contrib/podmanimage/stable/containers.conf /etc/containers/containers.conf
 
 # chmod containers.conf and adjust storage.conf to enable Fuse storage.
 #
-RUN chmod 644 /etc/containers/containers.conf \
-    && sed -i -e 's/^driver=.*/driver="vfs"/' -e 's|^#mount_program|mount_program|g' -e '/additionalimage.*/a "/var/lib/shared",' -e 's|^mountopt[[:space:]]*=.*$|mountopt = "nodev,fsync=0"|g' /etc/containers/storage.conf \
-    && mkdir -p /var/lib/shared/overlay-images /var/lib/shared/overlay-layers /var/lib/shared/vfs-images /var/lib/shared/vfs-layers; touch /var/lib/shared/overlay-images/images.lock; touch /var/lib/shared/overlay-layers/layers.lock; touch /var/lib/shared/vfs-images/images.lock; touch /var/lib/shared/vfs-layers/layers.lock \
-    && touch /etc/subuid /etc/subgid \
-    && usermod --add-subuids 200000-201000  coder \
-    && usermod --add-subgids 200000-201000  coder
+# RUN chmod 644 /etc/containers/containers.conf \
+#     && sed -i -e 's/^driver=.*/driver="vfs"/' -e 's|^#mount_program|mount_program|g' -e '/additionalimage.*/a "/var/lib/shared",' -e 's|^mountopt[[:space:]]*=.*$|mountopt = "nodev,fsync=0"|g' /etc/containers/storage.conf \
+#     && mkdir -p /var/lib/shared/overlay-images /var/lib/shared/overlay-layers /var/lib/shared/vfs-images /var/lib/shared/vfs-layers; touch /var/lib/shared/overlay-images/images.lock; touch /var/lib/shared/overlay-layers/layers.lock; touch /var/lib/shared/vfs-images/images.lock; touch /var/lib/shared/vfs-layers/layers.lock \
+#     && touch /etc/subuid /etc/subgid \
+#     && usermod --add-subuids 200000-201000  coder \
+#     && usermod --add-subgids 200000-201000  coder
 
 USER coder
-# Install code-server from the AUR with plain makepkg.
-RUN git clone https://aur.archlinux.org/code-server.git /tmp/code-server/ \
-    && cd /tmp/code-server \
-    && makepkg -si --noconfirm --noprogressbar \
-
-#RUN git clone https://aur.archlinux.org/yay-git.git /tmp/yay/ \
-#    && cd /tmp/yay \
-#    && makepkg -si --noconfirm --noprogressbar \
-#    && yay --no-confirm -Sy --devel google-chrome
-
-RUN rm -rf /tmp/*
-
 WORKDIR /home/coder
 
 ENTRYPOINT ["/usr/bin/entrypoint.sh", "--bind-addr", "0.0.0.0:8080", "."]
