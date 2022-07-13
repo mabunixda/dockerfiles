@@ -1,4 +1,4 @@
-ARG JENKINS_VERSION=2.319-alpine
+ARG JENKINS_VERSION=2.347-alpine
 FROM docker.io/jenkins/jenkins:$JENKINS_VERSION
 
 USER root
