@@ -9,7 +9,7 @@ fi
 echo "Working on $BRANCH_NAME.."
 SCRIPT="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)/$(basename "${BASH_SOURCE[0]}")"
 REPO_URL="${REPO_URL:-quay.io/mabunixda}"
-JOBS=${JOBS:-2}
+JOBS=${JOBS:-$(($(cat /proc/cpuinfo | grep proc | wc -l) / 2 ))}
 ERRORS="$(pwd)/errors"
 BUILD_ARGS=${BUILD_ARGS:- --pull }
 BUILDX_BUILDER="default"
@@ -97,7 +97,7 @@ prefetch() {
         parallel --tag --verbose --ungroup -j"${JOBS}" docker pull "{1}" ::: "${IMAGES[@]}"
     else
         for d in ${IMAGES}; do
-            $(build_cmd) pull $d;
+            docker pull $d;
         done
     fi
     echo "  prefetch done"
