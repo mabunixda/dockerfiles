@@ -1,5 +1,5 @@
 ## Supports x86_64, x86, armhf, arm64, ppc64le, armle
-FROM debian:buster as builder
+FROM debian:bookworm as builder
 ARG ZEROTIER_VERSION=1.8.6
 
 RUN apt-get update \
@@ -8,7 +8,7 @@ RUN export DISTRO=$(grep -v "^#" /etc/apt/sources.list | head -n1 |awk '{print $
     && export ARCH=$(dpkg --print-architecture) \
     && curl -sSL -o /tmp/zerotier-one.deb "https://download.zerotier.com/debian/${DISTRO}/pool/main/z/zerotier-one//zerotier-one_${ZEROTIER_VERSION}_${ARCH}.deb"
 
-FROM debian:buster-slim
+FROM debian:bookworm
 ARG ZEROTIER_VERSION=1.8.6
 ARG BUILD_DATE
 ENV VERSION=${ZEROTIER_VERSION}
