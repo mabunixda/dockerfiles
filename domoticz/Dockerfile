@@ -3,7 +3,7 @@ FROM debian:buster
 LABEL Maintainer "Martin Buchleitner <martin@nitram.at>"
 
 ENV TZ Europe/Vienna
-ENV VERSION=2021.1
+ENV VERSION=2022.1
 ENV CMAKE_VERSION=v3.17.0
 
 RUN apt-get update -qq \
