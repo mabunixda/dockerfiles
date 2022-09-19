@@ -1,6 +1,6 @@
 ## Supports x86_64, x86, armhf, arm64, ppc64le, armle
 FROM debian:bookworm as builder
-ARG ZEROTIER_VERSION=1.8.6
+ARG ZEROTIER_VERSION=1.10.1
 
 RUN apt-get update \
     && apt-get install -y curl
@@ -9,7 +9,7 @@ RUN export DISTRO=$(grep -v "^#" /etc/apt/sources.list | head -n1 |awk '{print $
     && curl -sSL -o /tmp/zerotier-one.deb "https://download.zerotier.com/debian/${DISTRO}/pool/main/z/zerotier-one//zerotier-one_${ZEROTIER_VERSION}_${ARCH}.deb"
 
 FROM debian:bookworm
-ARG ZEROTIER_VERSION=1.8.6
+ARG ZEROTIER_VERSION=1.10.1
 ARG BUILD_DATE
 ENV VERSION=${ZEROTIER_VERSION}
 LABEL version="${ZEROTIER_VERSION}" \
