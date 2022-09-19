@@ -1,4 +1,4 @@
-FROM ubuntu:21.10
+FROM debian:bookworm
 LABEL maintainer "Martin Buchleitner <mabunixda@gmail.com>"
 
 ENV DEBIAN_FRONTEND=noninteractive
