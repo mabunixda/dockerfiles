@@ -65,8 +65,12 @@ build_and_push(){
         echo "                       ---                                   "
     fi
 
-    if [ "$(grep -c " VERSION=" "${build_dir}/Dockerfile")" != "0" ]; then
-        container_version=$(grep " VERSION=" "${build_dir}/Dockerfile" | awk -F'=' '{print $2}')
+    if [ "$(grep -c "VERSION=" "${build_dir}/Dockerfile")" != "0" ]; then
+        set -ex
+        container_version=$(docker inspect -f {{.Config.Labels.version}} "${REPO_URL}/${base}:latest" | grep -v "no value" || echo "")
+        if [ -z "$container_version" ]; then
+            container_version=$(grep " VERSION=" "${build_dir}/Dockerfile" | head -n 1 | awk -F'=' '{print $2}')
+        fi
         echo "                       ---                                   "
         echo "found version $container_version"
         REPO_URL="${REPO_URL}" CONTAINER_NAME="${base}" TARGET_NAME="${TARGET_NAME}" TAG="${container_version}" docker buildx bake --progress=plain $BUILD_ARGS -f docker_bake.hcl --builder $BUILDX_BUILDER || return 1

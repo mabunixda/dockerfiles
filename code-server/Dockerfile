@@ -22,6 +22,7 @@ COPY --from=packer /bin/packer /usr/local/bin/packer
 RUN apt-get update \
     && apt-get install -y \
     buildah \
+    vim \
     make \
     ca-certificates \
     curl \
