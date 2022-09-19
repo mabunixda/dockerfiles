@@ -42,7 +42,6 @@ build_and_push(){
     if [ -e "${base}/$suite/Dockerfile" ]; then
         TARGET_NAME="${base}/${suite}"
     fi
-    set -ex
     echo "Building ${REPO_URL}/${base}:${suite} for context ${build_dir}"
     REPO_URL="${REPO_URL}" CONTAINER_NAME="${base}" TARGET_NAME="$TARGET_NAME" TAG="${suite}" docker buildx bake --progress=plain $BUILD_ARGS -f docker_bake.hcl --builder $BUILDX_BUILDER $BUILDX_BUILDER || return 1
     # on successful build, push the image
