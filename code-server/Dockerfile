@@ -3,7 +3,7 @@ ARG MONDOO_VERSION=6.6.0
 ARG PACKER_VERSION=1.8.2
 ARG YQ_VERSION=4.23.1
 
-ARG VERSION=4.7.0
+ARG VERSION=4.11.0
 FROM docker.io/hashicorp/terraform:$TERRAFORM_VERSION as tf
 FROM docker.io/mondoo/client:$MONDOO_VERSION as mondoo
 FROM docker.io/mikefarah/yq:$YQ_VERSION as yq
