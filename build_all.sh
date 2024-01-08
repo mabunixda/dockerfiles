@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 set -e
 set -o pipefail
 
@@ -9,15 +9,21 @@ fi
 echo "Working on $BRANCH_NAME.."
 SCRIPT="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)/$(basename "${BASH_SOURCE[0]}")"
 REPO_URL="${REPO_URL:-quay.io/mabunixda}"
-JOBS=${JOBS:-$(($(cat /proc/cpuinfo | grep proc | wc -l) / 2 ))}
+JOBS=${JOBS:-}
+
 ERRORS="$(pwd)/errors"
-BUILD_ARGS=${BUILD_ARGS:- --pull }
+BUILD_ARGS=${BUILD_ARGS:- --pull --no-cache}
 BUILDX_BUILDER="default"
 version_check="([0-9]+\.)?([0-9]+\.)?(\*|[0-9]+)"
 
-if [ -n "$NO_CACHE" ]; then
-    BUILD_ARGS="$BUILD_ARGS --no-cache "
+if [ -z "$JOBS" ]; then
+    if [[ $OSTYPE =~ darwin.* ]]; then
+        JOBS=$(($(sysctl -n hw.ncpu) / 2))
+    else
+        JOBS=$(($(cat /proc/cpuinfo | grep proc | wc -l) / 2 ))}
+    fi
 fi
+
 if [ "$BRANCH_NAME" == "main" ]; then
     BUILD_ARGS="$BUILD_ARGS  --push"
 fi
@@ -42,8 +48,9 @@ build_and_push(){
     if [ -e "${base}/$suite/Dockerfile" ]; then
         TARGET_NAME="${base}/${suite}"
     fi
+    set -ex
     echo "Building ${REPO_URL}/${base}:${suite} for context ${build_dir}"
-    REPO_URL="${REPO_URL}" CONTAINER_NAME="${base}" TARGET_NAME="$TARGET_NAME" TAG="${suite}" docker buildx bake --progress=plain $BUILD_ARGS -f docker_bake.hcl --builder $BUILDX_BUILDER $BUILDX_BUILDER || return 1
+    REPO_URL="${REPO_URL}" CONTAINER_NAME="${base}" TARGET_NAME="$TARGET_NAME" TAG="${suite}" docker buildx bake --progress=auto $BUILD_ARGS -f docker_bake.hcl --builder $BUILDX_BUILDER $BUILDX_BUILDER || return 1
     # on successful build, push the image
     echo "                       ---                                   "
     echo "Successfully built ${base}:${suite} with context ${build_dir}"
@@ -137,10 +144,11 @@ main(){
 
     ACTION=${ACTION:-dofile}
     # build all dockerfiles
-    if [ -e "/usr/bin/parallel" ] || [ -e "/usr/local/bin/parallel" ]; then
+    if [ -e "/usr/bin/parallel" ] || [ -e "/usr/local/bin/parallel" ] || [ -e "/opt/homebrew/bin/parallel" ]; then
         echo "Running in parallel with ${JOBS} jobs."
-        parallel --tag --verbose --ungroup -j"${JOBS}" $SCRIPT $ACTION "{1}" ::: "${files[@]}"
+        parallel --tag --verbose --ungroup -j 2 $SCRIPT $ACTION "{1}" ::: "${files[@]}"
     else
+        echo "running serially"
         for f in "${files[@]}"; do
             $SCRIPT $ACTION "${f}"
         done

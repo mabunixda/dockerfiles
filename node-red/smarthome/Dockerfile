@@ -1,4 +1,4 @@
-FROM docker.io/nodered/node-red:latest-14-minimal
+FROM docker.io/nodered/node-red:latest-18-minimal
 
 EXPOSE 1880/tcp
 

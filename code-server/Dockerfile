@@ -1,9 +1,10 @@
-ARG TERRAFORM_VERSION=1.2.4
-ARG MONDOO_VERSION=6.6.0
-ARG PACKER_VERSION=1.8.2
-ARG YQ_VERSION=4.23.1
+ARG TERRAFORM_VERSION=1.6.6
+ARG MONDOO_VERSION=9.13.0
+ARG PACKER_VERSION=1.10
+ARG YQ_VERSION=4.40.5
 
-ARG VERSION=4.11.0
+ARG VERSION=4.20.0
+
 FROM docker.io/hashicorp/terraform:$TERRAFORM_VERSION as tf
 FROM docker.io/mondoo/client:$MONDOO_VERSION as mondoo
 FROM docker.io/mikefarah/yq:$YQ_VERSION as yq
@@ -28,6 +29,7 @@ RUN apt-get update \
     curl \
     gnupg \
     lsb-release \
+    gcc \ 
     && mkdir -p /etc/apt/keyrings \
     && curl -fsSL https://download.docker.com/linux/debian/gpg | sudo gpg --dearmor -o /etc/apt/keyrings/docker.gpg \
     && echo \
