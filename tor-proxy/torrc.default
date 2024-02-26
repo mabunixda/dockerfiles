@@ -1,6 +1,0 @@
-SocksPort 0.0.0.0:9050
-Log notice stderr
-RunAsDaemon 0
-DataDirectory /var/lib/tor
-ControlPort 9051
-AutomapHostsOnResolve 1
