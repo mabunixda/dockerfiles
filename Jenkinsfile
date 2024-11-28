@@ -58,15 +58,6 @@ spec:
           mountPath: /certs/client
         - name: dind-storage
           mountPath: /var/lib/docker
-      env:
-        - name: DOCKER_TLS_CERTDIR
-          value: '/certs'
-        - name: DOCKER_CERT_PATH
-          value: '/certs/client'
-        - name: DOCKER_TLS_VERIFY
-          value: "1"
-        - name: DOCKER_HOST
-          value: "tcp://localhost:2376"
       command:
         - sleep
       args:
