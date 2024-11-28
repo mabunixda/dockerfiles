@@ -62,6 +62,9 @@ spec:
         '''
         }
     }
+    environment { 
+        REPO_URL="mabunixda"        
+    }
     options {
         ansiColor('xterm')
     }
