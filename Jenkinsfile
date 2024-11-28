@@ -40,17 +40,61 @@ pipeline {
             inheritFrom 'default'
             defaultContainer 'docker'
             yaml '''
-        metadata:
-          labels:
-            job-name: cicd_application
-        spec:
-          containers:
-            - name: docker
-              image: docker:dind
-              command:
-                - sleep
-              args:
-                - 99d
+---
+metadata:
+  labels:
+    job-name: cicd_application
+spec:
+  containers:
+    - name: build
+      image: docker:latest
+      command:
+        - sleep
+      args:
+        - 99d
+      env:
+        - name: DOCKER_HOST
+          value: tcp://docker:2376
+        - name: DOCKER_TLS_CERTDIR
+          value: '/certs'
+        - name: DOCKER_CERT_PATH
+          value: '/certs/client'
+        - name: DOCKER_TLS_VERIFY
+          value: "1"
+      volumeMounts:
+        - name: jenkins-docker-certs
+          mountPath: /certs/client
+    - name: docker
+      image: docker:dind
+      ports:
+        - name: dind-con-port
+          containerPort: 2376
+          hostPort: 2376
+          protocol: TCP
+      volumeMounts:
+        - name: jenkins-docker-certs
+          mountPath: /certs/client
+        - name: dind-storage
+          mountPath: /var/lib/docker
+      env:
+        - name: DOCKER_TLS_CERTDIR
+          value: '/certs'
+        - name: DOCKER_CERT_PATH
+          value: '/certs/client'
+        - name: DOCKER_TLS_VERIFY
+          value: "1"
+        - name: DOCKER_HOST
+          value: "tcp://localhost:2376"
+      tty: true
+      securityContext:
+        privileged: true
+  volumes:
+    - name: jenkins-docker-certs
+      emptyDir:
+        medium: ""
+    - name: dind-storage
+      emptyDir:
+        medium: ""
         '''
         }
     }
