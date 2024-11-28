@@ -36,14 +36,7 @@ build_and_push(){
     if [ -e "${build_dir}/.skip" ]; then
         return
     fi
-    if [ -e "${build_dir}/buildx" ]; then
-        target_builder=$(cat ${build_dir}/buildx)
-        if docker buildx inspect $target_builder; then
-            BUILDX_BUILDER=$target_builder
-        else
-            echo "cannot switch buidlx builder to $target_builder - does not exist!"
-        fi
-    fi
+
     TARGET_NAME="${base}"
     if [ -e "${base}/$suite/Dockerfile" ]; then
         TARGET_NAME="${base}/${suite}"
@@ -85,7 +78,6 @@ build_and_push(){
         fi
     fi
     echo "done"
-
 }
 
 mondoo_scan() {
