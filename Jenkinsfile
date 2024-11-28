@@ -47,25 +47,7 @@ metadata:
 spec:
   containers:
     - name: build
-      image: docker:latest
-      command:
-        - sleep
-      args:
-        - 99d
-      env:
-        - name: DOCKER_HOST
-          value: tcp://docker:2376
-        - name: DOCKER_TLS_CERTDIR
-          value: '/certs'
-        - name: DOCKER_CERT_PATH
-          value: '/certs/client'
-        - name: DOCKER_TLS_VERIFY
-          value: "1"
-      volumeMounts:
-        - name: jenkins-docker-certs
-          mountPath: /certs/client
-    - name: docker
-      image: docker:dind
+      image: docker:dind-rootless
       ports:
         - name: dind-con-port
           containerPort: 2376
@@ -145,10 +127,7 @@ spec:
                     # docker run --rm --privileged multiarch/qemu-user-static --reset -p yes
                     # docker buildx rm multi
                     docker login -u "$DOCKER_USER" --password "$DOCKER_TOKEN"
-                    docker buildx inspect multi && exit 0 || echo "creating multi builder..."
-                    docker run --rm --privileged multiarch/qemu-user-static --reset -p yes
-                    docker buildx create --name multi --driver docker-container --platform linux/amd64,linux/arm/v7,linux/arm64
-                    echo "$MONDOO_CONFIG" | base64 -d > $HOME/mondoo.json
+                    docker buildx create --use --driver=remote tcp://buildkit-buildkit-service.automation.svc:1234
                     '''
                 }
             }
