@@ -55,10 +55,8 @@ spec:
         - 99d      
       tty: true
       env:
-      - name: DOCKER_HOST
-        value: tcp://buildkit-buildkit-service.automation.svc:1234
-      - name: DOCKER_TLS_VERIFY
-        value: 1
+      - name: BUILDX_BUILDER
+        value: jenkins
       securityContext:
         privileged: true
         '''
@@ -111,7 +109,7 @@ spec:
                     # docker run --rm --privileged multiarch/qemu-user-static --reset -p yes
                     # docker buildx rm multi
                     docker login -u "$DOCKER_USER" --password "$DOCKER_TOKEN"
-                    docker buildx create --use --driver=remote tcp://buildkit-buildkit-service.automation.svc:1234
+                    docker buildx create --name jenkins --use --driver=remote tcp://buildkit-buildkit-service.automation.svc:1234
                     '''
                 }
             }

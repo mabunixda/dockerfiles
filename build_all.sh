@@ -13,7 +13,7 @@ JOBS=${JOBS:-}
 
 ERRORS="$(pwd)/errors"
 BUILD_ARGS=${BUILD_ARGS:- --pull }
-BUILDX_BUILDER="default"
+BUILDX_BUILDER=${BUILDX_BUILDER:-default}
 version_check="([0-9]+\.)?([0-9]+\.)?(\*|[0-9]+)"
 
 if [ -z "$JOBS" ]; then
