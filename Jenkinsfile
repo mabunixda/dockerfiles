@@ -52,7 +52,7 @@ spec:
       command:
         - sleep
       args:
-        - 99d      
+        - 99d
       tty: true
       env:
       - name: BUILDX_BUILDER
@@ -72,27 +72,22 @@ spec:
         stage('analyze') {
             steps {
                 sh '''
-            echo "$(find . -iname '*Dockerfile' | sed 's|./||' | sort) )" > targets
-            '''
-
-                sh '''
-            git config --global --add safe.directory $WORKSPACE
-            touch inctargets
-            COMMIT_ID=$(git rev-parse HEAD)
-            for d in $(for f in $(git diff-tree --no-commit-id --name-only -r $COMMIT_ID); do echo $(dirname $f); done | sort | uniq ); do
-                if [ -f "$d/Dockerfile" ]; then
-                    echo  "$d/Dockerfile" >> inctargets
-                fi
-            done
-            '''
+                git config --global --add safe.directory $WORKSPACE
+                COMMIT_ID=$(git rev-parse HEAD)
+                for d in $(for f in $(git diff-tree --no-commit-id --name-only -r $COMMIT_ID); do echo $(dirname $f); done | sort | uniq ); do
+                    if [ -f "$d/Dockerfile" ]; then
+                        echo  "$d/Dockerfile" >> inctargets
+                    fi
+                done
+                echo "$(find . -iname '*Dockerfile' | sed 's|./||' | sort)" > targets
+                '''
 
                 script {
                     filename = 'inctargets'
                     if (params.fullBuild) {
                         filename = 'targets'
                     }
-                    def file = readFile(filename)
-                    buildTargets = file.readLines()
+                    buildTargets = readFile(filename).readLines()
                 }
             }
         }
