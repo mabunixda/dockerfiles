@@ -50,7 +50,7 @@ build_and_push(){
     fi
     set -ex
     echo "Building ${REPO_URL}/${base}:${suite} for context ${build_dir}"
-    REPO_URL="${REPO_URL}" CONTAINER_NAME="${base}" TARGET_NAME="$TARGET_NAME" TAG="${suite}" docker buildx bake --progress=auto $BUILD_ARGS -f docker_bake.hcl --builder $BUILDX_BUILDER $BUILDX_BUILDER || return 1
+    REPO_URL="${REPO_URL}" CONTAINER_NAME="${base}" TARGET_NAME="$TARGET_NAME" TAG="${suite}" docker buildx bake --progress=auto $BUILD_ARGS -f docker_bake.hcl --builder $BUILDX_BUILDER || return 1
     # on successful build, push the image
     echo "                       ---                                   "
     echo "Successfully built ${base}:${suite} with context ${build_dir}"
