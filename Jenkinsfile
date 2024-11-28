@@ -54,6 +54,9 @@ spec:
       args:
         - 99d      
       tty: true
+      env:
+      - name: DOCKER_HOST
+        value: tcp://buildkit-buildkit-service.automation.svc:1234        
       securityContext:
         privileged: true
         '''
