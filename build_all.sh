@@ -12,8 +12,8 @@ REPO_URL="${REPO_URL:-quay.io/mabunixda}"
 JOBS=${JOBS:-}
 
 ERRORS="$(pwd)/errors"
-BUILD_ARGS=${BUILD_ARGS:- --pull --no-cache}
-BUILDX_BUILDER="default"
+BUILD_ARGS=${BUILD_ARGS:- --pull }
+BUILDX_BUILDER=${BUILDX_BUILDER:-default}
 version_check="([0-9]+\.)?([0-9]+\.)?(\*|[0-9]+)"
 
 if [ -z "$JOBS" ]; then
@@ -36,21 +36,14 @@ build_and_push(){
     if [ -e "${build_dir}/.skip" ]; then
         return
     fi
-    if [ -e "${build_dir}/buildx" ]; then
-        target_builder=$(cat ${build_dir}/buildx)
-        if docker buildx inspect $target_builder; then
-            BUILDX_BUILDER=$target_builder
-        else
-            echo "cannot switch buidlx builder to $target_builder - does not exist!"
-        fi
-    fi
+
     TARGET_NAME="${base}"
     if [ -e "${base}/$suite/Dockerfile" ]; then
         TARGET_NAME="${base}/${suite}"
     fi
     set -ex
     echo "Building ${REPO_URL}/${base}:${suite} for context ${build_dir}"
-    REPO_URL="${REPO_URL}" CONTAINER_NAME="${base}" TARGET_NAME="$TARGET_NAME" TAG="${suite}" docker buildx bake --progress=auto $BUILD_ARGS -f docker_bake.hcl --builder $BUILDX_BUILDER $BUILDX_BUILDER || return 1
+    REPO_URL="${REPO_URL}" CONTAINER_NAME="${base}" TARGET_NAME="$TARGET_NAME" TAG="${suite}" docker buildx bake --progress=auto $BUILD_ARGS -f docker_bake.hcl --builder $BUILDX_BUILDER || return 1
     # on successful build, push the image
     echo "                       ---                                   "
     echo "Successfully built ${base}:${suite} with context ${build_dir}"
@@ -85,7 +78,6 @@ build_and_push(){
         fi
     fi
     echo "done"
-
 }
 
 mondoo_scan() {
