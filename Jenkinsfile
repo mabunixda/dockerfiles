@@ -47,17 +47,7 @@ metadata:
 spec:
   containers:
     - name: build
-      image: docker:dind-rootless
-      ports:
-        - name: dind-con-port
-          containerPort: 2376
-          hostPort: 2376
-          protocol: TCP
-      volumeMounts:
-        - name: jenkins-docker-certs
-          mountPath: /certs/client
-        - name: dind-storage
-          mountPath: /var/lib/docker
+      image: mabunixda/jenkins-slave:go
       command:
         - sleep
       args:
@@ -65,13 +55,6 @@ spec:
       tty: true
       securityContext:
         privileged: true
-  volumes:
-    - name: jenkins-docker-certs
-      emptyDir:
-        medium: ""
-    - name: dind-storage
-      emptyDir:
-        medium: ""
         '''
         }
     }
