@@ -15,16 +15,17 @@ def secrets = [
           secretValues: [
               [
                 envVar: 'DOCKER_USER',
-                vaultKey: 'docker_user'
+                vaultKey: 'username'
               ],
               [
                 envVar: 'DOCKER_TOKEN',
-                vaultKey: 'docker_pass'
-              ],
-              [
-                envVar: 'MONDOO_CONFIG',
-                vaultKey: 'mondoo'
+                vaultKey: 'API Token'
               ]
+            //,
+            //   [
+            //     envVar: 'MONDOO_CONFIG',
+            //     vaultKey: 'mondoo'
+            //   ]
             ]
         ]
 ]
@@ -37,6 +38,7 @@ pipeline {
     agent {
         kubernetes {
             inheritFrom 'default'
+            defaultContainer 'docker'
             yaml '''
         metadata:
           labels:
