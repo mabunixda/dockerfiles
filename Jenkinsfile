@@ -68,6 +68,7 @@ pipeline {
             '''
 
                 sh '''
+            git config --global --add safe.directory $WORKSPACE
             touch inctargets
             COMMIT_ID=$(git rev-parse HEAD)
             for d in $(for f in $(git diff-tree --no-commit-id --name-only -r $COMMIT_ID); do echo $(dirname $f); done | sort | uniq ); do
