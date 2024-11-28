@@ -38,7 +38,7 @@ pipeline {
     agent {
         kubernetes {
             inheritFrom 'default'
-            defaultContainer 'docker'
+            defaultContainer 'build'
             yaml '''
 ---
 metadata:
