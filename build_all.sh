@@ -12,7 +12,7 @@ REPO_URL="${REPO_URL:-quay.io/mabunixda}"
 JOBS=${JOBS:-}
 
 ERRORS="$(pwd)/errors"
-BUILD_ARGS=${BUILD_ARGS:- --pull --no-cache}
+BUILD_ARGS=${BUILD_ARGS:- --pull }
 BUILDX_BUILDER="default"
 version_check="([0-9]+\.)?([0-9]+\.)?(\*|[0-9]+)"
 
