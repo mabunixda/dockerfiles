@@ -67,6 +67,10 @@ spec:
           value: "1"
         - name: DOCKER_HOST
           value: "tcp://localhost:2376"
+      command:
+        - sleep
+      args:
+        - 99d      
       tty: true
       securityContext:
         privileged: true
