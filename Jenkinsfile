@@ -109,7 +109,12 @@ spec:
                     # docker run --rm --privileged multiarch/qemu-user-static --reset -p yes
                     # docker buildx rm multi
                     docker login -u "$DOCKER_USER" --password "$DOCKER_TOKEN"
-                    docker buildx create --name jenkins --use --driver=remote tcp://buildkit-buildkit-service.automation.svc:1234
+                    docker buildx create \
+                            --use \
+                            --name jenkins \
+                            --platform linux/amd64,linux/arm64 \
+                            --driver=remote \
+                            tcp://buildkit-buildkit-service.automation.svc:1234
                     '''
                 }
             }
