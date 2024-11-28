@@ -56,7 +56,9 @@ spec:
       tty: true
       env:
       - name: DOCKER_HOST
-        value: tcp://buildkit-buildkit-service.automation.svc:1234        
+        value: tcp://buildkit-buildkit-service.automation.svc:1234
+      - name: DOCKER_TLS_VERIFY
+        value: 1
       securityContext:
         privileged: true
         '''
