@@ -48,7 +48,7 @@ spec:
   containers:
     - name: build
       image: mabunixda/jenkins-slave:go
-      imagePullPolicy: always
+      imagePullPolicy: Always
       command:
         - sleep
       args:
